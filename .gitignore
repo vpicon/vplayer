@@ -1,0 +1,7 @@
+# Generated binaries
+
+%.o
+
+vplayer
+testvplayer
+
