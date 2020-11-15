@@ -5,3 +5,6 @@
 vplayer
 testvplayer
 
+# Vim swap files
+*.swp
+
