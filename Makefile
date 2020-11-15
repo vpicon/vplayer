@@ -3,15 +3,19 @@ CXX := g++
 
 
 # Compiler options and flags
-CFLAGS  = -Wall -Werror -Wshadow -pedantic 
-CFLAGS += -I$(INCLUDE_DIR)
+CFLAGS := -Wall -Werror -Wshadow -pedantic 
+
+
+# Includes
+INCLUDE = $(INCLUDE_DIR)
+TEST_INCLUDE = $(LIB_DIR)/gtest/googletest/include
 
 CXXFLAGS := -std=c++17 -O3
 CXXFLAGS += $(CFLAGS)
 
 
 # Linker options and flags
-LDFLAGS :=
+LDFLAGS := -pthread -Llib/gtest/lib -lgtest -lgtest_main
 
 
 # Directories
@@ -44,18 +48,18 @@ $(TARGET):
 
 test: $(TEST_TARGET) dirs
 
-$(TEST_TARGET): $(TEST_OBJECTS) $(SOURCES) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(TEST_OBJECTS) -o $@
+$(TEST_TARGET): $(TEST_OBJECTS) $(OBJECTS) $(SOURCES) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(TEST_OBJECTS) $(OBJECTS) -o $@ $(LDFLAGS)
 
 
 # Compilation Rules
 $(OBJECTS): $(BIN_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS) -c 
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE) $< -o $@ $(LDFLAGS) -c 
 
 
 $(TEST_OBJECTS): $(BIN_DIR)/test/%.o: $(TEST_DIR)/%.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $< -o $@ $(LDFLAGS) -c
-
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE) -I$(TEST_INCLUDE) $< -o $@  -c
+  
 
 # Utility Rules
 dirs: 
