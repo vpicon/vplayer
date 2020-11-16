@@ -1,76 +1,68 @@
-# Compiler
-CXX := g++
+# Makefile to build the entire music player application, 
+# from the back end to the gui to the tests.
+#
+# SYNOPSIS:
+# 	make [all]:    builds the entire application
+# 	make test:     builds the test executable, testing the 
+# 	               application code
+# 	make clean:    clears all intermediary files generated 
+# 	               while building the final application executable
+
+# COMPILATION VARIABLES
+
+SHELL := /usr/bin/bash 
+CXX   := g++
+
+CXXFLAGS  = -Wall -Werror -Wshadow -pedantic 
+CXXFLAGS += -std=c++17
+
+LDFLAGS :=
+
+export SHELL CXX CXXFLAGS LDFLAGS
 
 
-# Compiler options and flags
-CFLAGS := -Wall -Werror -Wshadow -pedantic 
+# DIRECTORIES
 
-
-# Includes
-INCLUDE = $(INCLUDE_DIR)
-TEST_INCLUDE = $(LIB_DIR)/gtest/googletest/include
-
-CXXFLAGS := -std=c++17 -O3
-CXXFLAGS += $(CFLAGS)
-
-
-# Linker options and flags
-LDFLAGS := -pthread -Llib/gtest/lib -lgtest -lgtest_main
-
-
-# Directories
 SOURCE_DIR  := src
 INCLUDE_DIR := include
 TEST_DIR    := test
 LIB_DIR     := lib
 BIN_DIR     := bin
 
-
-# Executables
-TARGET := vplayer
-TEST_TARGET := testvplayer
+export SOURCE_DIR  INCLUDE_DIR  TEST_DIR  LIB_DIR  BIN_DIR
 
 
-# Tracked Files 
-SOURCES := $(wildcard $(SOURCE_DIR)/*.cpp)
-HEADERS := $(wildcard $(INCLUDE_DIR)/*.h)
-OBJECTS := $(patsubst $(SOURCE_DIR)/%.cpp,$(BIN_DIR)/%.o,$(SOURCES))
+# MODULES
 
-TEST_SOURCES := $(wildcard $(TEST_DIR)/*.cpp)
-TEST_OBJECTS := $(patsubst $(TEST_DIR)/%.cpp,$(BIN_DIR)/test/%.o,$(TEST_SOURCES))
+player      := $(SOURCE_DIR)/player
+database    := $(SOURCE_DIR)/database
+ui          := $(SOURCE_DIR)/ui
+modules     := $(player) $(database) $(ui)
 
-
-# Executable Building Rules
-all: $(TARGET) dirs
-
-$(TARGET):
+application := $(SOURCE_DIR)
+test        := $(TEST_DIR)
 
 
-test: $(TEST_TARGET) dirs
-
-$(TEST_TARGET): $(TEST_OBJECTS) $(OBJECTS) $(SOURCES) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(TEST_OBJECTS) $(OBJECTS) -o $@ $(LDFLAGS)
+.PHONY: all $(modules) $(application)
+all: $(application)
 
 
-# Compilation Rules
-$(OBJECTS): $(BIN_DIR)/%.o: $(SOURCE_DIR)/%.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE) $< -o $@ $(LDFLAGS) -c 
+$(application) $(modules):
+	$(MAKE) --directory=$@ -f Makefile.mk
+
+$(application): $(modules)
+$(ui): $(player) $(database)
 
 
-$(TEST_OBJECTS): $(BIN_DIR)/test/%.o: $(TEST_DIR)/%.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) -I$(INCLUDE) -I$(TEST_INCLUDE) $< -o $@  -c
-  
+.PHONY: test $(test)
+test: $(test)
 
-# Utility Rules
-dirs: 
-	if [ ! -d $(BIN_DIR) ]; then mkdir $(BIN_DIR); fi
-	if [ ! -d $(BIN_DIR)/test ]; then mkdir $(BIN_DIR)/test; fi
-
-clean:
-	-rm -r bin/
-
-cleanall: clean
-	-rm $(TARGET) $(TEST_TARGET)
+$(test): $(modules)
+	$(MAKE) --directory=$@ -f Makefile.mk
 
 
-.PHONY: all test dirs clean cleanall 
+.PHONY: clean
+	for d in $(application) $(modules); \
+	do                                  \
+		$(MAKE) --directory=$$d clean;  \
+	done
