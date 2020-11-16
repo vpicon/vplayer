@@ -43,7 +43,8 @@ public:
      * @param dataAlign: data inside the chunk is aligned, intended to be
      *        aligned by the size of PCM frames.
      */
-    Buffer(int numChunks, int chunkSize, int minWriteSize, int dataAlign);
+    Buffer(size_t numChunks,    size_t chunkSize, 
+           size_t minWriteSize, size_t dataAlign);
     ~Buffer() {};
 
 
@@ -108,10 +109,10 @@ public:
     void markWritten();
 
 private:
-    const int _numChunks;  
-    const int _chunkSize; 
-    const int _minWriteSize; 
-    const int _dataAlign; 
+    const size_t _numChunks;  
+    const size_t _chunkSize; 
+    const size_t _minWriteSize; 
+    const size_t _dataAlign; 
 
     int _writeChunk, _readChunk;   
 
@@ -133,7 +134,7 @@ private:
 
 class Buffer::Position {
 public:
-    Position(Chunk *chunk, int offset, int size)
+    Position(Chunk *chunk, int offset, size_t size)
         : _chunk{chunk}, _offset{offset}, _size{size} {}
 
     /**
@@ -147,11 +148,11 @@ public:
      * Gives amount of data which could be read or written in the position
      * pointed by this object.
      */
-    inline int size() { return _size; } 
+    inline size_t size() { return _size; } 
 private:
     Chunk* _chunk;
-    int _offset;
-    int _size;
+    int    _offset;
+    size_t _size;
 };
 
 

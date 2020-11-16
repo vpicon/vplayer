@@ -13,7 +13,8 @@
 namespace player {
 
 
-Buffer::Buffer(int numChunks, int chunkSize, int minWriteSize, int dataAlign)
+Buffer::Buffer(size_t numChunks, size_t chunkSize, 
+               size_t minWriteSize, size_t dataAlign)
     : _numChunks{numChunks}, _chunkSize{chunkSize}, 
       _minWriteSize{minWriteSize}, _dataAlign{dataAlign},
       _writeChunk{0}, _readChunk{0} {}
