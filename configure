@@ -8,7 +8,7 @@ printf  "Creating build directory tree ... \n"
 function trymkdir { # Create dir iff it does not exist
     if [ ! -d $1 ]; then
         mkdir $1;
-        printf "    Created \"$1\" directory.\n"
+        printf "\tCreated \"$1\" directory.\n"
     fi
 }
 

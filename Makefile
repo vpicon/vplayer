@@ -55,7 +55,6 @@ $(ui): $(player) $(database)
 
 
 .PHONY: $(test) 
-
 $(test): $(modules)
 	$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 

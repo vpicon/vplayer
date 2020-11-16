@@ -14,8 +14,8 @@ sources := $(wildcard *.cpp)
 
 headers := $(wildcard ../$(INCLUDE_DIR)/*.h)
 
-objects := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
-module_objects := $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/$(module)/*.o))
+objects        := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
+module_objects  = $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/$(module)/*.o)) # Has to be evaluated at run time since these objects will be made in each module
 
 
 # Build Rules 

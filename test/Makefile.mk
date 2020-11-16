@@ -9,12 +9,12 @@ modules := player database ui
 # Compilation options and flags
 CXXFLAGS += -g
 
-LDFLAGS += -pthread -L$(test_lib_dir) -lgtest -lgtest_main
+LDFLAGS  += -pthread -L$(test_lib_dir) -lgtest -lgtest_main
 
 
 # Tracked Files
 objects      := $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/$(module)/*.o))
-test_objects := $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/test/$(module)/*.o))
+test_objects  = $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/test/$(module)/*.o))  # Has to be evaluated at runtime since these objects will be made at each module
 lib_objects  := $(wildcard $(test_lib_dir)/libgtest*.a)
 
 
