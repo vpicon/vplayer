@@ -4,21 +4,25 @@
 
 namespace buffer_test {
 
-    // Fixture
-    class BufferTest : public ::testing::Test {
-    protected:
-        int numChunks    = 10;
-        int chunkSize    = 1000;
-        int minWriteSize = 100;
-        int dataAlign    = 50;
-        Buffer buffer{numChunks, chunkSize, minWriteSize, dataAlign};
-    };
+
+// Fixture
+class BufferTest : public ::testing::Test {
+protected:
+    int numChunks    = 10;
+    int chunkSize    = 1000;
+    int minWriteSize = 100;
+    int dataAlign    = 50;
+    player::Buffer buffer{numChunks, chunkSize, minWriteSize, dataAlign};
+};
 
 
-    TEST_F(BufferTest, TrivialTest) {
-        buffer.reset();
+TEST_F(BufferTest, TrivialTest) {
+    buffer.reset();
 
-        ASSERT_TRUE(true);
-    }
+    ASSERT_TRUE(true);
 }
+
+
+
+}  // namespace buffer_test
 

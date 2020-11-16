@@ -30,7 +30,9 @@ done
 ## Build Third Party Libraries
 
 # GoogleTest
-printf  "\nBuilding GoogleTest ... \n\n"
+printf  "\n"
+printf  "Building GoogleTest ... \n"
+printf  "\n"
 
 cmake lib/gtest/CMakeLists.txt
 make --directory="lib/gtest/" 

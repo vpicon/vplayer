@@ -1,4 +1,15 @@
+// Buffer.cpp
+//
+// Module: player
+//
+// Implementation of the Buffer class.
+//
+
+
 #include "buffer.h"
+
+
+namespace player {
 
 
 Buffer::Buffer(int numChunks, int chunkSize, int minWriteSize, int dataAlign)
@@ -55,3 +66,7 @@ char *Buffer::Position::toCharPointer() {
     return reinterpret_cast<char *>( &(_theChunk[_bufferOffset]) );
 }
 */
+
+
+
+}  // namespace player

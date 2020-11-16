@@ -1,3 +1,11 @@
+// Buffer.h  
+//
+// Module: player
+//
+// Definition of the Buffer class.
+//
+
+
 #ifndef _VPLAYER_BUFFER_H
 #define _VPLAYER_BUFFER_H
 
@@ -5,6 +13,7 @@
 #include <vector>
 
 
+namespace player {
 
 
 // Buffer class containing a chunked circular buffer. 
@@ -18,7 +27,7 @@ class Buffer {
     
 public:
     // CONSTRUCTORS AND DESTRUCTORS
-    //
+    
     // Construcs a new empty buffer object.
     // @param nChunks: > 0, number of chunks in the buffer
     // @param chunkSize: > 0, the size of the inner buffer of each chunk
@@ -33,6 +42,7 @@ public:
     ~Buffer() {}
 
 
+
     // ACCESSORS
 
     // Gives a Buffer::ReadPosition object to which it can be read some data,
@@ -44,6 +54,7 @@ public:
     // data, the quantity indicated by such WritePosition object (with the 
     // availableData() method).
     // Buffer::WritePosition getWritePosition() const;
+
 
 
     // MUTATORS
@@ -80,6 +91,10 @@ private:
     
     // thread_mutex _bufferMutex;
 };
+
+
+
+}  // namespace player
 
 
 
