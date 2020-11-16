@@ -1,9 +1,10 @@
-// Buffer.cpp
-//
-// Module: player
-//
-// Implementation of the Buffer class.
-//
+/**
+ * Buffer.cpp
+ *
+ * Module: player
+ *
+ * Implementation of the Buffer class.
+ */
 
 
 #include "buffer.h"
@@ -21,13 +22,13 @@ Buffer::Buffer(int numChunks, int chunkSize, int minWriteSize, int dataAlign)
 
 // TODO: is a stub.
 Buffer::Position Buffer::getWritePosition() const {
-    return {};
+    return {nullptr, 0, 0};
 }
 
 
 // TODO: is a stub.
 Buffer::Position Buffer::getReadPosition() const {
-    return {};
+    return {nullptr, 0, 0};
 }
 
 // TODO: is a stub.

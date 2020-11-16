@@ -17,90 +17,95 @@
 namespace player {
 
 
-// Buffer class containing a chunked circular buffer. 
-// A thread safe monitor object to read data from input in the 
-// producer class, and read data from output in the consumer class, 
-// two classes which will run in separate threads.
+/**
+ * Buffer class containing a chunked circular buffer. 
+ * A thread safe monitor object to read data from input in the producer class, 
+ * and read data from output in the consumer class, two classes which will run 
+ * in separate threads.
+ */
 class Buffer {
-
-    // Represents a circular chunked buffer, stored in the buffer array.
-    // Buffer = [Chunk][Chunk] ... [Chunk]
-    
+    /**
+     * Represents a circular chunked buffer, stored in the buffer array.
+     * Buffer = [Chunk][Chunk] ... [Chunk]
+     */
 public:
-    // CONSTRUCTORS AND DESTRUCTORS
+    // CONSTRUCTORS AND DESTRUCTORS 
     
-    // Construcs a new empty buffer object.
-    // @param nChunks: > 0, number of chunks in the buffer
-    // @param chunkSize: > 0, the size of the inner buffer of each chunk
-    // @param minWriteSize: is the minimum size we expect to get for a 
-    //        new call to the write position in the buffer.
-    //        It must be 0 <= minWriteSize < chunkSize, the greater it is, the more
-    //        space is wasted in the chunk. But being 0, we may end up doing calls to the 
-    //        buffer where only a few bytes are written.
-    // @param dataAlign: data inside the chunk is aligned, intended to be
-    //        aligned by the size of PCM frames.
+    /**
+     * Construcs a new empty buffer object.
+     * @param nChunks: > 0, number of chunks in the buffer
+     * @param chunkSize: > 0, the size of the inner buffer of each chunk
+     * @param minWriteSize: is the minimum size we expect to get for a 
+     *        new call to the write position in the buffer.
+     *        It must be 0 <= minWriteSize < chunkSize, the greater it is, the 
+     *        more space is wasted in the chunk. But being 0, we may end up 
+     *        doing calls to the buffer where only a few bytes are written.
+     * @param dataAlign: data inside the chunk is aligned, intended to be
+     *        aligned by the size of PCM frames.
+     */
     Buffer(int numChunks, int chunkSize, int minWriteSize, int dataAlign);
-    ~Buffer() {}
+    ~Buffer() {};
 
 
     // CLASS CONSTANTS AND TYPES
     
-    // Struct pointing to a position inside the buffer. It contains a pointer to 
-    // such position; and an integer, which counts the available data in the buffer
-    // if such position is for reading; or the available space, if such position
-    // is for writting.
-    class Position {
-    public:
-        char *toPointer() { return nullptr; } // TODO: Is a stub
-        int size() { return 0; } // TODO: Is a stub
-    };
-
+    /**
+     * Class pointing to a position inside the buffer. It contains a pointer to
+     * such position; and an integer, which counts the available data in the 
+     * buffer if such position is for reading; or the available space, if such 
+     * position is for writting.
+     */
+    class Position;
+    
 
     // ACCESSORS
 
-    // Gives a Buffer::Position object to which it can be read some data,
-    // the quantity indicated by such ReadPosition object.
-    // Since the Buffer object is chunked, no more than chunkSize data can
-    // be available each call, thus the method may be called several times to
-    // read an arbitrary number of data.
-    // If no data is available, the position contains a nullpointer and a count
-    // of 0.
+    /**
+     * Gives a Buffer::Position object to which it can be read some data,
+     * the quantity indicated by such ReadPosition object.
+     * Since the Buffer object is chunked, no more than chunkSize data can
+     * be available each call, thus the method may be called several times to
+     * read an arbitrary number of data.
+     * If no data is available, the position contains a nullpointer and a count
+     * of 0.
+     */
     Buffer::Position getReadPosition() const;
 
-    // Gives a Buffer::WritePosition object to which it can be written some 
-    // data, the quantity indicated by such Position object.
-    // Since the Buffer object is chunked, no more than chunkSize free space can
-    // be available each call, thus the method may be called several times to
-    // write an arbitrary number of data.
-    // It is assured though, that at least minWriteSize bytes of space are 
-    // available on each call, assuming there is space left on the buffer; in 
-    // such case, the position is marked to have 0 available data in it, and 
-    // a null pointer.
+    /**
+     * Gives a Buffer::WritePosition object to which it can be written some 
+     * data, the quantity indicated by such Position object.
+     * Since the Buffer object is chunked, no more than chunkSize free space can
+     * be available each call, thus the method may be called several times to
+     * write an arbitrary number of data.
+     * It is assured though, that at least minWriteSize bytes of space are 
+     * available on each call, assuming there is space left on the buffer; in 
+     * such case, the position is marked to have 0 available data in it, and 
+     * a null pointer.
+     */
     Buffer::Position getWritePosition() const;
 
-    // Returns number of free chunks in the buffer.
-    int freeChunks();
-
-    
 
     // MUTATORS
 
-    // Sets the buffer object to its initial state, all chunks are emptied and 
-    // with no data written in it.
+    /**
+     * Sets the buffer object to its initial state, all chunks are emptied and 
+     * with no data written in it.
+     */
     void reset();
 
-    // After reading the stored in the buffer in a ReadPosition object obtained
-    // in a call to getReadPosition, the data must be marked as raed by calling
-    // the function, in order to get next available data in the buffer.
+    /**
+     * After reading the stored in the buffer in a ReadPosition object obtained
+     * in a call to getReadPosition, the data must be marked as raed by calling
+     * the function, in order to get next available data in the buffer.
+     */
     void markRead();
 
-    // After writing to the buffer in a WritePosition object obtained in a call 
-    // to getReadPosition, the data must be marked as raed by calling the function,
-    // in order to get next available data in the buffer.
+    /**
+     * After writing to the buffer in a WritePosition object obtained in a call 
+     * to getReadPosition, the data must be marked as raed by calling the function,
+     * in order to get next available data in the buffer.
+     */
     void markWritten();
-
-
-
 
 private:
     const int _numChunks;  
@@ -109,6 +114,44 @@ private:
     const int _dataAlign; 
 
     int _writeChunk, _readChunk;   
+
+
+    /**
+     * Structure representing each of the inner chunks of the total buffer.
+     * Each chunk is itself a circular buffer, where chunkSize bytes can be 
+     * stored in. 
+     */
+    struct Chunk {
+        std::vector<char> buf;
+        int w;
+        int r;
+    };
+    
+};
+
+
+
+class Buffer::Position {
+public:
+    Position(Chunk *chunk, int offset, int size)
+        : _chunk{chunk}, _offset{offset}, _size{size} {}
+
+    /**
+     * Returns a char pointer to the inner position in the buffer with size 
+     * contiguous bytes which can be used to store or read data.
+     * Useful to use with low level functions, such as output C libs.
+     */
+    inline char *toPointer() { return reinterpret_cast<char *>( &(_chunk->buf[_offset]) ); } 
+
+    /**
+     * Gives amount of data which could be read or written in the position
+     * pointed by this object.
+     */
+    inline int size() { return _size; } 
+private:
+    Chunk* _chunk;
+    int _offset;
+    int _size;
 };
 
 
@@ -137,30 +180,7 @@ private:
 
     static const int _minWriteSize = 1024; 
     const int _dataAlign; 
-
-
-    class Position {
-    public:
-        Position(Chunk<_chunkSize> *chunk, int offset, int availableData);
-
-        // Gives the 
-        inline int availableData() const { return _availableData; };
-
-         // Converts the position to a char pointer. Useful to use with
-         // other functions from low level C libraries (such as in output plugins).
-        inline char *toCharPointer();
-    private:
-        Chunk& _theChunk;    // Current chunk for read or write where data is found
-        int _bufferOffset;   // Offset in the current chunk where data is found 
-        int _availableData;  // Available data (for reading or writing) 
-                             // that was available when the position was obtained
-    };
-
-
-*/
-
-
-
+    */
 
 
 
