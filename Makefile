@@ -48,22 +48,21 @@ all: $(application)
 
 
 $(application) $(modules):
-	$(MAKE) --directory=$@ -f Makefile.mk
+	$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 
 $(application): $(modules)
 $(ui): $(player) $(database)
 
 
-.PHONY: test $(test)
-test: $(test)
+.PHONY: $(test) 
 
 $(test): $(modules)
-	$(MAKE) --directory=$@ -f Makefile.mk
+	$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 
 
 .PHONY: clean
 clean:
-	for d in $(application) $(modules);                \
-	do                                                 \
-		$(MAKE) --directory=$$d -f Makefile.mk clean;  \
+	for d in $(application) $(modules) $(test);                             \
+	do                                                                      \
+		$(MAKE) --no-print-directory --directory=$$d -f Makefile.mk clean;  \
 	done
