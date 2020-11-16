@@ -1,6 +1,5 @@
 # Generated binaries
-
-%.o
+*.o
 
 vplayer
 testvplayer
