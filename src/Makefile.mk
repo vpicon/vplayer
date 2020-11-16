@@ -38,3 +38,6 @@ clean:
 	done
 
 
+.PHONY: cleanall
+cleanall: clean
+	-rm $(target)

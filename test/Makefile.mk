@@ -31,7 +31,8 @@ $(modules):
 
 
 .PHONY: clean
-	for d in $(modules);               \
-	do 								   \
-		$(MAKE) --directory=$$d clean; \
+clean:
+	for d in $(modules);                              \
+	do 								                  \
+		$(MAKE) --directory=$$d -f Makefile.mk clean; \
 	done
