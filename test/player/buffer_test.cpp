@@ -330,7 +330,123 @@ TEST_F(BufferTest, ResetFullBuffer) {
 }
 
 
+/**
+ * markRead() Test Strategy:
+ * 
+ *   amount read: 0, 1, < all available, all available
+ */
 
+// markRead no data
+TEST_F(BufferTest, MarkReadNoData) {
+    size_t nWrite = 100;
+    std::vector<char> data(nWrite, 'a');
+
+    // Write nWrite bytes into buffer
+    ASSERT_TRUE(writeVectorToBuffer(emptyBuffer, data));
+
+    // Read 0 bytes
+    player::Buffer::Position oldPos = emptyBuffer.getReadPosition();
+    ASSERT_EQ(oldPos.size(), nWrite);
+
+    emptyBuffer.markRead(0u);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), nWrite);
+}
+
+// markRead with a few bytes
+TEST_F(BufferTest, MarkReadSingleByte) {
+    size_t nWrite = 100, nRead = 1;
+    std::vector<char> data(nWrite, 'a');
+
+    // Write nWrite bytes into buffer
+    ASSERT_TRUE(writeVectorToBuffer(emptyBuffer, data));
+
+    // Read nRead bytes
+    player::Buffer::Position oldPos = emptyBuffer.getReadPosition();
+    ASSERT_EQ(oldPos.size(), nWrite);
+
+    emptyBuffer.markRead(nRead);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), nWrite - nRead);
+}
+
+// markRead with all available data
+TEST_F(BufferTest, MarkReadEntireData) {
+    size_t nWrite = chunkSize;
+    size_t nRead = nWrite;
+    std::vector<char> data(nWrite, 'a');
+
+    // Write nWrite bytes into buffer
+    ASSERT_TRUE(writeVectorToBuffer(emptyBuffer, data));
+
+    // Read nRead bytes
+    player::Buffer::Position oldPos = emptyBuffer.getReadPosition();
+    ASSERT_EQ(oldPos.size(), nWrite);
+
+    emptyBuffer.markRead(nRead);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), 0u);
+}
+
+
+
+/**
+ * markWrite() Test Strategy:
+ * 
+ *   amount writen: 0, 1, < all available, all available
+ */
+
+// markWrite no data
+TEST_F(BufferTest, MarkWriteNoData) {
+    // Write 0 bytes
+    player::Buffer::Position wPos = emptyBuffer.getWritePosition();
+    ASSERT_NE(wPos.size(), 0u);
+
+    emptyBuffer.markWritten(0u);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), 0u);
+}
+
+// markWrite with a few bytes
+TEST_F(BufferTest, MarkWriteSingleByte) {
+    size_t nWrite = 1;
+
+    // Read nRead bytes
+    player::Buffer::Position wPos = emptyBuffer.getWritePosition();
+    ASSERT_NE(wPos.size(), 0u);
+
+    emptyBuffer.markWritten(nWrite);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), nWrite);
+}
+
+// markWrite with all available data
+TEST_F(BufferTest, MarkWriteEntireData) {
+    // Read nRead bytes
+    player::Buffer::Position wPos = emptyBuffer.getWritePosition();
+    ASSERT_NE(wPos.size(), 0u);
+    size_t nWrite = wPos.size();
+
+    emptyBuffer.markWritten(nWrite);
+
+    // Check new Position to read contains less data
+    player::Buffer::Position pos = emptyBuffer.getReadPosition();
+    EXPECT_EQ(pos.size(), nWrite);
+}
+
+/**
+ * Synchronized Tests
+ */
 
 }  // namespace buffer_test
 
