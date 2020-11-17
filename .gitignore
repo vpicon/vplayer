@@ -2,7 +2,7 @@
 *.o
 
 vplayer
-testvplayer
+vplayer_tests
 
 # Vim swap files
 *.swp

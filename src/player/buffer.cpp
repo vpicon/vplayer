@@ -32,6 +32,13 @@ Buffer::Position Buffer::getReadPosition() const {
     return {nullptr, 0, 0};
 }
 
+
+// TODO: is a stub.
+size_t Buffer::filledChunks() {
+    return 0;
+}
+
+
 // TODO: is a stub.
 void Buffer::reset() {
     return;
@@ -39,13 +46,15 @@ void Buffer::reset() {
 
 
 // TODO: is a stub.
-void Buffer::markRead() {
+void Buffer::markRead(size_t n) {
+    n = 0;
     return;
 }
 
 
 // TODO: is a stub.
-void Buffer::markWritten() {
+void Buffer::markWritten(size_t n) {
+    n = 0;
     return;
 }
 

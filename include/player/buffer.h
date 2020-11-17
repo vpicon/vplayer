@@ -22,9 +22,11 @@ namespace player {
  * A thread safe monitor object to read data from input in the producer class, 
  * and read data from output in the consumer class, two classes which will run 
  * in separate threads.
+ * TODO: document why is better chunked buffer than not
  */
 class Buffer {
     /**
+     * TODO:
      * Represents a circular chunked buffer, stored in the buffer array.
      * Buffer = [Chunk][Chunk] ... [Chunk]
      */
@@ -85,6 +87,11 @@ public:
      */
     Buffer::Position getWritePosition() const;
 
+    /**
+     * Returns the number of chunks considered filled.
+     */
+    size_t filledChunks();
+
 
     // MUTATORS
 
@@ -95,18 +102,24 @@ public:
     void reset();
 
     /**
-     * After reading the stored in the buffer in a ReadPosition object obtained
-     * in a call to getReadPosition, the data must be marked as raed by calling
+     * After reading the data stored in the buffer at ReadPosition object obtained
+     * in a call to getReadPosition, such data must be marked as read by calling
      * the function, in order to get next available data in the buffer.
+     *
+     * Undefined behaviour occurs when the function is called with an arbitrary
+     * number of data.
      */
-    void markRead();
+    void markRead(size_t n);
 
     /**
-     * After writing to the buffer in a WritePosition object obtained in a call 
-     * to getReadPosition, the data must be marked as raed by calling the function,
+     * After writing to the buffer at a WritePosition object obtained in a call 
+     * to getReadPosition, such data must be marked as read by calling the function,
      * in order to get next available data in the buffer.
+     *
+     * Undefined behaviour occurs when the function is called with an arbitrary
+     * number of data.
      */
-    void markWritten();
+    void markWritten(size_t n);
 
 private:
     const size_t _numChunks;  
@@ -142,13 +155,13 @@ public:
      * contiguous bytes which can be used to store or read data.
      * Useful to use with low level functions, such as output C libs.
      */
-    inline char *toPointer() { return reinterpret_cast<char *>( &(_chunk->buf[_offset]) ); } 
+    inline char *toPointer() { return nullptr; }  // TODO: Is a stub
 
     /**
      * Gives amount of data which could be read or written in the position
      * pointed by this object.
      */
-    inline size_t size() { return _size; } 
+    inline size_t size() { return _size; }  // TODO: Is a stub
 private:
     Chunk* _chunk;
     int    _offset;
