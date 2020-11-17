@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include <vector>
+#include <thread>
+#include <chrono>
 
 
 namespace {
@@ -22,11 +24,13 @@ bool writeVectorToBuffer(player::Buffer& buf, std::vector<char> data) {
             return false;
 
         char *p = pos.toPointer();
-        for (size_t i = 0; i < pos.size(); i++) {
-            p[i] = data[i];        
+        size_t i = 0;
+        while (i < pos.size() && (i+n) < data.size()) {
+            p[i] = data[n + i];
+            i++;
             n++;
         }
-        buf.markWritten(pos.size());
+        buf.markWritten(i);
     }
 
     // All the vector was copied 
@@ -40,6 +44,64 @@ void testEmptyBuffer(player::Buffer& buf, size_t chunkSize) {
     EXPECT_EQ(buf.getReadPosition().size(), 0u);
     EXPECT_EQ(buf.getWritePosition().size(), chunkSize);
     EXPECT_EQ(buf.filledChunks(), 0u);
+}
+
+
+/**
+ * A Producer function which writes the in_data to the given buffer.
+ * The function may send to sleep for some time the running process 
+ * if it finds the buffer full.
+ */
+void producer(player::Buffer& buf, const std::vector<char>& inData) {
+    size_t n = 0;  // inData position index
+    while (n < inData.size()) {
+        // Get Write and check there is available space in it
+        player::Buffer::Position wPos = buf.getWritePosition();        
+        if (wPos.size() == 0u) {  // Wait for the buffer to empty
+            std::this_thread::sleep_for(std::chrono::milliseconds {1});
+            return;
+            // TODO: continue
+        }
+
+        // Write wPos.size() bytes from inData to the buffer
+        char *p = wPos.toPointer();
+        size_t i = 0;
+        while (i < wPos.size() && (i+n) < inData.size()) {
+            p[i] = inData[n + i];
+            i++;
+            n++;
+        }
+        buf.markWritten(i);
+    }
+}
+
+/**
+ * A Producer function which writes to out_data from the given buffer.
+ * The function may send to sleep for some time the running process 
+ * if it finds the buffer full.
+ * It assumes that out_data will have the exact size of the data in the buffer.
+ */
+void consumer(player::Buffer& buf, const std::vector<char>& outData) {
+    size_t n = 0;  // outData position index
+    while (n < outData.size()) {
+        // Get Write and check there is available space in it
+        player::Buffer::Position rPos = buf.getReadPosition();        
+        if (rPos.size() == 0u) {  // Wait for the buffer to empty
+            std::this_thread::sleep_for(std::chrono::milliseconds {1});
+            return;
+            // TODO: continue
+        }
+
+        // Write wPos.size() bytes from in_data to the buffer
+        char *p = rPos.toPointer();
+        size_t i = 0;
+        while (i < rPos.size() && (i+n) < outData.size()) {
+            p[i] = outData[n + i];
+            i++;
+            n++;
+        }
+        buf.markRead(i);
+    }
 }
 
 
@@ -150,7 +212,7 @@ TEST_F(BufferTest, GetReadPositionFullBuffer) {
  * getWritePosition() Test Strategy:
  *
  *   Buffer State: empty, full, non-empty
- *   Position.size(): chunkSize, <chunkSize, 0
+ *   Position.size(): chunkSize, < chunkSize, 0
  *
  */
 
@@ -445,8 +507,95 @@ TEST_F(BufferTest, MarkWriteEntireData) {
 }
 
 /**
- * Synchronized Tests
+ * Synchronized Tests: 
+ * Tests that the Buffer object is thread safe, appropiate to use in
+ * a consumer producer threaded scenario. Test Cases:
+ *   data size: 1, >1, chunkSize, bufferSize, > bufferSize
+ *   Synchronization: sequential (first producer, then consumer)
+ *                    concurrent
  */
+
+// Sequential message sending a single byte
+TEST_F(BufferTest, ProducerConsumerSequentialSingleByte) {
+    // Produce input data and send it to buffer
+    size_t n = 1;
+    std::vector<char> inData(n, 'a');
+    producer(emptyBuffer, inData);
+
+    // Receive data from buffer
+    std::vector<char> outData(n);
+    consumer(emptyBuffer, outData);
+
+    // Compare input and output data
+    EXPECT_TRUE(inData == outData);
+}
+
+// Sequential message sending a several chunks of message
+TEST_F(BufferTest, ProducerConsumerSequentialSeveralChunks) {
+    // Produce input data and send it to buffer
+    size_t n = 2 * chunkSize;
+    std::vector<char> inData(n, 'a');
+    inData[chunkSize/2] = 'c';  // Random modifications
+    producer(emptyBuffer, inData);
+
+    // Receive data from buffer
+    std::vector<char> outData(n);
+    consumer(emptyBuffer, outData);
+
+    // Compare input and output data
+    EXPECT_TRUE(inData == outData);
+}
+
+// Concurrent message sending, entire buffer
+TEST_F(BufferTest, ProducerConsumerConcurrentBufferSize) {
+    // Produce input data and send it to buffer in a thread
+    size_t n = numChunks * chunkSize;
+    std::vector<char> inData(n, 'a');
+    producer(emptyBuffer, inData);
+    std::thread producerThread {producer, 
+                                std::ref(emptyBuffer),
+                                std::ref(inData)};
+
+    // Receive data from buffer in a thread
+    std::vector<char> outData(n);
+    consumer(emptyBuffer, outData);
+    std::thread consumerThread {consumer, 
+                                std::ref(emptyBuffer), 
+                                std::ref(outData)};
+
+    // Wait for threads to terminate
+    producerThread.join();
+    consumerThread.join();
+
+    // Compare input and output data
+    EXPECT_TRUE(inData == outData);
+}
+
+// Concurrent message sending, data size greater than buffer
+TEST_F(BufferTest, ProducerConsumerConcurrentMoreDataThanBuffer) {
+    // Produce input data and send it to buffer in a thread
+    size_t n = 10 * numChunks * chunkSize;
+    std::vector<char> inData(n, 'a');
+    producer(emptyBuffer, inData);
+    std::thread producerThread {producer, 
+                                std::ref(emptyBuffer), 
+                                std::ref(inData)};
+
+    // Receive data from buffer in a thread
+    std::vector<char> outData(n);
+    consumer(emptyBuffer, outData);
+    std::thread consumerThread {consumer, 
+                                std::ref(emptyBuffer), 
+                                std::ref(outData)};
+
+    // Wait for threads to terminate
+    producerThread.join();
+    consumerThread.join();
+
+    // Compare input and output data
+    EXPECT_TRUE(inData == outData);
+}
+
 
 }  // namespace buffer_test
 
