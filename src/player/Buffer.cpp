@@ -4,6 +4,7 @@
  * Module: player
  *
  * Implementation of the Buffer class.
+ *
  */
 
 
@@ -15,9 +16,12 @@ namespace player {
 
 Buffer::Buffer(size_t numChunks, size_t chunkSize, 
                size_t minWriteSize, size_t dataAlign)
-    : _numChunks{numChunks}, _chunkSize{chunkSize}, 
-      _minWriteSize{minWriteSize}, _dataAlign{dataAlign},
-      _writeChunk{0}, _readChunk{0} {}
+    : _numChunks{numChunks}, 
+      _chunkSize{chunkSize}, 
+      _minWriteSize{minWriteSize}, 
+      _dataAlign{dataAlign},
+      _writeChunk{0}, 
+      _readChunk{0} {}
 
 
 
@@ -34,7 +38,7 @@ Buffer::Position Buffer::getReadPosition() const {
 
 
 // TODO: is a stub.
-size_t Buffer::filledChunks() {
+size_t Buffer::filledChunks() const {
     return 0;
 }
 

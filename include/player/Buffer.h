@@ -4,6 +4,7 @@
  * Module: player
  *
  * Definition of the Buffer class.
+ *
  */
 
 #ifndef _VPLAYER_BUFFER_H
@@ -46,7 +47,7 @@ public:
      *        aligned by the size of PCM frames.
      */
     Buffer(size_t numChunks,    size_t chunkSize, 
-           size_t minWriteSize, size_t dataAlign);
+           size_t minWriteSize, size_t dataAlign = 1);
     ~Buffer() {};
 
 
@@ -90,7 +91,7 @@ public:
     /**
      * Returns the number of chunks considered filled.
      */
-    size_t filledChunks();
+    size_t filledChunks() const;
 
 
     // MUTATORS
@@ -121,11 +122,16 @@ public:
      */
     void markWritten(size_t n);
 
+    /**
+     * Set the align size of the buffer.
+     */
+    inline void setAlign(size_t alignSize) { _dataAlign = alignSize; }
+
 private:
     const size_t _numChunks;  
     const size_t _chunkSize; 
     const size_t _minWriteSize; 
-    const size_t _dataAlign; 
+    size_t _dataAlign; 
 
     int _writeChunk, _readChunk;   
 

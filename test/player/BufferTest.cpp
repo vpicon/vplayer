@@ -4,6 +4,7 @@
  * Module: test/player
  *
  * Unit tests of the Buffer class.
+ *
  */
 
 #include "gtest/gtest.h"
@@ -146,10 +147,9 @@ protected:
     size_t numChunks    = 10;
     size_t chunkSize    = 1000;
     size_t minWriteSize = 100;
-    size_t dataAlign    = 50;
-    player::Buffer emptyBuffer{numChunks, chunkSize, minWriteSize, dataAlign};
 
-    player::Buffer fullBuffer{numChunks, chunkSize, minWriteSize, dataAlign};
+    player::Buffer emptyBuffer{numChunks, chunkSize, minWriteSize};
+    player::Buffer fullBuffer{numChunks, chunkSize, minWriteSize};
 };
 
 
