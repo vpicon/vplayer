@@ -12,13 +12,17 @@ function trymkdir { # Create dir iff it does not exist
     fi
 }
 
-build_dirs=(bin               \
-            bin/player        \
-            bin/database      \
-            bin/ui            \
-            bin/test          \
-            bin/test/player   \
-            bin/test/database \
+build_dirs=(bin                            \
+            bin/player                     \
+            bin/player/input_plugins       \
+            bin/player/output_plugins      \
+            bin/database                   \
+            bin/ui                         \
+            bin/test                       \
+            bin/test/player                \
+            bin/test/player/input_plugins  \
+            bin/test/player/output_plugins \
+            bin/test/database              \
             bin/test/ui)
 
 for dir in ${build_dirs[@]}; do
