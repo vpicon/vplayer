@@ -1,5 +1,13 @@
+/** 
+ * BufferTest.cpp
+ *
+ * Module: test/player
+ *
+ * Unit tests of the Buffer class.
+ */
+
 #include "gtest/gtest.h"
-#include "buffer.h"
+#include "Buffer.h"
 
 #include <cstdint>
 #include <vector>

@@ -1,10 +1,10 @@
-// Buffer.h  
-//
-// Module: player
-//
-// Definition of the Buffer class.
-//
-
+/** 
+ * Buffer.h  
+ *
+ * Module: player
+ *
+ * Definition of the Buffer class.
+ */
 
 #ifndef _VPLAYER_BUFFER_H
 #define _VPLAYER_BUFFER_H
