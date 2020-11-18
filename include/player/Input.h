@@ -37,12 +37,17 @@ public:
     /**
      * Says if reading of input reached end of file.
      */
-    virtual bool reachedEOF() = 0;
+    virtual bool reachedEOF() const = 0;
 
     /**
      * Gives sample specifications of input.
      */
-    virtual SampleSpecs getSampleSpecs() = 0;
+    virtual int getSampleSpecs() const = 0;
+
+    /**
+     * Gets the duration of the audio stored in input object.
+     */
+    virtual double getDuration() const = 0;
 };
 
 
