@@ -20,6 +20,9 @@ namespace player {
 
 class Input {
 public:
+    // Virtual destructor in polymorphic base classes 
+    virtual ~Input();
+
     /**
      * Given a position in a buffer (obtained by getWritePosition() from Buffer
      * class), it reads data from input as much as it fits in the write position.
