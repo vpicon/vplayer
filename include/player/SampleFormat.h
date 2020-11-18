@@ -17,12 +17,14 @@
 namespace player {
 
 
-
 /**
  * A class to represent the format of a some PCM data. 
  */
 class SampleFormat {
 public:
+    enum class Endiannes { littleEndian, bigEndian };
+    enum class Encoding { signedEnc, unsignedEnc, floatEnc };
+
     // CONSTRUCTORS AND DESTRUCTORS
     /**
      * Constructs a new SampleFormat object, where frameRate is number of 
@@ -40,9 +42,6 @@ public:
 
 
     // CLASS CONSTANTS AND METHODS
-    enum class Endiannes { littleEndian, bigEndian };
-
-    enum class Encoding { signedEnc, unsignedEnc, floatEnc };
 
     static inline int calculateBitrate(int frameRate, 
                                        int bitDepth, 

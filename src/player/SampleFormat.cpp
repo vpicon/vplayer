@@ -7,22 +7,17 @@
  *
  */
 
-#ifndef _VPLAYER_SAMPLE_FORMAT_H
-#define _VPLAYER_SAMPLE_FORMAT_H
-
-
 #include "SampleFormat.h"
 
 
 namespace player {
 
 
-
 SampleFormat::SampleFormat(int frameRate, 
                            int bitDepth,
                            int numChannels,
                            SampleFormat::Endiannes endian,
-                           SampleFormat::Encoding end)
+                           SampleFormat::Encoding enc)
     : _frameRate{frameRate},
       _bitDepth{bitDepth},
       _numChannels{numChannels},
@@ -30,7 +25,7 @@ SampleFormat::SampleFormat(int frameRate,
       _enc{enc} {}
 
 
-static inline int SampleFormat::calculateBitrate(int frameRate,
+inline int SampleFormat::calculateBitrate(int frameRate,
                                                  int bitDepth,
                                                  int numChannels) 
 {
@@ -38,7 +33,7 @@ static inline int SampleFormat::calculateBitrate(int frameRate,
 }
 
 
-inline int getBitrate() const { 
+inline int SampleFormat::getBitrate() const { 
     return SampleFormat::calculateBitrate(_frameRate, _bitDepth, _numChannels); 
 }
 
