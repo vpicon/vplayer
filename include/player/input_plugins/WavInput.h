@@ -33,7 +33,6 @@ public:
 
     ~WavInput() {}
 
-
     /**
      * Given a position in a buffer (obtained by getWritePosition() from Buffer
      * class), it reads data from input as much as it fits in the write position.
@@ -57,12 +56,13 @@ public:
      * TODO: Create a Class suporting Sample Specifications, and
      * use it as return type.
      */
-    int getSampleSpecs() const override;
+    SampleFormat getSampleFormat() const override;
 
     /**
-     * Gets the duration of the wav audio stored in this WavInput object.
+     * Gets the duration, in seconds, of the wav audio stored in this WavInput object.
      */
     double getDuration() const override;
+
 private:
     std::string _filename;
 };

@@ -12,6 +12,7 @@
 
 
 #include "Buffer.h"
+#include "SampleFormat.h"
 
 
 namespace player {
@@ -45,7 +46,7 @@ public:
     /**
      * Gives sample specifications of input.
      */
-    virtual int getSampleSpecs() const = 0;
+    virtual SampleFormat getSampleFormat() const = 0;
 
     /**
      * Gets the duration of the audio stored in input object.

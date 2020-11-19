@@ -33,8 +33,8 @@ bool WavInput::reachedEOF() const {
 }
 
 // TODO: is a stub.
-int WavInput::getSampleSpecs() const {
-    return {};
+SampleFormat WavInput::getSampleFormat() const {
+    return {0, 0, 0, SampleFormat::Endian::little, SampleFormat::Encoding::signedEnc};
 }
 
 double WavInput::getDuration() const {
