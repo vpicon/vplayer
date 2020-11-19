@@ -36,23 +36,33 @@ protected:
     int frameRate2   = 10000;
     int bitDepth2    = 16;
     int numChannels2 = 6;
-    player::SampleFormat::Endian   end2 = player::SampleFormat::Endian::big;
-    player::SampleFormat::Encoding enc2 = player::SampleFormat::Encoding::unsignedEnc;
-    player::SampleFormat sf2 {frameRate2, bitDepth2, numChannels2, end2, enc2};
+    SampleFormat::Endian   end2 = SampleFormat::Endian::big;
+    SampleFormat::Encoding enc2 = SampleFormat::Encoding::unsignedEnc;
+    SampleFormat sf2 {frameRate2, bitDepth2, numChannels2, end2, enc2};
 
     int frameRate3   = 96000;
     int bitDepth3    = 64;
     int numChannels3 = 2;
-    player::SampleFormat::Endian   end3 = player::SampleFormat::Endian::little;
-    player::SampleFormat::Encoding enc3 = player::SampleFormat::Encoding::floatEnc;
-    player::SampleFormat sf3 {frameRate3, bitDepth3, numChannels3, end3, enc3};
+    SampleFormat::Endian   end3 = SampleFormat::Endian::little;
+    SampleFormat::Encoding enc3 = SampleFormat::Encoding::floatEnc;
+    SampleFormat sf3 {frameRate3, bitDepth3, numChannels3, end3, enc3};
 };
 
 // UNIT TESTS
 
-TEST_F(SampleFormatTest, TrivialTest) {
-    EXPECT_TRUE(false);
+/**
+ * calculateBitrate() Test
+ */
+
+TEST_F(SampleFormatTest, CalculateBitrate) {
+    EXPECT_EQ(SampleFormat::calculateBitrate(frameRate1, bitDepth1, numChannels1),
+              frameRate1 * bitDepth1 * numChannels1);
+    EXPECT_EQ(SampleFormat::calculateBitrate(frameRate2, bitDepth2, numChannels2),
+              frameRate2 * bitDepth2 * numChannels2);
+    EXPECT_EQ(SampleFormat::calculateBitrate(frameRate3, bitDepth3, numChannels3),
+              frameRate3 * bitDepth3 * numChannels3);
 }
+
 
 /**
  * getFrameRate() Test
@@ -84,6 +94,39 @@ TEST_F(SampleFormatTest, GetNumChannels) {
     EXPECT_EQ(sf1.getNumChannels(), numChannels1);
     EXPECT_EQ(sf2.getNumChannels(), numChannels2);
     EXPECT_EQ(sf3.getNumChannels(), numChannels3);
+}
+
+
+/**
+ * getEndian() Test
+ */
+
+TEST_F(SampleFormatTest, GetEndian) {
+    EXPECT_EQ(sf1.getEndian(), end1);
+    EXPECT_EQ(sf2.getEndian(), end2);
+    EXPECT_EQ(sf3.getEndian(), end3);
+}
+
+
+/**
+ * getEncoding() Test
+ */
+
+TEST_F(SampleFormatTest, GetEncoding) {
+    EXPECT_EQ(sf1.getEncoding(), enc1);
+    EXPECT_EQ(sf2.getEncoding(), enc2);
+    EXPECT_EQ(sf3.getEncoding(), enc3);
+}
+
+
+/**
+ * getBitrate() Test
+ */
+
+TEST_F(SampleFormatTest, GetBitrate) {
+    EXPECT_EQ(sf1.getBitrate(), frameRate1 * bitDepth1 * numChannels1);
+    EXPECT_EQ(sf2.getBitrate(), frameRate2 * bitDepth2 * numChannels2);
+    EXPECT_EQ(sf3.getBitrate(), frameRate3 * bitDepth3 * numChannels3);
 }
 
 
