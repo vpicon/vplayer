@@ -15,9 +15,6 @@
 
 namespace player {
 
-WavInput::WavInput(const std::string& filename) {
-    
-}
 
 
 // TODO: is a stub.

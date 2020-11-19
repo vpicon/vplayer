@@ -29,7 +29,10 @@ namespace player {
  */
 class WavInput : public Input {
 public:
-    WavInput(const std::string& filename);
+    WavInput(const std::string& filename): _filename{filename} {}
+
+    ~WavInput() {}
+
 
     /**
      * Given a position in a buffer (obtained by getWritePosition() from Buffer
@@ -60,6 +63,8 @@ public:
      * Gets the duration of the wav audio stored in this WavInput object.
      */
     double getDuration() const override;
+private:
+    std::string _filename;
 };
 
 

@@ -16,7 +16,7 @@ namespace player {
 SampleFormat::SampleFormat(int frameRate, 
                            int bitDepth,
                            int numChannels,
-                           SampleFormat::Endiannes endian,
+                           SampleFormat::Endian endian,
                            SampleFormat::Encoding enc)
     : _frameRate{frameRate},
       _bitDepth{bitDepth},
@@ -26,8 +26,8 @@ SampleFormat::SampleFormat(int frameRate,
 
 
 inline int SampleFormat::calculateBitrate(int frameRate,
-                                                 int bitDepth,
-                                                 int numChannels) 
+                                          int bitDepth,
+                                          int numChannels) 
 {
     return frameRate * bitDepth * numChannels;
 }
