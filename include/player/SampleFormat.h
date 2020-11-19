@@ -22,7 +22,7 @@ namespace player {
  */
 class SampleFormat {
 public:
-    enum class Endiannes { littleEndian, bigEndian };
+    enum class Endian { little, big };
     enum class Encoding { signedEnc, unsignedEnc, floatEnc };
 
     // CONSTRUCTORS AND DESTRUCTORS
@@ -35,7 +35,7 @@ public:
     SampleFormat(int frameRate, 
                  int bitDepth, 
                  int numChannels, 
-                 Endiannes endian, 
+                 Endian endian, 
                  Encoding enc);
 
     ~SampleFormat() {}
@@ -48,6 +48,16 @@ public:
                                        int numChannels);
 
     // ACCESSORS
+    inline int getFrameRate() const { return _frameRate; }
+
+    inline int getBitDepth() const { return _bitDepth; }
+
+    inline int getNumChannels() const { return _numChannels; }
+    
+    inline Endian getEndian() const { return _endian; }
+
+    inline Encoding getEncoding() const { return _enc; }
+    
     inline int getBitrate() const;
 
 private:
@@ -55,7 +65,7 @@ private:
     int _bitDepth; 
     int _numChannels;
     // int _channelMask; // Not supported 
-    Endiannes _endian;
+    Endian _endian;
     Encoding  _enc;
 };
 
