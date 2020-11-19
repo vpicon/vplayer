@@ -50,6 +50,12 @@ public:
            size_t minWriteSize, size_t dataAlign = 1);
     ~Buffer() {};
 
+    Buffer& operator=(const Buffer&) = delete; // Disallow copy
+    Buffer(const Buffer&) = delete; // Disallow copy constructor
+
+    Buffer& operator=(Buffer&&) = delete; // Disallow move
+    Buffer(Buffer&&) = delete; // Disallow move constructor
+
 
     // CLASS CONSTANTS AND TYPES
     
