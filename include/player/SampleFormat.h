@@ -11,8 +11,6 @@
 #define _VPLAYER_SAMPLE_FORMAT_H
 
 
-#include "SampleFormat.h"
-
 
 namespace player {
 
@@ -43,9 +41,9 @@ public:
 
     // CLASS CONSTANTS AND METHODS
 
-    static inline int calculateBitrate(int frameRate, 
-                                       int bitDepth, 
-                                       int numChannels);
+    static int calculateBitrate(const int frameRate, 
+                                       const int bitDepth, 
+                                       const int numChannels);
 
     // ACCESSORS
     inline int getFrameRate() const { return _frameRate; }
@@ -58,7 +56,7 @@ public:
 
     inline Encoding getEncoding() const { return _enc; }
     
-    inline int getBitrate() const;
+    int getBitrate() const;
 
 private:
     int _frameRate;
@@ -68,6 +66,7 @@ private:
     Endian _endian;
     Encoding  _enc;
 };
+
 
 
 

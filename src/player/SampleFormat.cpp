@@ -25,18 +25,17 @@ SampleFormat::SampleFormat(int frameRate,
       _enc{enc} {}
 
 
-inline int SampleFormat::calculateBitrate(int frameRate,
-                                          int bitDepth,
-                                          int numChannels) 
+int SampleFormat::calculateBitrate(const int frameRate, 
+                                          const int bitDepth, 
+                                          const int numChannels)
 {
     return frameRate * bitDepth * numChannels;
 }
 
 
-inline int SampleFormat::getBitrate() const { 
+int SampleFormat::getBitrate() const { 
     return SampleFormat::calculateBitrate(_frameRate, _bitDepth, _numChannels); 
 }
-
 
 
 }  // namespace player 
