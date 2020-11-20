@@ -30,11 +30,11 @@ public:
      * sample, numChannels the number of channels of each frame. endian and
      * enc refer to the data encoding of the PCM data.
      */
-    SampleFormat(int frameRate, 
-                 int bitDepth, 
-                 int numChannels, 
-                 Endian endian, 
-                 Encoding enc);
+    SampleFormat(int frameRate = 0, 
+                 int bitDepth = 0, 
+                 int numChannels = 0, 
+                 Endian endian = Endian::little, 
+                 Encoding enc = Encoding::signedEnc);
 
     ~SampleFormat() {}
 
