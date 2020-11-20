@@ -62,7 +62,7 @@ void testSampleSpecs(const player::SampleFormat& sf,
     EXPECT_EQ(sf.getEncoding(),    enc);
 }
 
-// getSampleSpecs test 44.1 kHz, 8bit unsigned, stereo
+// getSampleSpecs test 8 kHz, 8bit unsigned, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest8bitUnsigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-uint8-AFsp.wav");
@@ -71,14 +71,14 @@ TEST_F(WavInputTest, GetSampleSpecsTest8bitUnsigned) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     8, 
                     2, 
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::unsignedEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 16bit signed, stereo
+// getSampleSpecs test 8 kHz, 16bit signed, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest16bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
@@ -87,14 +87,14 @@ TEST_F(WavInputTest, GetSampleSpecsTest16bitSigned) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     16, 
                     2, 
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 24bit signed, stereo
+// getSampleSpecs test 8 kHz, 24bit signed, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest24bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int24-AFsp.wav");
@@ -103,14 +103,14 @@ TEST_F(WavInputTest, GetSampleSpecsTest24bitSigned) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     24, 
                     2, 
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 32bit signed, stereo
+// getSampleSpecs test 8 kHz, 32bit signed, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest32bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int32-AFsp.wav");
@@ -119,14 +119,14 @@ TEST_F(WavInputTest, GetSampleSpecsTest32bitSigned) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     32, 
                     2, 
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 32bit float, stereo
+// getSampleSpecs test 8 kHz, 32bit float, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest32bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float32-AFsp.wav");
@@ -135,14 +135,14 @@ TEST_F(WavInputTest, GetSampleSpecsTest32bitFloat) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     32, 
                     2, 
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::floatEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 64bit float, stereo
+// getSampleSpecs test 8 kHz, 64bit float, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float64-AFsp.wav");
@@ -151,7 +151,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
 
     // Test Sample Format were correctly obtained
     testSampleSpecs(input.getSampleFormat(),
-                    44100, 
+                    8000, 
                     64, 
                     2, 
                     player::SampleFormat::Endian::little, 
@@ -159,7 +159,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
 }
 
 // getSampleSpecs test 22.05 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTest22kHz) {
+TEST_F(WavInputTest, GetSampleSpecsTest22kHzMono) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm2422m.wav");
     player::WavInput input{filename};
@@ -175,7 +175,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest22kHz) {
 }
 
 // getSampleSpecs test 44.1 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTestMono) {
+TEST_F(WavInputTest, GetSampleSpecsTestMono44kHzMono) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
     player::WavInput input{filename};
@@ -189,8 +189,6 @@ TEST_F(WavInputTest, GetSampleSpecsTestMono) {
                     player::SampleFormat::Endian::little, 
                     player::SampleFormat::Encoding::signedEnc);
 }
-
-
 
 
 
