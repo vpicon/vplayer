@@ -83,7 +83,7 @@ private:
      * If the file does not contain the WAV format, false is returned.
      * Otherwise returns true.
      */
-    bool readRIFFChunk(size_t& filesize);
+    bool readRIFFChunk();
 
     /**
      * Read the Format subchunk of the WAV file. Cheks it is correctly formatted
@@ -93,6 +93,12 @@ private:
      * Otherwise returns true.
      */
     bool readFormatChunk();
+
+    /**
+     * Reads data chunk id and size and lives file stream pointing 
+     * to the start of PCM data.
+     */
+    bool readDataChunkHeader();
 };
 
 
