@@ -74,6 +74,14 @@ private:
     std::streampos _dataPosition;  // Starting position of the PCM data 
     size_t _dataSize;              // Number of bytes of PCM data
 
+    enum FormatCode {
+        waveFormatPCM        = 0x0001,
+        waveFormatIEEEFloat  = 0x0003,
+        waveFormatAlaw       = 0x0006,
+        waveFormatMulaw      = 0x0007,
+        waveFormatExtensible = 0xFFFE,
+    };
+
     // HELPER METHODS
 
     /**
@@ -99,6 +107,22 @@ private:
      * to the start of PCM data.
      */
     bool readDataChunkHeader();
+
+    /**
+     * Reads a integer of size 2 bytes (16 bits) from a LittleEndian input 
+     * stream is, which has been opened in input binary mode.
+     * An error may occur in the reading and must be checked by the caller.
+     * TODO: move it to an utility class or to Input class.
+     */
+    uint16_t readLE16(std::istream& is);
+
+    /**
+     * Reads a integer of size 4 bytes (32 bits) from a LittleEndian input 
+     * stream is, which has been opened in input binary mode.
+     * An error may occur in the reading and must be checked by the caller.
+     * TODO: move it to an utility class or to Input class.
+     */
+    uint32_t readLE32(std::istream& is);
 };
 
 
