@@ -159,7 +159,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
 }
 
 // getSampleSpecs test 22.05 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTest22kHzMono) {
+TEST_F(WavInputTest, GetSampleSpecsTest22kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm2422m.wav");
     player::WavInput input{filename};
@@ -175,7 +175,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest22kHzMono) {
 }
 
 // getSampleSpecs test 44.1 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTestMono44kHzMono) {
+TEST_F(WavInputTest, GetSampleSpecsTestMono44kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
     player::WavInput input{filename};
