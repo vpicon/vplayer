@@ -21,7 +21,7 @@ namespace {
  * to the WAV data given in filename.
  */
 std::string dataPath(std::string filename) {
-    return "../../data/wav" + filename;
+    return "test/data/wav/" + filename;
 }
 
 
@@ -161,7 +161,7 @@ TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
 // getSampleSpecs test 22.05 kHz, 24bit signed, mono
 TEST_F(WavInputTest, GetSampleSpecsTest22kHz) {
     // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("pcm2422.wav");
+    std::string filename = dataPath("pcm2422m.wav");
     player::WavInput input{filename};
 
 
