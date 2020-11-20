@@ -42,6 +42,7 @@ WavInput::WavInput(const std::string& filename)
 
 // TODO: is a stub.
 size_t WavInput::read(Buffer::Position writePos) {
+    
     return writePos.size();
 }
 

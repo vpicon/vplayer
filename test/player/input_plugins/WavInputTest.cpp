@@ -25,28 +25,6 @@ std::string dataPath(std::string filename) {
 }
 
 
-// FIXTURE
-
-class WavInputTest : public testing::Test {
-protected:
-    // No SetUp() needed
-    // No TearDown() needed
-
-};
-
-
-// UNIT TESTS
-
-/**
- * getSampleSpecs() Test Strategy:
- *
- *   Channels: 1, 2 (> 2 not supported)
- *   FrameRate: 44100, != 44100 samples per sec
- *   BitDepth: 16, 24, 32, 64
- *   Encoding: Float, Unsigned/Signed Int
- *   Endiannes: Little in all of them
- */
-
 void testSampleSpecs(const player::SampleFormat& sf,
                      int frameRate,
                      int bitDepth, 
@@ -61,6 +39,29 @@ void testSampleSpecs(const player::SampleFormat& sf,
     EXPECT_EQ(sf.getEndian(),      end);
     EXPECT_EQ(sf.getEncoding(),    enc);
 }
+
+
+// FIXTURE
+
+class WavInputTest : public testing::Test {
+protected:
+    // No SetUp() needed
+    // No TearDown() needed
+    static constexpr double durationErrorMargin = 0.1;  // seconds
+};
+
+
+// UNIT TESTS
+
+/**
+ * getSampleSpecs() Test Strategy:
+ *
+ *   Channels: 1, 2 (> 2 not supported)
+ *   FrameRate: 44100, != 44100 samples per sec
+ *   BitDepth: 16, 24, 32, 64
+ *   Encoding: Float, Unsigned/Signed Int
+ *   Endiannes: Little in all of them
+ */
 
 // getSampleSpecs test 8 kHz, 8bit unsigned, stereo
 TEST_F(WavInputTest, GetSampleSpecsTest8bitUnsigned) {
@@ -191,6 +192,57 @@ TEST_F(WavInputTest, GetSampleSpecsTestMono44kHzMonoExtensibleFormat) {
 }
 
 
+
+/**
+ * getDuration() Test Strategy:
+ *
+ *   Duration ~0, >> 0
+ *   Channels: 1, 2 (> 2 not supported)
+ *   FrameRate: 44100, != 44100 samples per sec
+ *   Encoding: Float, Unsigned/Signed Int
+ *
+ * Duration of files, obtained with mediainfo util.
+ */
+
+// getDuration Unsigned, 8 kHz, stereo
+TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-uint8-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Test the duration of input
+    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
+}
+
+// getDuration signed, 8 kHz, stereo
+TEST_F(WavInputTest, GetDurationTestSignedStereo) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int24-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Test the duration of input
+    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
+}
+
+// getDuration float, 8 kHz, stereo
+TEST_F(WavInputTest, GetDurationTestFloatStereo) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-float32-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Test the duration of input
+    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
+}
+
+// getDuration signed, 44.1 kHz, mono, small duration
+TEST_F(WavInputTest, GetDurationTest44kHzMonoSmall) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("pcm4410024bitmono.wav");
+    player::WavInput input{filename};
+
+    // Test the duration of input
+    EXPECT_NEAR(input.getDuration(), 0.1, durationErrorMargin);
+}
 
 
 
