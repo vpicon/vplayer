@@ -39,30 +39,17 @@ public:
 
     /**
      * Given a position in a buffer (obtained by getWritePosition() from Buffer
-     * class), it reads data from input as much as it fits in the write position.
+     * class), reads as much data from wav file as it fits in the write position.
      * The function returns the actual number of bytes written to the buffer.
      */
     size_t read(Buffer::Position writePos) override;
 
-    /**
-     * Given a time position between 0 and the duration of the Input track, sets
-     * the position of the input reading to that of the seconds.
-     */
     void seek(double seconds) override;
 
-    /**
-     * Says if reading of input reached end of file.
-     */
     bool reachedEOF() const override;
 
-    /**
-     * Gives sample specifications of input.
-     */
     SampleFormat getSampleFormat() const override { return _sampleFormat; }
 
-    /**
-     * Gets the duration, in seconds, of the wav audio stored in this WavInput object.
-     */
     double getDuration() const override;
 
 private:

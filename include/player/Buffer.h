@@ -51,10 +51,10 @@ public:
     ~Buffer() {};
 
     Buffer& operator=(const Buffer&) = delete; // Disallow copy
-    Buffer(const Buffer&) = delete; // Disallow copy constructor
+    Buffer(const Buffer&)            = delete; // Disallow copy constructor
 
     Buffer& operator=(Buffer&&) = delete; // Disallow move
-    Buffer(Buffer&&) = delete; // Disallow move constructor
+    Buffer(Buffer&&)            = delete; // Disallow move constructor
 
 
     // CLASS CONSTANTS AND TYPES

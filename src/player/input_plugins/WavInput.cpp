@@ -42,7 +42,6 @@ WavInput::WavInput(const std::string& filename)
 
 // TODO: is a stub.
 size_t WavInput::read(Buffer::Position writePos) {
-    
     return writePos.size();
 }
 
@@ -63,7 +62,7 @@ bool WavInput::reachedEOF() const {
 
 
 double WavInput::getDuration() const {
-    return 0;
+    return (8.0 * _dataSize) / _sampleFormat.getBitrate();
 }
 
 
