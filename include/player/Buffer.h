@@ -13,6 +13,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <mutex>
 
 
 namespace player {
@@ -20,16 +21,29 @@ namespace player {
 
 /**
  * Buffer class containing a chunked circular buffer. 
- * A thread safe monitor object to read data from input in the producer class, 
- * and read data from output in the consumer class, two classes which will run 
- * in separate threads.
+ * A thread safe monitor object to read data from input in the producer 
+ * class, and read data from output in the consumer class, two classes 
+ * which will run in separate threads.
+ * The user may read or write from/to one chunk at a time. Thus, the max 
+ * amount it can be read/written on each call to a Buffer::Position depends 
+ * on the size of the chunk.
  * TODO: document why is better chunked buffer than not
  */
 class Buffer {
     /**
-     * TODO:
      * Represents a circular chunked buffer, stored in the buffer array.
      * Buffer = [Chunk][Chunk] ... [Chunk]
+     * The Buffer uses one chunk to keep current of the write chunk and read
+     * chunk.
+     *
+     * Invariants:
+     *    0 <= (_readChunk, _writeChunk) < _numChunks
+     *    The buffer is full, if and only if, 
+     *       (_writeChunk + 1) % _numChunks == _readChunk
+     *    All chunks before (in circular sense) the _writeChunk, have full flag set.
+     *    Every chunk after (in circular sense) the _writeChunk, and before the 
+     *       read chunk, it is at initial state (w = r = 0, full = false)
+     *    _writeChunk always points to a non full chunk.
      */
 public:
     // CONSTRUCTORS AND DESTRUCTORS 
@@ -79,7 +93,7 @@ public:
      * If no data is available, the position contains a nullpointer and a count
      * of 0.
      */
-    Buffer::Position getReadPosition() const;
+    Buffer::Position getReadPosition();
 
     /**
      * Gives a Buffer::WritePosition object to which it can be written some 
@@ -92,12 +106,12 @@ public:
      * such case, the position is marked to have 0 available data in it, and 
      * a null pointer.
      */
-    Buffer::Position getWritePosition() const;
+    Buffer::Position getWritePosition();
 
     /**
      * Returns the number of chunks considered filled.
      */
-    size_t filledChunks() const;
+    inline size_t filledChunks() const { return _fullChunks; }
 
 
     // MUTATORS
@@ -134,80 +148,76 @@ public:
     inline void setAlign(size_t alignSize) { _dataAlign = alignSize; }
 
 private:
+
+    /**
+     * Structure representing each of the inner chunks of the total buffer.
+     * Each chunk is a linear buffer, where chunkSize bytes can be stored in. 
+     * The index r marks the position where data can be read from. Index w 
+     * marks the position where data can be written to. Full if the buffer was
+     * filled up previously.
+     * 
+     * Invariants:
+     *   0 <= r <= w <= _chunkSize
+     *   w points to a valid position to write if and only if w < _chunkSize
+     *   r points to data to be read if and only if  r < w
+     *   full == true, if and only if, w > _chunkSize - _minWriteSize
+     */
+    struct Chunk {
+        std::vector<char> buf;
+        size_t w;
+        size_t r;
+        bool full;
+    };
+
     const size_t _numChunks;  
     const size_t _chunkSize; 
     const size_t _minWriteSize; 
     size_t _dataAlign; 
 
-    int _writeChunk, _readChunk;   
+    int _writeChunk = 0;
+    int _readChunk  = 0;
+    int _fullChunks  = 0;
 
+    std::vector<Chunk> _buffer;
 
-    /**
-     * Structure representing each of the inner chunks of the total buffer.
-     * Each chunk is itself a circular buffer, where chunkSize bytes can be 
-     * stored in. 
-     */
-    struct Chunk {
-        std::vector<char> buf;
-        int w;
-        int r;
-    };
-    
+    std::mutex _bufferMutex;
 };
 
 
 
 class Buffer::Position {
 public:
-    Position(Chunk *chunk, int offset, size_t size)
-        : _chunk{chunk}, _offset{offset}, _size{size} {}
+    friend class Buffer;
 
     /**
      * Returns a char pointer to the inner position in the buffer with size 
      * contiguous bytes which can be used to store or read data.
      * Useful to use with low level functions, such as output C libs.
      */
-    inline char *toPointer() { return nullptr; }  // TODO: Is a stub
+    char *toPointer(); 
 
     /**
      * Gives amount of data which could be read or written in the position
      * pointed by this object.
      */
-    inline size_t size() { return _size; }  // TODO: Is a stub
+    inline size_t size() { return _size; }  
 private:
-    Chunk* _chunk;
-    int    _offset;
+    /**
+     * Private constructor to not expose internals of the buffer.
+     * Caller only needs to get size and pointer to which wirte/read.
+     */
+    Position(Chunk& chunk, size_t offset, size_t size)
+        : _chunk{chunk}, _offset{offset}, _size{size} {}  
+
+    Chunk& _chunk;
+    size_t _offset;
     size_t _size;
 };
 
 
 
+
 }  // namespace player
-
-
-
-
-
-
-/** Temporal Stuff 
-
-    // The size has to be a multiple of the frame size. We can then chose the 
-    // lcm of all available frame sizes, which is the product of bit size and 
-    // channel size.
-    //     (BITS):     the lcm of 1, 2, 3, 4 (8, 16, 24, and 32 bits) is 12.
-    //     (CHANNELS): the lcm of 1, 2  is 2.
-    // We can then adjust the chunk Size by any reasonable factor to make the 
-    // chunk sufficiently big but not too small.
-    static constexpr int _chunkSize = 2 * 12 * 1024; 
-    // 10 seconds worth of data may be stored in the buffer. Considering the 
-    // typical frame rate 44100 frames per second, number of samples per frame, 
-    // may be something about 4 * 2. 
-    static constexpr size_t _numChunks = 10 * 44100 * 4 * 2 / _chunkSize;  
-
-    static const int _minWriteSize = 1024; 
-    const int _dataAlign; 
-    */
-
 
 
 #endif  // _VPLAYER_BUFFER_H
