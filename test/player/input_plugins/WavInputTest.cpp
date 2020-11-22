@@ -329,6 +329,44 @@ TEST_F(WavInputTest, seekFromStartToEnd) {
 }
 
 
+
+/**
+ * reachedEOF() Test Strategy:
+ */
+
+// Check we reached eof set when reading
+TEST_F(WavInputTest, reachedEOFWhileReading) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+    
+    // Check EOF is false
+    EXPECT_FALSE(input.reachedEOF());
+
+    // Read some data from input
+    input.read(buffer.getWritePosition());
+    EXPECT_TRUE(input.reachedEOF());
+
+    // Go to start again and check eof is false
+    input.seek(0.0);
+    EXPECT_FALSE(input.reachedEOF());
+}
+
+// Check we reached eof set when seeking
+TEST_F(WavInputTest, reachedEOFWhileSeeking) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+    
+    // Check EOF is false
+    EXPECT_FALSE(input.reachedEOF());
+
+    // Read some data from input
+    input.seek(input.getDuration() + 1);
+    EXPECT_TRUE(input.reachedEOF());
+}
+
+
 /**
  * getSampleFormat() Test Strategy:
  *
