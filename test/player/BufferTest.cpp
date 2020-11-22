@@ -14,6 +14,7 @@
 #include <chrono>
 #include <vector>
 #include <thread>
+#include <random>
 
 
 namespace {
@@ -89,7 +90,7 @@ void producer(player::Buffer& buf, const std::vector<char>& inData) {
  * if it finds the buffer full.
  * It assumes that out_data will have the exact size of the data in the buffer.
  */
-void consumer(player::Buffer& buf, const std::vector<char>& outData) {
+void consumer(player::Buffer& buf, std::vector<char>& outData) {
     size_t n = 0;  // outData position index
     while (n < outData.size()) {
         // Get Write and check there is available space in it
@@ -103,12 +104,28 @@ void consumer(player::Buffer& buf, const std::vector<char>& outData) {
         char *p = rPos.toPointer();
         size_t i = 0;
         while (i < rPos.size() && (i+n) < outData.size()) {
-            p[i] = outData[n + i];
+            outData[n + i] = p[i];
             i++;
         }
         n += i;
         buf.markRead(i);
     }
+}
+
+
+/** 
+ * Generates a random vector of size n.
+ */
+std::vector<char> generateRandomVec(size_t n) {
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> distribution(0,255);
+
+    std::vector<char> v;
+    while (n--) {
+        v.push_back(static_cast<char>(distribution(generator)));
+    }
+
+    return v;
 }
 
 
@@ -558,14 +575,12 @@ TEST_F(BufferTest, ProducerConsumerConcurrentBufferSize) {
     // Produce input data and send it to buffer in a thread
     size_t n = numChunks * chunkSize;
     std::vector<char> inData(n, 'a');
-    producer(emptyBuffer, inData);
     std::thread producerThread {producer, 
                                 std::ref(emptyBuffer),
                                 std::ref(inData)};
 
     // Receive data from buffer in a thread
     std::vector<char> outData(n);
-    consumer(emptyBuffer, outData);
     std::thread consumerThread {consumer, 
                                 std::ref(emptyBuffer), 
                                 std::ref(outData)};
@@ -581,16 +596,14 @@ TEST_F(BufferTest, ProducerConsumerConcurrentBufferSize) {
 // Concurrent message sending, data size greater than buffer
 TEST_F(BufferTest, ProducerConsumerConcurrentMoreDataThanBuffer) {
     // Produce input data and send it to buffer in a thread
-    size_t n = 10 * numChunks * chunkSize;
-    std::vector<char> inData(n, 'a');
-    producer(emptyBuffer, inData);
+    size_t n = 100 * numChunks * chunkSize;
+    std::vector<char> inData = generateRandomVec(n);
     std::thread producerThread {producer, 
                                 std::ref(emptyBuffer), 
                                 std::ref(inData)};
 
     // Receive data from buffer in a thread
     std::vector<char> outData(n);
-    consumer(emptyBuffer, outData);
     std::thread consumerThread {consumer, 
                                 std::ref(emptyBuffer), 
                                 std::ref(outData)};
