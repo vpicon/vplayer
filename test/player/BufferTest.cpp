@@ -37,8 +37,8 @@ bool writeVectorToBuffer(player::Buffer& buf, std::vector<char> data) {
         while (i < pos.size() && (i+n) < data.size()) {
             p[i] = data[n + i];
             i++;
-            n++;
         }
+        n += i;
         buf.markWritten(i);
     }
 
@@ -78,8 +78,8 @@ void producer(player::Buffer& buf, const std::vector<char>& inData) {
         while (i < wPos.size() && (i+n) < inData.size()) {
             p[i] = inData[n + i];
             i++;
-            n++;
         }
+        n += i;
         buf.markWritten(i);
     }
 }
@@ -107,8 +107,8 @@ void consumer(player::Buffer& buf, const std::vector<char>& outData) {
         while (i < rPos.size() && (i+n) < outData.size()) {
             p[i] = outData[n + i];
             i++;
-            n++;
         }
+        n += i;
         buf.markRead(i);
     }
 }
