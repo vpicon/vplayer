@@ -194,7 +194,7 @@ TEST_F(WavInputTest, readLessDataThanBufferSize) {
     EXPECT_EQ(v, actualPCMData);
 }
 
-// read less data from input than space of buffer
+// read from position containing no data
 TEST_F(WavInputTest, readNoData) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
@@ -212,6 +212,121 @@ TEST_F(WavInputTest, readNoData) {
     EXPECT_TRUE(input.reachedEOF());
 }
 
+
+
+/**
+ * seek() Test Strategy:
+ *   Current Position: start, middle, end
+ *   End Position:     start, middle, end, > end
+ */
+
+// seek from start position (0.0) again to start.
+TEST_F(WavInputTest, seekFromStartToStart) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int16-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Seek to the initial position
+    input.seek(0.0);
+
+    // Read data from the new input position and check it is initial  data
+    size_t n = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(n > 0u);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
+
+    // PCM data, obtained with hexdump (first 16 bytes of PCMdata)
+    std::vector<uint8_t> data {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                               0x01, 0x00, 0x02, 0x00, 0xfd, 0xff, 0x00, 0x00};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// seek from start position to some middle position.
+TEST_F(WavInputTest, seekFromMiddleToStart) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int16-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Read some data from input
+    size_t m = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(m > 0u);
+
+    // Seek back to the initial position
+    input.seek(0.0);
+
+    // Read data from the new input position and check it is initial  data
+    size_t n = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(n > 0u);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
+
+    // PCM data, obtained with hexdump (first 16 bytes of PCMdata)
+    std::vector<uint8_t> data {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                               0x01, 0x00, 0x02, 0x00, 0xfd, 0xff, 0x00, 0x00};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// seek from end position to start position.
+TEST_F(WavInputTest, seekFromEndToStart) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+
+    // Read some data from input
+    size_t m = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(m > 0u);
+    ASSERT_TRUE(input.reachedEOF());
+
+    // Seek back to the initial position
+    input.seek(0.0);
+
+    // Read data from the new input position and check it is initial  data
+    size_t n = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(n > 0u);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
+
+    // PCM data, obtained with hexdump (first 16 bytes of PCMdata)
+    std::vector<uint8_t> data {0x00, 0xfb, 0x0c, 0x83, 0x1f, 0x0c, 0x0d, 0xc8};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// seek from start position to some middle position.
+TEST_F(WavInputTest, seekFromStartToMiddle) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testOneFrameSecond.wav");
+    player::WavInput input{filename};
+
+    // Seek back to the initial position
+    input.seek(2.0);
+
+    // Read data from the new input position and check it is initial  data
+    size_t n = input.read(buffer.getWritePosition());
+    ASSERT_TRUE(n > 0u);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 6);
+
+    // PCM data, obtained with hexdump 
+    std::vector<uint8_t> data {0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// seek from start position to some middle position.
+TEST_F(WavInputTest, seekFromStartToEnd) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int32-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Seek back to the initial position
+    input.seek(input.getDuration() + 1);
+
+    // Read data from the new input position and check it is initial  data
+    EXPECT_TRUE(input.reachedEOF());
+}
 
 
 /**

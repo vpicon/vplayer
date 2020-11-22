@@ -66,12 +66,13 @@ def dataChunk(data_arr):
 # Creates a wav file named filename, of 44.1 kHz sample rate,
 # signed int 32 bits PCM data, stereo; containing data samples
 # from data_arr
-def createWAV(filename, data_arr):
+def createWAV(filename, data_arr, sample_rate, bit_depth, num_channels):
     # Open file as write binary mode
     f = open(filename, "w+b")
 
     # Create wav binary data
-    byte_arr  = RIFFChunk() + formatChunk(44100, 32, 2) + dataChunk(data_arr)
+    byte_arr = RIFFChunk() + formatChunk(sample_rate, bit_depth, num_channels) \
+             + dataChunk(data_arr)
 
     binary_format = bytearray(byte_arr)
 
@@ -85,9 +86,14 @@ def createWAV(filename, data_arr):
 
 if __name__ == "__main__":
     # filename of the target wav file
-    filename = "testShort.wav"
+    filename = "testOneFrameSecond.wav"
 
     # Define binary data to write
-    data_arr = [00, 251, 12, 131, 31, 12, 13, 200]
+    data_arr = [1, 2, 3, 4, 5, 6, 7, 8]
 
-    createWAV(filename, data_arr)
+    # Sample Format
+    sample_rate  = 1  # Frames per second
+    bit_depth    = 32 # Bits per sample
+    num_channels = 2  # Samples per second
+
+    createWAV(filename, data_arr, sample_rate, bit_depth, num_channels)
