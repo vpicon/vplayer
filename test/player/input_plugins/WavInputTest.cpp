@@ -10,11 +10,62 @@
 #include "gtest/gtest.h"
 #include "input_plugins/WavInput.h"
 #include "SampleFormat.h"
+#include "Buffer.h"
+
+#include <vector>
+
 
 namespace {
 
 
 // HELPER METHODS
+
+
+/**
+ * Return a vector of size n, of n bytes read from pos, where n < pos.size()
+ */
+bool writeToBuffer(player::Buffer& buf, const std::vector<char>& data) {
+    size_t n = 0;
+    while (n < data.size()) {
+        player::Buffer::Position wPos = buf.getWritePosition();
+        if (wPos.size() == 0)
+            return false;
+
+        char *p = wPos.toPointer();
+        size_t i = 0;
+        while (i < wPos.size() && (i + n) < data.size()) {
+            p[i] = data[n + i];
+            i++;
+        }
+        n += i;
+        buf.markWritten(i);
+    }
+
+    return true;
+}
+
+/**
+ * Return a vector of size n, of n bytes read from pos, where n < pos.size()
+ */
+std::vector<char> writeToVector(player::Buffer::Position pos, size_t n) {
+    std::vector<char> v(n);
+    char *p = pos.toPointer();
+    for (size_t i = 0; i < n; i++) 
+        v[i] = p[i]; 
+      
+    return v;
+}
+
+/**
+ * Convert a vector of uint8_t to char.
+ */
+std::vector<char> hexToCharVec(std::vector<uint8_t> hexvec) {
+    std::vector<char> v;
+    for (uint8_t x : hexvec)
+        v.push_back(static_cast<char>(x));
+
+    return v;
+}
 
 /** 
  * Given filename, returns local path from current test source dir
@@ -32,7 +83,6 @@ void testSampleSpecs(const player::SampleFormat& sf,
                      player::SampleFormat::Endian end,
                      player::SampleFormat::Encoding enc)
 { 
-
     EXPECT_EQ(sf.getFrameRate(),   frameRate);
     EXPECT_EQ(sf.getBitDepth(),    bitDepth);
     EXPECT_EQ(sf.getNumChannels(), numChannels);  
@@ -41,20 +91,131 @@ void testSampleSpecs(const player::SampleFormat& sf,
 }
 
 
+
 // FIXTURE
 
 class WavInputTest : public testing::Test {
 protected:
     // No SetUp() needed
     // No TearDown() needed
-    static constexpr double durationErrorMargin = 0.1;  // seconds
+    static constexpr double durationErrorMargin = 0.1;  // getDuration tests
+    
+    size_t numChunks    = 100; 
+    size_t chunkSize    = 1000; 
+    size_t minWriteSize = 1; 
+    player::Buffer buffer{numChunks, chunkSize, minWriteSize};
 };
+
 
 
 // UNIT TESTS
 
+// TODO: Exception catching tests for invalid constructors
+
 /**
- * getSampleSpecs() Test Strategy:
+ * read() Test Strategy:
+ *   Buffer state: empty, full, non-empty chunk
+ *   Input data: no data (EOF), more data than space at buffer position,
+ *               less data than space at buffer position.
+ */
+
+// read to an empty buffer
+TEST_F(WavInputTest, readEmptyBuffer) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int16-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Read data form input into buffer
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    size_t n = input.read(wPos);
+
+    // Test amount of data read. Initially empty buffer, and sufficient data
+    // should have read all data available at wPos.
+    EXPECT_EQ(n, wPos.size());
+
+    // Check the data actually written to the buffer. Should be equal to all 
+    // the read data (since buffer initially empty). 
+    // Read 16 first bytes of the buffer into a vector.
+    player::Buffer::Position rPos = buffer.getReadPosition();
+    ASSERT_EQ(n, rPos.size()); 
+    std::vector<char> v = writeToVector(rPos, 16);
+
+    // Actual PCM data, obtained with hexdump (first 16 bytes of PCMdata)
+    std::vector<uint8_t> data {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                               0x01, 0x00, 0x02, 0x00, 0xfd, 0xff, 0x00, 0x00};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// read to a full buffer. Should be 0 total read data
+TEST_F(WavInputTest, readFullBuffer) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("M1F1-int16-AFsp.wav");
+    player::WavInput input{filename};
+
+    // Fill buffer
+    ASSERT_TRUE(writeToBuffer(buffer, std::vector<char> (numChunks * chunkSize)));
+
+    // Read data form input into buffer
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    size_t n = input.read(wPos);
+
+    // Test amount of data read. Initially empty buffer, and sufficient data
+    // should have read all data available at wPos.
+    EXPECT_EQ(n, 0u);
+}
+
+// read less data from input than space of buffer
+TEST_F(WavInputTest, readLessDataThanBufferSize) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+
+    // Read data form input into buffer
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    size_t n = input.read(wPos);
+
+    // Test amount of data read. Initially empty buffer, and sufficient data
+    // should have read all data available at wPos.
+    EXPECT_TRUE(n < wPos.size());
+
+    // Check the data actually written to the buffer. Should be equal to all 
+    // the read data (since buffer initially empty). 
+    // Read 16 first bytes of the buffer into a vector.
+    player::Buffer::Position rPos = buffer.getReadPosition();
+    ASSERT_EQ(n, rPos.size()); 
+    std::vector<char> v = writeToVector(rPos, 8);
+
+    // Actual PCM data, obtained with hexdump (the 8 bytes of PCMdata)
+    std::vector<uint8_t> data {0x00, 0xfb, 0x0c, 0x83, 0x1f, 0x0c, 0x0d, 0xc8};
+    std::vector<char> actualPCMData = hexToCharVec(data);
+
+    EXPECT_EQ(v, actualPCMData);
+}
+
+// read less data from input than space of buffer
+TEST_F(WavInputTest, readNoData) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+
+    // Read data form input into buffer
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    size_t n = input.read(wPos);
+    EXPECT_TRUE(n < wPos.size());
+
+    // Try to read data from the file completely read
+    player::Buffer::Position wPos2 = buffer.getWritePosition();
+    size_t m = input.read(wPos2);
+    EXPECT_EQ(m, 0u);
+    EXPECT_TRUE(input.reachedEOF());
+}
+
+
+
+/**
+ * getSampleFormat() Test Strategy:
  *
  *   Channels: 1, 2 (> 2 not supported)
  *   FrameRate: 44100, != 44100 samples per sec
@@ -63,8 +224,8 @@ protected:
  *   Endiannes: Little in all of them
  */
 
-// getSampleSpecs test 8 kHz, 8bit unsigned, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest8bitUnsigned) {
+// getSampleFormat test 8 kHz, 8bit unsigned, stereo
+TEST_F(WavInputTest, getSampleFormatTest8bitUnsigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-uint8-AFsp.wav");
     player::WavInput input{filename};
@@ -79,8 +240,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest8bitUnsigned) {
                     player::SampleFormat::Encoding::unsignedEnc);
 }
 
-// getSampleSpecs test 8 kHz, 16bit signed, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest16bitSigned) {
+// getSampleFormat test 8 kHz, 16bit signed, stereo
+TEST_F(WavInputTest, getSampleFormatTest16bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
     player::WavInput input{filename};
@@ -95,8 +256,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest16bitSigned) {
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 8 kHz, 24bit signed, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest24bitSigned) {
+// getSampleFormat test 8 kHz, 24bit signed, stereo
+TEST_F(WavInputTest, getSampleFormatTest24bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int24-AFsp.wav");
     player::WavInput input{filename};
@@ -111,8 +272,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest24bitSigned) {
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 8 kHz, 32bit signed, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest32bitSigned) {
+// getSampleFormat test 8 kHz, 32bit signed, stereo
+TEST_F(WavInputTest, getSampleFormatTest32bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int32-AFsp.wav");
     player::WavInput input{filename};
@@ -127,8 +288,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest32bitSigned) {
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 8 kHz, 32bit float, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest32bitFloat) {
+// getSampleFormat test 8 kHz, 32bit float, stereo
+TEST_F(WavInputTest, getSampleFormatTest32bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float32-AFsp.wav");
     player::WavInput input{filename};
@@ -143,8 +304,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest32bitFloat) {
                     player::SampleFormat::Encoding::floatEnc);
 }
 
-// getSampleSpecs test 8 kHz, 64bit float, stereo
-TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
+// getSampleFormat test 8 kHz, 64bit float, stereo
+TEST_F(WavInputTest, getSampleFormatTest64bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float64-AFsp.wav");
     player::WavInput input{filename};
@@ -159,8 +320,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest64bitFloat) {
                     player::SampleFormat::Encoding::floatEnc);
 }
 
-// getSampleSpecs test 22.05 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTest22kHzMonoExtensibleFormat) {
+// getSampleFormat test 22.05 kHz, 24bit signed, mono
+TEST_F(WavInputTest, getSampleFormatTest22kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm2422m.wav");
     player::WavInput input{filename};
@@ -175,8 +336,8 @@ TEST_F(WavInputTest, GetSampleSpecsTest22kHzMonoExtensibleFormat) {
                     player::SampleFormat::Encoding::signedEnc);
 }
 
-// getSampleSpecs test 44.1 kHz, 24bit signed, mono
-TEST_F(WavInputTest, GetSampleSpecsTestMono44kHzMonoExtensibleFormat) {
+// getSampleFormat test 44.1 kHz, 24bit signed, mono
+TEST_F(WavInputTest, getSampleFormatTestMono44kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
     player::WavInput input{filename};
@@ -234,14 +395,24 @@ TEST_F(WavInputTest, GetDurationTestFloatStereo) {
     EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
 }
 
-// getDuration signed, 44.1 kHz, mono, small duration
-TEST_F(WavInputTest, GetDurationTest44kHzMonoSmall) {
+// getDuration signed, 44.1 kHz, mono
+TEST_F(WavInputTest, GetDurationTest44kHzMono) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
     player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 0.1, durationErrorMargin);
+}
+
+// getDuration signed, 44.1 kHz, mono
+TEST_F(WavInputTest, GetDurationTestSmall) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("testShort.wav");
+    player::WavInput input{filename};
+
+    // Test the duration of input
+    EXPECT_NEAR(input.getDuration(), 0.0, durationErrorMargin);
 }
 
 
