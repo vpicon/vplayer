@@ -35,6 +35,8 @@ public:
     /**
      * Given a time position between 0 and the duration of the Input track, sets
      * the position of the input reading to that of the seconds.
+     * If the given position is larger than the duration of the track, sets the 
+     * position to end of input data.
      */
     virtual void seek(double seconds) = 0;
 

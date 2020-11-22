@@ -33,7 +33,10 @@ class WavInput : public Input {
      * TODO: Class invariants
      */
 public:
-    WavInput(const std::string& filename);
+    /**
+     * Constructs a new Input object, reading data into buffer.
+     */
+    WavInput(const std::string& filename, Buffer& buffer);
 
     ~WavInput() {}
 
@@ -56,6 +59,8 @@ private:
     std::string _filename;
     std::ifstream _file;
 
+    Buffer& _buffer;
+
     SampleFormat _sampleFormat;
 
     std::streampos _dataPosition;  // Starting position of the PCM data 
@@ -68,6 +73,8 @@ private:
         waveFormatMulaw      = 0x0007,
         waveFormatExtensible = 0xFFFE,
     };
+
+    bool _eof;
 
     // HELPER METHODS
 
