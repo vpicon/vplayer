@@ -41,7 +41,6 @@ WavInput::WavInput(const std::string& filename, Buffer& buffer)
 
 
 
-// TODO: is a stub.
 size_t WavInput::read(Buffer::Position writePos) {
     // Check valid write position
     if (writePos.size() == 0 || writePos.toPointer() == nullptr)
@@ -71,9 +70,8 @@ void WavInput::seek(double seconds) {
 
 
 
-// TODO: is a stub.
 bool WavInput::reachedEOF() const {
-    return false;
+    return _eof;
 }
 
 
