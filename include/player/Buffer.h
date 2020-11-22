@@ -174,9 +174,9 @@ private:
     const size_t _minWriteSize; 
     size_t _dataAlign; 
 
-    int _writeChunk = 0;
-    int _readChunk  = 0;
-    int _fullChunks  = 0;
+    size_t _writeChunk = 0;
+    size_t _readChunk  = 0;
+    size_t _fullChunks  = 0;
 
     std::vector<Chunk> _buffer;
 

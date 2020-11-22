@@ -122,7 +122,8 @@ void consumer(player::Buffer& buf, const std::vector<char>& outData) {
  * the given read position.
  */
 bool compareReadData(player::Buffer::Position readPos, 
-                     std::vector<char> data) {
+                     std::vector<char> data) 
+{
     char *p = readPos.toPointer();  // pointer to the data
     for (size_t i = 0; i < data.size(); i++) {
         if (p[i] != data[i])
@@ -605,5 +606,5 @@ TEST_F(BufferTest, ProducerConsumerConcurrentMoreDataThanBuffer) {
 }
 
 
-}  // namespace buffer_test
 
+}  // namespace buffer_test

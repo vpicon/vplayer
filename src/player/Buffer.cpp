@@ -42,9 +42,10 @@ Buffer::Position Buffer::getWritePosition() {
     Chunk& chunk = _buffer[_writeChunk]; 
 
     // Return read position
-    size_t available = _chunkSize - chunk.w;  // Available space to write
+    size_t size = ((_writeChunk + 1) % _numChunks != _readChunk) ? 
+                    _chunkSize - chunk.w : 0;
 
-    return Position {chunk, chunk.w, available};
+    return Position {chunk, chunk.w, size};
 }
 
 
