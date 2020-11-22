@@ -68,8 +68,7 @@ void producer(player::Buffer& buf, const std::vector<char>& inData) {
         player::Buffer::Position wPos = buf.getWritePosition();        
         if (wPos.size() == 0u) {  // Wait for the buffer to empty
             std::this_thread::sleep_for(std::chrono::milliseconds {1});
-            return;
-            // TODO: continue
+            continue;
         }
 
         // Write wPos.size() bytes from inData to the buffer
@@ -97,8 +96,7 @@ void consumer(player::Buffer& buf, const std::vector<char>& outData) {
         player::Buffer::Position rPos = buf.getReadPosition();        
         if (rPos.size() == 0u) {  // Wait for the buffer to empty
             std::this_thread::sleep_for(std::chrono::milliseconds {1});
-            return;
-            // TODO: continue
+            continue;
         }
 
         // Write wPos.size() bytes from in_data to the buffer
