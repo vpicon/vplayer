@@ -21,9 +21,10 @@ namespace player {
 
 
 // TODO: define specific error types
-WavInput::WavInput(const std::string& filename)
+WavInput::WavInput(const std::string& filename, Buffer& buffer)
     : _filename{filename},
-      _file{filename, std::ios_base::binary | std::ios_base::in}
+      _file{filename, std::ios_base::binary | std::ios_base::in},
+      _buffer{buffer}
 {
     if (!_file)      
         throw std::runtime_error("Could not open file: " + filename);  
@@ -42,7 +43,23 @@ WavInput::WavInput(const std::string& filename)
 
 // TODO: is a stub.
 size_t WavInput::read(Buffer::Position writePos) {
-    return writePos.size();
+    // Check valid write position
+    if (writePos.size() == 0 || writePos.toPointer() == nullptr)
+        return 0;
+
+    // Read from file to writePosition
+    _file.read(writePos.toPointer(), writePos.size());
+
+    // Check amount of bytes read and possible errors
+    size_t nread = _file.gcount();
+    if (_file.eof())
+        _eof = true;
+
+    // Mark buffer as written
+    _buffer.markWritten(nread);
+
+    // Return number of characters read
+    return nread;
 }
 
 
