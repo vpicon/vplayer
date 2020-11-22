@@ -78,6 +78,7 @@ void Buffer::reset() {
     // Reset buffer state
     _writeChunk = 0;
     _readChunk  = 0;
+    _fullChunks = 0;
 }
 
 
@@ -99,6 +100,7 @@ void Buffer::markRead(size_t n) {
         chunk.r    = 0;
         chunk.w    = 0;
 
+        _fullChunks--;
         // Point to next chunk for reading
         _readChunk = (_readChunk + 1) % _numChunks;
     }
@@ -120,6 +122,7 @@ void Buffer::markWritten(size_t n) {
     if (chunk.w > _chunkSize - _minWriteSize) {
         // Set chunk as full and point to next chunk
         chunk.full = true;
+        _fullChunks++;
         _writeChunk = (_writeChunk + 1) % _numChunks;
     }
 }
