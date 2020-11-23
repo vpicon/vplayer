@@ -23,7 +23,7 @@ public:
     enum class Status { consuming, paused, stopped, unloaded };
 
     Consumer(Buffer& buffer): _buffer{buffer} {}
-    ~Player() {}
+    ~Consumer() {}
 
     void consume();
     void pause();
@@ -36,7 +36,7 @@ public:
 
 private:
     Buffer& _buffer;
-    Status  _status;
+    Status  _status = Status::unloaded;
 };
 
 

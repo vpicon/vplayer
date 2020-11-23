@@ -37,6 +37,8 @@ private:
     Buffer   _buffer;
     Producer _producer;
     Consumer _consumer;
+    
+    Status _status = Status::stopped;
 };
 
 

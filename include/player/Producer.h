@@ -10,6 +10,10 @@
 #ifndef _VPLAYER_PRODUCER_H
 #define _VPLAYER_PRODUCER_H
 
+#include "Buffer.h"
+
+#include <memory>
+#include <string>
 
 
 namespace player {
@@ -19,21 +23,31 @@ class Producer {
 public:
     enum class Status { consuming, paused, stopped, unloaded };
 
-    Consumer(Buffer& buffer): _buffer{buffer} {}
-    ~Player() {}
+    Producer(Buffer& buffer);
+    ~Producer() {}
+
 
     void consume();
+
     void pause();
+
     void stop();
 
-    Status getStatus();
-    void setStatus(Status s) { _status{s}; }
 
-    void setTrack();
+    inline Status getStatus() { return _status; }
+
+    inline void setStatus(Status s) { _status = s; }
+
+
+    void setTrack(std::string filename);
+
+        
 
 private:
     Buffer& _buffer;
-    Status  _status;
+    Status  _status = Status::unloaded;
+
+    std::unique_ptr<Input> _input;
 };
 
 
