@@ -102,7 +102,7 @@ protected:
     
     size_t numChunks    = 100; 
     size_t chunkSize    = 1000; 
-    size_t minWriteSize = 1; 
+    size_t minWriteSize = 100; 
     player::Buffer buffer{numChunks, chunkSize, minWriteSize};
 };
 
@@ -285,7 +285,7 @@ TEST_F(WavInputTest, seekFromEndToStart) {
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
     ASSERT_TRUE(n > 0u);
-    std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 8);
 
     // PCM data, obtained with hexdump (first 16 bytes of PCMdata)
     std::vector<uint8_t> data {0x00, 0xfb, 0x0c, 0x83, 0x1f, 0x0c, 0x0d, 0xc8};
@@ -305,11 +305,11 @@ TEST_F(WavInputTest, seekFromStartToMiddle) {
 
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
-    ASSERT_TRUE(n > 0u);
-    std::vector<char> v = writeToVector(buffer.getReadPosition(), 6);
+    EXPECT_TRUE(n > 0u);
+    std::vector<char> v = writeToVector(buffer.getReadPosition(), 4);
 
     // PCM data, obtained with hexdump 
-    std::vector<uint8_t> data {0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
+    std::vector<uint8_t> data {0x05, 0x06, 0x07, 0x08};
     std::vector<char> actualPCMData = hexToCharVec(data);
 
     EXPECT_EQ(v, actualPCMData);
