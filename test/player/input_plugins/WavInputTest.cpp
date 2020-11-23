@@ -252,6 +252,9 @@ TEST_F(WavInputTest, seekFromMiddleToStart) {
     size_t m = input.read(buffer.getWritePosition());
     ASSERT_TRUE(m > 0u);
 
+    // Consume read data
+    buffer.markRead(buffer.getReadPosition().size());
+
     // Seek back to the initial position
     input.seek(0.0);
 
@@ -278,6 +281,9 @@ TEST_F(WavInputTest, seekFromEndToStart) {
     size_t m = input.read(buffer.getWritePosition());
     ASSERT_TRUE(m > 0u);
     ASSERT_TRUE(input.reachedEOF());
+
+    // Consume read data
+    buffer.markRead(buffer.getReadPosition().size());
 
     // Seek back to the initial position
     input.seek(0.0);
