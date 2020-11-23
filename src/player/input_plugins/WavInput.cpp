@@ -63,9 +63,29 @@ size_t WavInput::read(Buffer::Position writePos) {
 
 
 
-// TODO: is a stub.
 void WavInput::seek(double seconds) {
-    seconds = 0;
+    // Get bytes in a second and bytes in a frame 
+    int byteRate = _sampleFormat.getBitrate()/8;
+    int frameSize = _sampleFormat.getBitDepth() * _sampleFormat.getNumChannels() / 8;
+    
+    // Calculates number of bytes of data in seconds given
+    int totalBytes = static_cast<int>(seconds * byteRate);
+    int bytesOffset = totalBytes - (totalBytes % frameSize); // align position after seek to a frame
+    
+    // Seek file stream to offset
+    if (static_cast<size_t>(bytesOffset) > _dataSize) {
+        bytesOffset = _dataSize + 1;
+        _eof = true;
+    } else {
+        _eof = false;
+        if (bytesOffset < 0) 
+            bytesOffset = 0;
+    } 
+
+    std::streampos newPosition = _dataPosition + bytesOffset;
+
+    _file.clear();
+    _file.seekg(newPosition);
 }
 
 

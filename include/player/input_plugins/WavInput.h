@@ -63,7 +63,7 @@ private:
 
     SampleFormat _sampleFormat;
 
-    std::streampos _dataPosition;  // Starting position of the PCM data 
+    std::streamoff _dataPosition;  // Starting position of the PCM data 
     size_t _dataSize;              // Number of bytes of PCM data
 
     enum FormatCode {
