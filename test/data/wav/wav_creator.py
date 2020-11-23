@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     # Sample Format
     sample_rate  = 1  # Frames per second
-    bit_depth    = 32 # Bits per sample
-    num_channels = 2  # Samples per second
+    bit_depth    = 16 # Bits per sample
+    num_channels = 1  # Channels
 
     createWAV(filename, data_arr, sample_rate, bit_depth, num_channels)

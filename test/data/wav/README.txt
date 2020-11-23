@@ -16,3 +16,7 @@ The following files were obtained at:
 http://mauvecloud.net/sounds/index.html
     pcm4410024bitmono.wav   :PCM 44.1 kHz, 24bit signed, Mono
     pcm2422m.wav            :PCM 22.05 kHz, 24bit signed, Mono
+
+The following wew created with wav_creator.py python program.
+    testOneFrameSecond.wav  :PCM 1 Hz, 16 bit signed, Mono
+    testShort.wav           :PCM 44.1 kHz, 32bit signed, Stereo.
