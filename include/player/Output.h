@@ -24,8 +24,15 @@ public:
     // Virtual destructor in polymorphic base classes 
     virtual ~Output();
 
-    // Virtual 
+    /**
+     * Opens a new output connection to a sink, to send data to.
+     */
+    virtual void open() = 0;
 
+    /**
+     * Closes an opened output connection to a sink.
+     */
+    virtual void close() = 0;
 
     /**
      * Given a position in a buffer (obtained by getReadPosition() from Buffer
@@ -37,13 +44,24 @@ public:
     virtual size_t write(Buffer::Position readPos) = 0;
 
     /**
-     * Gives sample specifications of input.
+     * Drops all data stored in output buffers.
      */
-    virtual int getSupportedFormats() const = 0;
+    virtual void drop() = 0;
 
-    virtual void play() = 0;
-
+    /**
+     * Pauses the playback of data in output.
+     */
     virtual void pause() = 0;
+
+    /**
+     * Resumes the playback of data in output.
+     */
+    virtual void unpause() = 0;
+
+    /**
+     * Gives amount of space available in the buffers at the output side.
+     */
+    virtual size_t outSpace() = 0;
 };
 
 
