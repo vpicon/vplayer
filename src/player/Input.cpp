@@ -17,7 +17,9 @@ namespace player {
  * Empty destructor in the base class Input, for when the destructor
  * is called from other derived classes' destructor.
  */
-Input::~Input() { }
+Input::~Input() 
+{
+}
 
 
 

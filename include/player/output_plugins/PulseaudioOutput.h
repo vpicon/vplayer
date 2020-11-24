@@ -29,7 +29,7 @@ public:
     size_t write(Buffer::Position readPos) override;
 
 
-    int getSupportedFormats const override;
+    int getSupportedFormats() const override;
 private:
     Buffer& _buffer;
 };

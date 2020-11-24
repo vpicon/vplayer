@@ -11,6 +11,7 @@
 #define _VPLAYER_PRODUCER_H
 
 #include "Buffer.h"
+#include "Input.h"
 
 #include <memory>
 #include <string>
