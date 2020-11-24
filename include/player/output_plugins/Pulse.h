@@ -24,7 +24,7 @@ extern "C" {
 
 
 int pulse_init();
-int pulse_open();
+int pulse_open(pa_sample_spec ss);
 int pulse_close();
 int pulse_exit();
 int pulse_write(const char *buf, int count);

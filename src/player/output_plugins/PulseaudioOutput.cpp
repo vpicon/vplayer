@@ -10,6 +10,11 @@
 #include "output_plugins/PulseaudioOutput.h"
 #include "output_plugins/Pulse.h"
 #include "Buffer.h"
+#include "SampleFormat.h"
+
+extern "C" {
+    #include <pulse/pulseaudio.h>
+}
 
 
 
@@ -37,54 +42,85 @@ PulseaudioOutput::~PulseaudioOutput()
 
 
 
-// TODO: is a stub
-void PulseaudioOutput::open() {
-    return;
+void PulseaudioOutput::open(SampleFormat sf) {
+    pa_sample_spec ss = toPulseSampleSpec(sf);
+    int rc = pulse_open(ss);
+    if (rc != 0) {
+        std::runtime_error("error opening");
+    }
 }
 
 
 
-// TODO: is a stub
 void PulseaudioOutput::close() {
-    return;
+    pulse_close();
 }
 
 
 
-// TODO: is a stub
 size_t PulseaudioOutput::write(Buffer::Position readPos) {
-    return 0;
+    if (readPos.toPointer() == nullptr || readPos.size() == 0)
+        return 0;
+    return pulse_write(readPos.toPointer(), readPos.size());
 }
 
 
 
-// TODO: is a stub
 void PulseaudioOutput::drop() {
-    return;
+    pulse_drop();
 }
 
 
 
-// TODO: is a stub
 void PulseaudioOutput::pause() {
-    return;
+    pulse_pause();
 }
 
 
 
-// TODO: is a stub
 void PulseaudioOutput::unpause() {
-    return;
+    pulse_unpause();
 }
 
 
 
-// TODO: is a stub
 size_t PulseaudioOutput::outSpace() {
-    return 0;
+    return pulse_buffer_space();
 }
 
 
+
+pa_sample_format_t PulseaudioOutput::toPulseSampleFormat(SampleFormat sf) const {
+    SampleFormat::Encoding enc = sf.getEncoding();
+    bool isBigEndian = sf.getEndian() == SampleFormat::Endian::big;
+    int bitDepth = sf.getBitDepth();
+
+    if (enc == SampleFormat::Encoding::unsignedEnc && bitDepth == 8)
+        return PA_SAMPLE_U8;
+
+    if (enc == SampleFormat::Encoding::signedEnc) {
+		if (bitDepth == 16)
+			return isBigEndian ? PA_SAMPLE_S16BE : PA_SAMPLE_S16LE;
+		if (bitDepth == 24)
+			return isBigEndian ? PA_SAMPLE_S24BE : PA_SAMPLE_S24LE;
+		if (bitDepth == 32)
+			return isBigEndian ? PA_SAMPLE_S32BE : PA_SAMPLE_S32LE;
+    }
+
+    return PA_SAMPLE_INVALID;   
+}
+
+
+
+pa_sample_spec PulseaudioOutput::toPulseSampleSpec(SampleFormat sf) const {
+    pa_sample_spec ss;
+
+    ss.format   = toPulseSampleFormat(sf);
+    ss.rate     = sf.getFrameRate();
+    ss.channels = sf.getNumChannels();
+
+    return ss;
+}
 
 
 

@@ -27,7 +27,7 @@ public:
     /**
      * Opens a new output connection to a sink, to send data to.
      */
-    virtual void open() = 0;
+    virtual void open(SampleFormat sf) = 0;
 
     /**
      * Closes an opened output connection to a sink.

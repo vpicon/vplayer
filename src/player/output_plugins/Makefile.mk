@@ -19,6 +19,8 @@ headers := $(wildcard ../../$(INCLUDE_DIR)/$(submodule)/*.h)
 # Compile each output plugin by itself (each has its own dependencies)
 
 # Pulseaudio
+pulseaudio: ../../../$(BIN_DIR)/$(submodule)/Pulse.o \
+	../../../$(BIN_DIR)/$(submodule)/PulseaudioOutput.o
 
 ../../../$(BIN_DIR)/$(submodule)/Pulse.o: Pulse.c $(headers)
 	$(CC) $(CFLAGS) $< -o $@ $(LDPULSE) -c

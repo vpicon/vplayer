@@ -14,6 +14,10 @@
 #include "Output.h"
 #include "Buffer.h"
 
+extern "C" {
+    #include <pulse/pulseaudio.h>
+}
+
 
 
 namespace player {
@@ -27,7 +31,7 @@ public:
     ~PulseaudioOutput();
 
 
-    void open() override;
+    void open(SampleFormat sf) override;
 
     void close() override;
 
@@ -46,6 +50,17 @@ public:
 
 private:
     Buffer& _buffer;
+
+    /**
+     * Given SampleFormat object, converts it to a pa_sample_format_t
+     * type.
+     */
+    pa_sample_format_t toPulseSampleFormat(SampleFormat sf) const;
+
+    /**
+     * Given SampleFormat object returns a pa_sample_spec type 
+     */
+    pa_sample_spec toPulseSampleSpec(SampleFormat sf) const;
 };
 
 

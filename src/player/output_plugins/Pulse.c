@@ -356,29 +356,30 @@ int pulse_init() {
  * stream object conecting it to an input sink.
  * On error returns -1, otherwise return 0.
  */
-int pulse_open(/*sample_format_t sf, const channel_position_t *channel_map*/) {
+int pulse_open(pa_sample_spec ss) {
 	int	rc;
 
+    /*
 	const pa_sample_spec ss = { // TODO
-		.format		= _pa_sample_format(/* sf */),
-		.rate		= 44100, /* sf_get_rate(sf), */
-		.channels	= 2 /* sf_get_channels(sf) */
+		.format		= _pa_sample_format(sf),
+		.rate		= sf_get_rate(sf),
+		.channels	= sf_get_channels(sf)
 	};
+    */
 
 	if (!pa_sample_spec_valid(&ss))
 		return -1; /* -OP_ERROR_SAMPLE_FORMAT; */
 
-	pa_ss = ss;
-	if (1 /* channel_map != NULL && channel_map_valid(channel_map) */) {
-        /*
+	/* pa_ss = ss; */
+    /*
+	if (channel_map != NULL && channel_map_valid(channel_map)) {
 		pa_channel_map_init(&pa_cmap);
 		pa_cmap.channels = ss.channels;
 		for (i = 0; i < pa_cmap.channels; i++)
 			pa_cmap.map[i] = pulse_channel_position(channel_map[i]);
-        */
         pa_cmap.channels = ss.channels;
         pa_channel_map_init_stereo(&pa_cmap);
-	} else
+	} else */
 		pa_channel_map_init_auto(&pa_cmap, ss.channels, PA_CHANNEL_MAP_ALSA);
 
     /* Create a new context and connect it to server */
