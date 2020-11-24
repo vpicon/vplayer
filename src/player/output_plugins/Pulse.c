@@ -13,7 +13,7 @@
 #include <pulse/pulseaudio.h>
 #include <string.h>
 
-#include "Pulse.h"
+#include "output_plugins/Pulse.h"
 
 
 static pa_threaded_mainloop	*pa_ml;    /* Pointer to mainloop object */

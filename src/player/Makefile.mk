@@ -10,7 +10,7 @@ CXXFLAGS += $(addprefix -I,$(include_dirs))
 # Tracked Files
 sources := $(wildcard *.cpp)
 sources += $(wildcard  input_plugins/*.cpp)
-sources += $(wildcard output_plugins/*.cpp)
+# sources += $(wildcard output_plugins/*.cpp)
 
 headers := $(wildcard ../../$(INCLUDE_DIR)/$(module)/*.h)
 
@@ -18,8 +18,12 @@ objects := $(patsubst %.cpp,../../$(BIN_DIR)/$(module)/%.o,$(sources))
 
 
 # Targets
-.PHONY: all
-all: $(objects)
+.PHONY: all output_plugins
+all: $(objects) output_plugins
+
+output_plugins:
+	$(MAKE) -C $@ -f Makefile.mk
+
 
 .PHONY: clean
 clean: 

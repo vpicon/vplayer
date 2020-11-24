@@ -26,10 +26,24 @@ public:
 
     ~PulseaudioOutput();
 
+
+    void open() override;
+
+    void close() override;
+
+
     size_t write(Buffer::Position readPos) override;
 
+    void drop() override;
 
-    int getSupportedFormats() const override;
+
+    void pause() override;
+
+    void unpause() override; 
+
+
+    size_t outSpace() override;
+
 private:
     Buffer& _buffer;
 };
