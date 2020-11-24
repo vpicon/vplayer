@@ -1,0 +1,229 @@
+/**
+ * PulseaudioOutput.cpp
+ *
+ * Module: player
+ *
+ * Implements WavInput class interface.
+ *
+ */
+
+#include "output_plugins/PulseaudioOutput.h"
+#include "Buffer.h"
+
+
+
+
+namespace player {
+
+
+// TODO: define specific error types
+PulseaudioOutput::PulseaudioOutput(Buffer& buffer)
+    : _buffer{buffer}
+{
+}
+
+
+
+~PulseaudioOutput::PulseaudioOutput()
+{
+}
+
+
+
+size_t WavInput::read(Buffer::Position writePos) {
+    // Check valid write position
+    if (writePos.size() == 0 || writePos.toPointer() == nullptr)
+        return 0;
+
+    // Read from file to writePosition
+    _file.read(writePos.toPointer(), writePos.size());
+
+    // Check amount of bytes read and possible errors
+    size_t nread = _file.gcount();
+    if (_file.eof())
+        _eof = true;
+
+    // Mark buffer as written
+    _buffer.markWritten(nread);
+
+    // Return number of characters read
+    return nread;
+}
+
+
+
+void WavInput::seek(double seconds) {
+    // Get bytes in a second and bytes in a frame 
+    int byteRate = _sampleFormat.getBitrate()/8;
+    int frameSize = _sampleFormat.getBitDepth() * _sampleFormat.getNumChannels() / 8;
+    
+    // Calculates number of bytes of data in seconds given
+    int totalBytes = static_cast<int>(seconds * byteRate);
+    int bytesOffset = totalBytes - (totalBytes % frameSize); // align position after seek to a frame
+    
+    // Seek file stream to offset
+    if (static_cast<size_t>(bytesOffset) > _dataSize) {
+        bytesOffset = _dataSize + 1;
+        _eof = true;
+    } else {
+        _eof = false;
+        if (bytesOffset < 0) 
+            bytesOffset = 0;
+    } 
+
+    std::streampos newPosition = _dataPosition + bytesOffset;
+
+    _file.clear();
+    _file.seekg(newPosition);
+}
+
+
+
+bool WavInput::reachedEOF() const {
+    return _eof;
+}
+
+
+
+double WavInput::getDuration() const {
+    return (8.0 * _dataSize) / _sampleFormat.getBitrate();
+}
+
+
+
+bool WavInput::readRIFFChunk() {
+    char buf[4];
+
+    // Read RIFF
+    _file.read(buf, 4); 
+    if (!_file || std::string {buf} != "RIFF")
+        return false;
+
+    // Read file size
+    uint32_t size = readLE32(_file);
+    if (!_file)
+        return false;
+    size += 8;
+    // TODO: record some form of error checking with 
+    // size = fmtsize + datasize + const
+
+
+    // Read WAVE
+    _file.read(buf, 4); 
+    if (!_file || std::string {buf} != "WAVE")
+        return false;
+
+    // RIFF Header Chunk read successfully
+    return true;
+}
+
+
+
+bool WavInput::readFormatChunk() {  // TODO: refactor code
+    char buf[4];
+
+    // Read fmt 
+    _file.read(buf, 4); 
+    if (!_file || std::string {buf} != "fmt ")
+        return false;
+
+    // Read format chunk size
+    uint32_t size = readLE32(_file);
+    if (!_file || size != 16)  // TODO: Add support for other subformats 
+        return false;
+
+    // Read format code
+    uint16_t formatCode = readLE16(_file);
+    if (!_file || formatCode != FormatCode::waveFormatPCM) // TODO: add support for other types, such as float
+        return false; 
+
+    // Read num channels
+    uint16_t numChannels = readLE16(_file);
+    if (!_file || (numChannels != 1 && numChannels != 2)) // TODO: add support for more channels
+        return false; 
+
+    // Read sampling rate
+    uint32_t frameRate = readLE32(_file);
+    if (!_file)
+        return false; 
+
+    // Read data rate
+    uint32_t byteRate = readLE32(_file);
+    if (!_file)
+        return false; 
+
+    // Read block align 
+    uint16_t blockSize = readLE16(_file);
+    if (!_file)
+        return false; 
+
+    if (byteRate != blockSize * frameRate)  // TODO: make strategy for assuring invariants
+        return false;
+
+    // Read bit depth 
+    uint16_t bitDepth = readLE16(_file);
+    if (!_file)
+        return false; 
+
+    // Set sample format of WavInput object
+    
+    // Wav is unsigned only for bitdepths of 1 to 8
+    SampleFormat::Encoding enc = (bitDepth == 8) ?            
+                                  SampleFormat::Encoding::unsignedEnc : 
+                                  SampleFormat::Encoding::signedEnc;
+    // Wav is always little endian
+    SampleFormat::Endian endian = SampleFormat::Endian::little;
+
+    _sampleFormat = SampleFormat {static_cast<int>(frameRate),
+                                  static_cast<int>(bitDepth),
+                                  static_cast<int>(numChannels),
+                                  endian,
+                                  enc};
+
+    // Format chunk read successfully
+    return true;
+}
+
+
+
+bool WavInput::readDataChunkHeader() {
+    char buf[4];
+
+    // Read RIFF
+    _file.read(buf, 4); 
+    if (!_file || std::string {buf} != "data")
+        return false;
+
+    // Read data size
+    uint32_t size = readLE32(_file);
+    if (!_file)
+        return false;
+    _dataSize = size;
+
+    // Keep starting position of PCM data
+    _dataPosition = _file.tellg(); 
+    
+    // Data chunk header read successfully
+    return true;
+}
+
+
+
+uint16_t WavInput::readLE16(std::istream& is) {
+    uint16_t data;
+    is.read(reinterpret_cast<char *>(&data), 2);
+    return data;
+}
+
+
+
+uint32_t WavInput::readLE32(std::istream& is) {
+    uint32_t data;
+    is.read(reinterpret_cast<char *>(&data), 4);
+    return data;
+}
+
+
+
+
+}  // namespace player
