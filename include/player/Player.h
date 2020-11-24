@@ -24,7 +24,7 @@ class Player {
 public:
     enum class Status { playing, paused, stopped };
 
-    Player() {}
+    Player();
     ~Player() {}
 
     void play();

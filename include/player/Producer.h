@@ -22,7 +22,7 @@ namespace player {
 
 class Producer {
 public:
-    enum class Status { consuming, paused, stopped, unloaded };
+    enum class Status { producing, paused, stopped, unloaded };
 
     Producer(Buffer& buffer);
     ~Producer() {}
@@ -41,7 +41,6 @@ public:
 
 
     void setTrack(std::string filename);
-
         
 
 private:

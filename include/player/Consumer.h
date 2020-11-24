@@ -30,7 +30,7 @@ public:
     void stop();
 
     Status getStatus();
-    void setStatus(Status s) { _status{s}; }
+    void setStatus(Status s) { _status = s; }
 
     void setTrack();
 
