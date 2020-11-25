@@ -20,7 +20,7 @@ namespace player {
 
 class Consumer {
 public:
-    enum class Status { consuming, paused, stopped, unloaded };
+    enum class Status { consuming, paused, stopped, unloaded, exit };
 
     Consumer(Buffer& buffer): _buffer{buffer} {}
     ~Consumer() {}

@@ -22,13 +22,17 @@ namespace player {
 
 class Producer {
 public:
-    enum class Status { producing, paused, stopped, unloaded };
+    enum class Status { producing, paused, stopped, unloaded, exit };
 
     Producer(Buffer& buffer);
     ~Producer() {}
 
 
-    void consume();
+    /**
+     * Sets the status to produce, for the class to main loop to start
+     * producing data.
+     */
+    void produce();
 
     void pause();
 
@@ -45,7 +49,7 @@ public:
 
 private:
     Buffer& _buffer;
-    Status  _status = Status::unloaded;
+    Status  _status {Status::unloaded};
 
     std::unique_ptr<Input> _input;
 };
