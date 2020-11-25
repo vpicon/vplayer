@@ -55,9 +55,6 @@ size_t WavInput::read(Buffer::Position writePos) {
     if (_file.eof())
         _eof = true;
 
-    // Mark buffer as written
-    _buffer.markWritten(nread);
-
     // Return number of characters read
     return nread;
 }

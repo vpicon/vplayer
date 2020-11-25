@@ -28,6 +28,7 @@ public:
      * Given a position in a buffer (obtained by getWritePosition() from Buffer
      * class), it reads data from input as much as it fits in the write position.
      * The function returns the actual number of bytes written to the buffer.
+     * The buffer then has to be mark as written the amount of bytes written.
      */
     virtual size_t read(Buffer::Position writePos) = 0;
 
