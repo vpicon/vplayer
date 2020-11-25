@@ -15,18 +15,34 @@
 
 #include <memory>
 #include <string>
+#include <mutex>
+#include <condition_variable>
 
 
 namespace player {
 
 
 class Producer {
+    /**
+     * Class Producer responsible to create audio data and storing it
+     * in the buffer (for the Consumer to use it for playback).
+     * Class invariants:
+     *       _input points to a vaild Input Object iff _status is 
+     *          producing, paused or stopped.
+     *       if _status is stopped, then the _buffer is empty (reseted)
+     */
 public:
     enum class Status { producing, paused, stopped, unloaded, exit };
 
     Producer(Buffer& buffer);
-    ~Producer() {}
 
+    ~Producer();
+
+    /**
+     * Sets a new track to be played.
+     */
+    void setTrack(std::string filename);
+        
 
     /**
      * Sets the status to produce, for the class to main loop to start
@@ -34,24 +50,42 @@ public:
      */
     void produce();
 
+    /**
+     * Sets the status to paused, for the class to main loop to pause
+     * producing data.
+     */
     void pause();
 
+    /**
+     * Sets the status to stop, for the class to main loop to stop
+     * producing data.
+     */
     void stop();
 
 
-    inline Status getStatus() { return _status; }
-
-    inline void setStatus(Status s) { _status = s; }
+    Status getStatus() { return _status; }
 
 
-    void setTrack(std::string filename);
-        
+    /**
+     * Main loop of the Producer run in a separate thread.
+     */
+    void run();
 
 private:
     Buffer& _buffer;
-    Status  _status {Status::unloaded};
+    Status  _status;
 
     std::unique_ptr<Input> _input;
+
+    std::mutex _prodMutex;
+    std::condition_variable _prodStateCV;
+
+
+    /**
+     * Changes the status of this producer object and signals other
+     * waiting threads that the state changed.
+     */
+    void setStatus(Status s);
 };
 
 
