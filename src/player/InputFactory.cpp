@@ -16,14 +16,12 @@ namespace player {
 
 
 
-std::unique_ptr<Input> InputFactory::create(std::string filename, 
-                                            Buffer& buffer) 
-{
+std::unique_ptr<Input> InputFactory::create(std::string filename) {
     std::unique_ptr<Input> inputPtr;
 
     std::string ext = InputFactory::getExtension(filename);
     if (ext == "wav") 
-        inputPtr.reset(new WavInput{filename, buffer});
+        inputPtr.reset(new WavInput{filename});
 
     return inputPtr;
 }

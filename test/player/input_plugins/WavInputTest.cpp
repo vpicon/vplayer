@@ -123,7 +123,7 @@ protected:
 TEST_F(WavInputTest, readEmptyBuffer) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
@@ -153,7 +153,7 @@ TEST_F(WavInputTest, readEmptyBuffer) {
 TEST_F(WavInputTest, readFullBuffer) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Fill buffer
     ASSERT_TRUE(writeToBuffer(buffer, std::vector<char> (numChunks * chunkSize)));
@@ -172,7 +172,7 @@ TEST_F(WavInputTest, readFullBuffer) {
 TEST_F(WavInputTest, readLessDataThanBufferSize) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
@@ -201,7 +201,7 @@ TEST_F(WavInputTest, readLessDataThanBufferSize) {
 TEST_F(WavInputTest, readNoData) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
@@ -228,7 +228,7 @@ TEST_F(WavInputTest, readNoData) {
 TEST_F(WavInputTest, seekFromStartToStart) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Seek to the initial position
     input.seek(0.0);
@@ -251,7 +251,7 @@ TEST_F(WavInputTest, seekFromStartToStart) {
 TEST_F(WavInputTest, seekFromMiddleToStart) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Read some data from input
     size_t m = input.read(buffer.getWritePosition());
@@ -282,7 +282,7 @@ TEST_F(WavInputTest, seekFromMiddleToStart) {
 TEST_F(WavInputTest, seekFromEndToStart) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Read some data from input
     size_t m = input.read(buffer.getWritePosition());
@@ -312,7 +312,7 @@ TEST_F(WavInputTest, seekFromEndToStart) {
 TEST_F(WavInputTest, seekFromStartToMiddle) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testOneFrameSecond.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Seek back to the initial position
     input.seek(2.0);
@@ -334,7 +334,7 @@ TEST_F(WavInputTest, seekFromStartToMiddle) {
 TEST_F(WavInputTest, seekFromStartToEnd) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int32-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Seek back to the initial position
     input.seek(input.getDuration() + 1);
@@ -353,7 +353,7 @@ TEST_F(WavInputTest, seekFromStartToEnd) {
 TEST_F(WavInputTest, reachedEOFWhileReading) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
     
     // Check EOF is false
     EXPECT_FALSE(input.reachedEOF());
@@ -371,7 +371,7 @@ TEST_F(WavInputTest, reachedEOFWhileReading) {
 TEST_F(WavInputTest, reachedEOFWhileSeeking) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
     
     // Check EOF is false
     EXPECT_FALSE(input.reachedEOF());
@@ -396,7 +396,7 @@ TEST_F(WavInputTest, reachedEOFWhileSeeking) {
 TEST_F(WavInputTest, getSampleFormatTest8bitUnsigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-uint8-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -412,7 +412,7 @@ TEST_F(WavInputTest, getSampleFormatTest8bitUnsigned) {
 TEST_F(WavInputTest, getSampleFormatTest16bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -428,7 +428,7 @@ TEST_F(WavInputTest, getSampleFormatTest16bitSigned) {
 TEST_F(WavInputTest, getSampleFormatTest24bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int24-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -444,7 +444,7 @@ TEST_F(WavInputTest, getSampleFormatTest24bitSigned) {
 TEST_F(WavInputTest, getSampleFormatTest32bitSigned) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int32-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -460,7 +460,7 @@ TEST_F(WavInputTest, getSampleFormatTest32bitSigned) {
 TEST_F(WavInputTest, getSampleFormatTest32bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float32-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -476,7 +476,7 @@ TEST_F(WavInputTest, getSampleFormatTest32bitFloat) {
 TEST_F(WavInputTest, getSampleFormatTest64bitFloat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float64-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -492,7 +492,7 @@ TEST_F(WavInputTest, getSampleFormatTest64bitFloat) {
 TEST_F(WavInputTest, getSampleFormatTest22kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm2422m.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -508,7 +508,7 @@ TEST_F(WavInputTest, getSampleFormatTest22kHzMonoExtensibleFormat) {
 TEST_F(WavInputTest, getSampleFormatTestMono44kHzMonoExtensibleFormat) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
 
     // Test Sample Format were correctly obtained
@@ -537,7 +537,7 @@ TEST_F(WavInputTest, getSampleFormatTestMono44kHzMonoExtensibleFormat) {
 TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-uint8-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
@@ -547,7 +547,7 @@ TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
 TEST_F(WavInputTest, GetDurationTestSignedStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int24-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
@@ -557,7 +557,7 @@ TEST_F(WavInputTest, GetDurationTestSignedStereo) {
 TEST_F(WavInputTest, GetDurationTestFloatStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float32-AFsp.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
@@ -567,7 +567,7 @@ TEST_F(WavInputTest, GetDurationTestFloatStereo) {
 TEST_F(WavInputTest, GetDurationTest44kHzMono) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 0.1, durationErrorMargin);
@@ -577,7 +577,7 @@ TEST_F(WavInputTest, GetDurationTest44kHzMono) {
 TEST_F(WavInputTest, GetDurationTestSmall) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 0.0, durationErrorMargin);

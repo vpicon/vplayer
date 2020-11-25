@@ -22,10 +22,9 @@ namespace player {
 
 // TODO: change order buffer filename
 // TODO: define specific error types
-WavInput::WavInput(const std::string& filename, Buffer& buffer)
+WavInput::WavInput(const std::string& filename)
     : _filename{filename},
-      _file{filename, std::ios_base::binary | std::ios_base::in},
-      _buffer{buffer}
+      _file{filename, std::ios_base::binary | std::ios_base::in}
 {
     if (!_file)      
         throw std::runtime_error("Could not open file: " + filename);  

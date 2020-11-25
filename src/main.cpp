@@ -13,6 +13,7 @@ void producer(player::WavInput& input, player::Buffer& buffer) {
     while (true) {
         player::Buffer::Position wPos = buffer.getWritePosition();
         size_t n = input.read(wPos);
+        buffer.markWritten(n);
 
         if (n == 0) {
             if (input.reachedEOF()) {

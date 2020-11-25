@@ -36,7 +36,7 @@ public:
     /**
      * Constructs a new Input object, reading data into buffer.
      */
-    WavInput(const std::string& filename, Buffer& buffer);
+    WavInput(const std::string& filename);
 
     ~WavInput() {}
 
@@ -58,8 +58,6 @@ public:
 private:
     std::string _filename;
     std::ifstream _file;
-
-    Buffer& _buffer;
 
     SampleFormat _sampleFormat;
 

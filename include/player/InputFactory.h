@@ -24,7 +24,7 @@ namespace player {
 
 class InputFactory {
 public:
-    static std::unique_ptr<Input> create(std::string filename, Buffer& buffer);
+    static std::unique_ptr<Input> create(std::string filename);
 
     static std::string getExtension(std::string filename);
 };
