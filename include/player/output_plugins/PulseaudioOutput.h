@@ -26,7 +26,7 @@ namespace player {
 
 class PulseaudioOutput : public Output {
 public:
-    PulseaudioOutput(Buffer& buffer);
+    PulseaudioOutput();
 
     ~PulseaudioOutput();
 
@@ -49,18 +49,16 @@ public:
     size_t outSpace() override;
 
 private:
-    Buffer& _buffer;
-
     /**
      * Given SampleFormat object, converts it to a pa_sample_format_t
      * type.
      */
-    pa_sample_format_t toPulseSampleFormat(SampleFormat sf) const;
+    pa_sample_format_t toPulseSampleFormat(const SampleFormat& sf) const;
 
     /**
-     * Given SampleFormat object returns a pa_sample_spec type 
+     * Given SampleFormat object returns a pa_sample_spec type.
      */
-    pa_sample_spec toPulseSampleSpec(SampleFormat sf) const;
+    pa_sample_spec toPulseSampleSpec(const SampleFormat& sf) const;
 };
 
 

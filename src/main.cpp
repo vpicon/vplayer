@@ -51,9 +51,9 @@ int main(int argc, char *argv[]) {
     player::Buffer buffer {144, 24576, 1024};
 
     std::string filename {argv[1]};
-    player::WavInput input{filename, buffer};
+    player::WavInput input{filename};
 
-    player::PulseaudioOutput output {buffer};
+    player::PulseaudioOutput output{};
     output.open(input.getSampleFormat());
 
     /* Create consumer and producer threads */

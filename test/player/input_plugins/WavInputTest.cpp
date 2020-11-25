@@ -1,9 +1,9 @@
 /** 
- * BufferTest.cpp
+ * WavInputTest.cpp
  *
  * Module: test/player
  *
- * Unit tests of the Buffer class.
+ * Unit tests of the WavInput class.
  *
  */
 

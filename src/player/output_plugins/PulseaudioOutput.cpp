@@ -23,9 +23,7 @@ namespace player {
     
 
 // TODO: define specific error types
-PulseaudioOutput::PulseaudioOutput(Buffer& buffer)
-    : _buffer{buffer}
-{
+PulseaudioOutput::PulseaudioOutput() {
     if (pulse_init() != 0) {
         std::runtime_error("Could not initialize pulseaudio.");
     }
@@ -33,8 +31,7 @@ PulseaudioOutput::PulseaudioOutput(Buffer& buffer)
 
 
 
-PulseaudioOutput::~PulseaudioOutput()
-{
+PulseaudioOutput::~PulseaudioOutput() {
     if (pulse_exit() != 0) {
         std::runtime_error("Could not exit pulseaudio.");
     }
@@ -90,7 +87,7 @@ size_t PulseaudioOutput::outSpace() {
 
 
 
-pa_sample_format_t PulseaudioOutput::toPulseSampleFormat(SampleFormat sf) const {
+pa_sample_format_t PulseaudioOutput::toPulseSampleFormat(const SampleFormat& sf) const {
     SampleFormat::Encoding enc = sf.getEncoding();
     bool isBigEndian = sf.getEndian() == SampleFormat::Endian::big;
     int bitDepth = sf.getBitDepth();
@@ -112,7 +109,7 @@ pa_sample_format_t PulseaudioOutput::toPulseSampleFormat(SampleFormat sf) const 
 
 
 
-pa_sample_spec PulseaudioOutput::toPulseSampleSpec(SampleFormat sf) const {
+pa_sample_spec PulseaudioOutput::toPulseSampleSpec(const SampleFormat& sf) const {
     pa_sample_spec ss;
 
     ss.format   = toPulseSampleFormat(sf);
