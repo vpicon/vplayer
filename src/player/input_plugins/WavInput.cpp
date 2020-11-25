@@ -20,6 +20,7 @@
 namespace player {
 
 
+// TODO: change order buffer filename
 // TODO: define specific error types
 WavInput::WavInput(const std::string& filename, Buffer& buffer)
     : _filename{filename},

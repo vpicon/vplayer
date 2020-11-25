@@ -13,7 +13,7 @@
 SHELL := /usr/bin/bash 
 CXX   := g++
 
-CXXFLAGS  = -Wall -Werror -Wshadow -pedantic 
+CXXFLAGS  = -Wall -Werror -Wshadow -pedantic -g
 CXXFLAGS += -std=c++17
 
 LDFLAGS :=
