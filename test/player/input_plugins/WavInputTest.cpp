@@ -128,6 +128,7 @@ TEST_F(WavInputTest, readEmptyBuffer) {
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
     size_t n = input.read(wPos);
+    buffer.markWritten(n);
 
     // Test amount of data read. Initially empty buffer, and sufficient data
     // should have read all data available at wPos.
@@ -160,6 +161,7 @@ TEST_F(WavInputTest, readFullBuffer) {
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
     size_t n = input.read(wPos);
+    buffer.markWritten(n);
 
     // Test amount of data read. Initially empty buffer, and sufficient data
     // should have read all data available at wPos.
@@ -175,6 +177,7 @@ TEST_F(WavInputTest, readLessDataThanBufferSize) {
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
     size_t n = input.read(wPos);
+    buffer.markWritten(n);
 
     // Test amount of data read. Initially empty buffer, and sufficient data
     // should have read all data available at wPos.
@@ -203,6 +206,7 @@ TEST_F(WavInputTest, readNoData) {
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
     size_t n = input.read(wPos);
+    buffer.markWritten(n);
     EXPECT_TRUE(n < wPos.size());
 
     // Try to read data from the file completely read
@@ -231,6 +235,7 @@ TEST_F(WavInputTest, seekFromStartToStart) {
 
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
+    buffer.markWritten(n);
     ASSERT_TRUE(n > 0u);
     std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
 
@@ -250,6 +255,7 @@ TEST_F(WavInputTest, seekFromMiddleToStart) {
 
     // Read some data from input
     size_t m = input.read(buffer.getWritePosition());
+    buffer.markWritten(m);
     ASSERT_TRUE(m > 0u);
 
     // Consume read data
@@ -260,6 +266,7 @@ TEST_F(WavInputTest, seekFromMiddleToStart) {
 
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
+    buffer.markWritten(n);
     ASSERT_TRUE(n > 0u);
     std::vector<char> v = writeToVector(buffer.getReadPosition(), 16);
 
@@ -290,6 +297,7 @@ TEST_F(WavInputTest, seekFromEndToStart) {
 
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
+    buffer.markWritten(n);
     ASSERT_TRUE(n > 0u);
     std::vector<char> v = writeToVector(buffer.getReadPosition(), 8);
 
@@ -311,6 +319,7 @@ TEST_F(WavInputTest, seekFromStartToMiddle) {
 
     // Read data from the new input position and check it is initial  data
     size_t n = input.read(buffer.getWritePosition());
+    buffer.markWritten(n);
     EXPECT_TRUE(n > 0u);
     std::vector<char> v = writeToVector(buffer.getReadPosition(), 4);
 
