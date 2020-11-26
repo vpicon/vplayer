@@ -65,9 +65,17 @@ void Producer::stop() {
 
 
 
+// TODO: is a stub
+void Producer::exit() {
+    setStatus(Status::exit);
+}
+
+
+
 // TODO: is a stub.
 void Producer::setTrack(std::string filename) {
-    // Acquire the producer lock
+    // Protect the input object from being accessed from
+    // two different threads.
     std::lock_guard<std::mutex> lck{_prodMutex};
 
     // Create a new input object (ptr) from filename

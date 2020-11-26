@@ -26,6 +26,7 @@ class Producer {
     /**
      * Class Producer responsible to create audio data and storing it
      * in the buffer (for the Consumer to use it for playback).
+     *
      * Class invariants:
      *       _input points to a vaild Input Object iff _status is 
      *          producing, paused or stopped.
@@ -62,11 +63,22 @@ public:
      */
     void stop();
 
+    /**
+     * Sets status to exit, for the producer thread to stop running.
+     */
+    void exit();
+
 
     /**
      * Obtain current status of Consumer.
      */
     Status getStatus() { return _status; }
+
+
+    /**
+     * Obtains the Sample Format of the currently loaded input object.
+     */
+    SampleFormat getCurrentSampleFormat() { return _input->getSampleFormat(); }
 
 
     /**
