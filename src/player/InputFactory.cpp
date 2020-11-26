@@ -11,6 +11,7 @@
 #include "input_plugins/WavInput.h"
 
 #include <string>
+#include <regex>
 
 namespace player {
 
@@ -29,8 +30,28 @@ std::unique_ptr<Input> InputFactory::create(std::string filename) {
 
 
 std::string InputFactory::getExtension(std::string filename) {
-    return filename;
+    std::string extension {};
+
+    std::smatch m {};
+    std::regex pattern {".+(\\.[[:alnum:]]+)$"};
+
+    if (std::regex_search(filename, m, pattern))
+        // Get the extension from submatch, without the dot (.)
+        extension = m[1].str().substr(1);
+
+    return (isSupportedExtension(extension)) ?
+            extension : 
+            "";
 }
+
+
+
+bool InputFactory::isSupportedExtension(std::string extension) {
+    std::set<std::string>::const_iterator it = supportedExtensions.find(extension); // TODO: put auto
+    
+    return it != supportedExtensions.end();
+}
+
 
 
 

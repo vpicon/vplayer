@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <string>
-#include <vector>
+#include <set>
 
 #include "Input.h"
 
@@ -37,15 +37,15 @@ public:
      */
     static std::string getExtension(std::string filename);
 
-    static const inline std::vector<std::string> supportedExtensions {"wav", 
-                                                                      "flac", 
-                                                                      "mp3"};
+    static const inline std::set<std::string> supportedExtensions {"wav", 
+                                                                   "flac", 
+                                                                   "mp3"};
 
 private:
     /**
      * Tells if the given extension is a supported extension.
      */
-    bool isSupportedExtension(std::string extension);
+    static bool isSupportedExtension(std::string extension);
 };
 
 
