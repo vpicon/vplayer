@@ -2,21 +2,25 @@
 #include <string>
 #include <thread>
 #include <chrono>
+#include <memory>
 
 #include "player/Buffer.h"
-#include "player/input_plugins/WavInput.h"
-#include "player/output_plugins/PulseaudioOutput.h"
+#include "player/Input.h"
+#include "player/InputFactory.h"
+#include "player/Output.h"
+#include "player/OutputFactory.h"
+
 
 bool ended = false;
 
-void producer(player::WavInput& input, player::Buffer& buffer) {
+void producer(player::Input *input, player::Buffer& buffer) {
     while (true) {
         player::Buffer::Position wPos = buffer.getWritePosition();
-        size_t n = input.read(wPos);
+        size_t n = input->read(wPos);
         buffer.markWritten(n);
 
         if (n == 0) {
-            if (input.reachedEOF()) {
+            if (input->reachedEOF()) {
                 ended = true;
                 return;
             }
@@ -26,13 +30,13 @@ void producer(player::WavInput& input, player::Buffer& buffer) {
     }
 }
 
-void consumer(player::PulseaudioOutput& output, player::Buffer& buffer) {
+void consumer(player::Output* output, player::Buffer& buffer) {
     while (true) {
         player::Buffer::Position rPos = buffer.getReadPosition();
-        size_t n = output.write(rPos);
+        size_t n = output->write(rPos);
         buffer.markRead(n);
 
-        if (n == 0) {
+        if (n == 0) {  // TODO: bad, output buffer may still be playing dat
             if (ended) 
                 return;
             std::this_thread::sleep_for(std::chrono::milliseconds {1});
@@ -51,20 +55,19 @@ int main(int argc, char *argv[]) {
     player::Buffer buffer {144, 24576, 1024};
 
     std::string filename {argv[1]};
-    player::WavInput input{filename};
+    std::unique_ptr<player::Input> input = player::InputFactory::create(filename);
 
-    player::PulseaudioOutput output{};
-    output.open(input.getSampleFormat());
+    std::unique_ptr<player::Output> output = player::OutputFactory::create();
+    output->open(input->getSampleFormat());
 
     /* Create consumer and producer threads */
-    std::thread producerThread {producer, std::ref(input), std::ref(buffer)};
-    std::thread consumerThread {consumer, std::ref(output), std::ref(buffer)};
+    std::thread producerThread {producer, input.get(),  std::ref(buffer)};
+    std::thread consumerThread {consumer, output.get(), std::ref(buffer)};
 
     /* Free all resources and terminate */
     producerThread.join();
     consumerThread.join();
-    std::cout << "here\n";
 
-    output.close();
+    output->close();
     return 0;
 }

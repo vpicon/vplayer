@@ -34,6 +34,12 @@ Buffer::Buffer(size_t numChunks, size_t chunkSize,
 
 
 
+Buffer::~Buffer()
+{
+}
+
+
+
 Buffer::Position Buffer::getWritePosition() {
     // Lock buffer mutex
     std::lock_guard<std::mutex> lck{_bufferMutex};

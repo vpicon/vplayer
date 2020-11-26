@@ -3,8 +3,8 @@
  *
  * Module: player
  *
- * Defines InputFactory class interface to create Input subclasses
- * of the Input interface.
+ * Defines InputFactory class interface to create Input subclass
+ * instances of the Input interface.
  * Uses the SimpleFactory pattern.
  *
  */

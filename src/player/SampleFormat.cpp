@@ -22,7 +22,16 @@ SampleFormat::SampleFormat(int frameRate,
       _bitDepth{bitDepth},
       _numChannels{numChannels},
       _endian{endian},
-      _enc{enc} {}
+      _enc{enc}
+{
+}
+
+
+
+SampleFormat::~SampleFormat()
+{
+}
+
 
 
 int SampleFormat::calculateBitrate(const int frameRate, 
@@ -33,9 +42,12 @@ int SampleFormat::calculateBitrate(const int frameRate,
 }
 
 
+
 int SampleFormat::getBitrate() const { 
     return SampleFormat::calculateBitrate(_frameRate, _bitDepth, _numChannels); 
 }
+
+
 
 
 }  // namespace player 

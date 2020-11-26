@@ -36,7 +36,7 @@ public:
                  Endian endian = Endian::little, 
                  Encoding enc = Encoding::signedEnc);
 
-    ~SampleFormat() {}
+    ~SampleFormat();
 
 
     // CLASS CONSTANTS AND METHODS

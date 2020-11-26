@@ -62,7 +62,7 @@ public:
      */
     Buffer(size_t numChunks,    size_t chunkSize, 
            size_t minWriteSize, size_t dataAlign = 1);
-    ~Buffer() {};
+    ~Buffer();
 
     Buffer& operator=(const Buffer&) = delete; // Disallow copy
     Buffer(const Buffer&)            = delete; // Disallow copy constructor
