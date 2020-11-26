@@ -24,6 +24,15 @@ namespace player {
 
 
 class Consumer {
+    /**
+     * Class Consumer responsible for consuming the PCM data from the 
+     * buffer and send it for playback to an Output object.
+     *
+     * Class invariants:
+     *       _output object is open (called open method succesfully) if 
+     *          and only if _status is consuming, paused or stopped
+     *       _output is closed iff _status is unloaded or exit
+     */
 public:
     enum class Status { consuming, paused, stopped, unloaded, exit };
 
@@ -49,6 +58,17 @@ public:
      * consuming data, and clean buffers.
      */
     void stop();
+
+    /**
+     * Sets status to exit, for the consumer thread to stop running.
+     */
+    void exit();
+
+    /**
+     * Opens a new connection with the output object with the given sample
+     * format. Closes previously opened connections, if any.
+     */
+    void openOutput(SampleFormat sf);
 
 
     /**
@@ -78,6 +98,7 @@ private:
      */
     void setStatus(Status s);
 };
+
 
 
 
