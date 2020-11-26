@@ -15,6 +15,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "Input.h"
 
@@ -26,8 +27,27 @@ class InputFactory {
 public:
     static std::unique_ptr<Input> create(std::string filename);
 
+    /**
+     * Given a filename returns a string containing the extension of
+     * such filename. If the given filename is invalid (does not contain
+     * an extension, contains an invalid extension ...), returns the
+     * empty string "".
+     *
+     * Supported extensions: wav, mp3.
+     */
     static std::string getExtension(std::string filename);
+
+    static const inline std::vector<std::string> supportedExtensions {"wav", 
+                                                                      "flac", 
+                                                                      "mp3"};
+
+private:
+    /**
+     * Tells if the given extension is a supported extension.
+     */
+    bool isSupportedExtension(std::string extension);
 };
+
 
 
 
