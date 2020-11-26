@@ -58,11 +58,14 @@ public:
 
     /**
      * Sets the status to stop, for the class to main loop to stop
-     * producing data.
+     * producing data and clean buffers.
      */
     void stop();
 
 
+    /**
+     * Obtain current status of Consumer.
+     */
     Status getStatus() { return _status; }
 
 
