@@ -28,7 +28,7 @@ output_plugins:
 .PHONY: clean
 clean: 
 	-rm $(objects)
-
+	$(MAKE) --directory=output_plugins -f Makefile.mk clean
 
 # Compilation rules
 ../../$(BIN_DIR)/$(module)/%.o: %.cpp $(headers)

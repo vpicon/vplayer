@@ -15,6 +15,7 @@ CXXFLAGS += $(addprefix -I,$(include_dirs))
 headers := $(wildcard ../../$(INCLUDE_DIR)/$(module)/*.h)
 headers := $(wildcard ../../$(INCLUDE_DIR)/$(submodule)/*.h)
 
+objects :=
 
 # Compile each output plugin by itself (each has its own dependencies)
 
@@ -28,4 +29,13 @@ pulseaudio: ../../../$(BIN_DIR)/$(submodule)/Pulse.o \
 ../../../$(BIN_DIR)/$(submodule)/PulseaudioOutput.o: PulseaudioOutput.cpp $(headers)
 	$(CXX) $(CXXFLAGS) $< -o $@ $(LDPULS) -c
 
+
+objects +=  ../../../$(BIN_DIR)/$(submodule)/Pulse.o
+objects +=  ../../../$(BIN_DIR)/$(submodule)/PulseaudioOutput.o
+
+
+
+.PHONY: clean
+clean:
+	-rm $(objects)
 
