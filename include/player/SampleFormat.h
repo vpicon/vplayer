@@ -10,6 +10,7 @@
 #ifndef _VPLAYER_SAMPLE_FORMAT_H
 #define _VPLAYER_SAMPLE_FORMAT_H
 
+#include <ostream>
 
 
 namespace player {
@@ -68,6 +69,7 @@ private:
 };
 
 
+std::ostream& operator<<(std::ostream &os, const SampleFormat &sf); 
 
 
 }  // namespace player 

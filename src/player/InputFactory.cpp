@@ -35,6 +35,7 @@ std::unique_ptr<Input> InputFactory::create(std::string filename) {
 std::string InputFactory::getExtension(std::string filename) {
     std::string extension {};
 
+    // Create regex patter to match the ".extension" part of filename
     std::smatch m {};
     std::regex pattern {".+(\\.[[:alnum:]]+)$"};
 

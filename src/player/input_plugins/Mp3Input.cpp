@@ -122,6 +122,7 @@ void Mp3Input::cleanup(bool init, bool handle, bool open) {
 }
 
 
+
 SampleFormat Mp3Input::mpg123EncodingToSampleFormat(long rate,
                                                     int channels,
                                                     int encoding)
