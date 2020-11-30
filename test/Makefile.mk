@@ -10,7 +10,12 @@ modules := player database ui
 CXXFLAGS += -g
 
 LDFLAGS  += -pthread -L$(test_lib_dir) -lgtest -lgtest_main
-LDFLAGS  += $(shell pkg-config --cflags --libs libpulse)
+
+# Used libraries flags
+PULSEFLAGS  := $(shell pkg-config --cflags --libs libpulse)
+MPG123FLAGS := -lmpg123
+
+LDFLAGS += $(PULSEFLAGS) $(MPG123FLAGS)
 
 
 # Tracked Files
