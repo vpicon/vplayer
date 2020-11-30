@@ -32,6 +32,10 @@ PulseaudioOutput::PulseaudioOutput() {
 
 
 PulseaudioOutput::~PulseaudioOutput() {
+    // Close any output connections (if any)
+    pulse_close();
+
+    // Exit pulseaudio output plugin
     if (pulse_exit() != 0) {
         std::runtime_error("Could not exit pulseaudio.");
     }
