@@ -17,7 +17,6 @@
 namespace player {
 
 
-// TODO: change order buffer filename
 // TODO: define specific error types
 Mp3Input::Mp3Input(const std::string& filename)
     : _filename{filename}
@@ -60,6 +59,11 @@ Mp3Input::Mp3Input(const std::string& filename)
     }
 
     _sampleFormat = mpg123EncodingToSampleFormat(rate, channels, encoding);
+
+    // Get data size
+    mpg123_scan(_handle);
+    size_t numFrames = static_cast<size_t>(mpg123_length(_handle));
+    _dataSize = numFrames * _sampleFormat.getNumChannels() * _sampleFormat.getBitDepth() / 8;
 }
 
 
@@ -95,7 +99,7 @@ bool Mp3Input::reachedEOF() const {
 
 // TODO: is a stub
 double Mp3Input::getDuration() const {
-    return 0.0;
+    return (8.0 * _dataSize) / _sampleFormat.getBitrate();
 }
 
 
