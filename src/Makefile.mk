@@ -7,8 +7,14 @@ modules := player database ui
 include_dirs := ../$(INCLUDE_DIR) ../$(INCLUDE_DIR)/player
 
 CXXFLAGS += $(addprefix -I,$(include_dirs))
-LDFLAGS  += $(shell pkg-config --cflags --libs libpulse)
-LDFLAGS  += -lpthread
+
+# Libraries flags
+MPG123FLAGS := -lmpg123
+PULSEFLAGS  := $(shell pkg-config --cflags --libs libpulse)
+
+
+LDFLAGS += -lpthread
+LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS)
 
 
 # Tracked Files

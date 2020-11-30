@@ -534,7 +534,7 @@ TEST_F(WavInputTest, getSampleFormatTestMono44kHzMonoExtensibleFormat) {
  */
 
 // getDuration Unsigned, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
+TEST_F(WavInputTest, getDurationTestUnsignedStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-uint8-AFsp.wav");
     player::WavInput input{filename};
@@ -544,7 +544,7 @@ TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
 }
 
 // getDuration signed, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestSignedStereo) {
+TEST_F(WavInputTest, getDurationTestSignedStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-int24-AFsp.wav");
     player::WavInput input{filename};
@@ -554,7 +554,7 @@ TEST_F(WavInputTest, GetDurationTestSignedStereo) {
 }
 
 // getDuration float, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestFloatStereo) {
+TEST_F(WavInputTest, getDurationTestFloatStereo) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("M1F1-float32-AFsp.wav");
     player::WavInput input{filename};
@@ -564,7 +564,7 @@ TEST_F(WavInputTest, GetDurationTestFloatStereo) {
 }
 
 // getDuration signed, 44.1 kHz, mono
-TEST_F(WavInputTest, GetDurationTest44kHzMono) {
+TEST_F(WavInputTest, getDurationTest44kHzMono) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("pcm4410024bitmono.wav");
     player::WavInput input{filename};
@@ -574,7 +574,7 @@ TEST_F(WavInputTest, GetDurationTest44kHzMono) {
 }
 
 // getDuration signed, 44.1 kHz, mono
-TEST_F(WavInputTest, GetDurationTestSmall) {
+TEST_F(WavInputTest, getDurationTestSmall) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("testShort.wav");
     player::WavInput input{filename};

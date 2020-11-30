@@ -12,11 +12,12 @@
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-        std::cerr << "usage: " << argv[0] << " <wav_file>\n";
+        std::cerr << "usage: " << argv[0] << " <audio file>\n";
         return 1;
     }
+
     
-    /* Create Buffer, Input and Output objects */
+    // Create Buffer, Input and Output objects
     player::Buffer buffer {144, 24576, 1024};
 
     std::string filename {argv[1]};
@@ -27,11 +28,11 @@ int main(int argc, char *argv[]) {
     player::Consumer consumer{buffer};
     consumer.openOutput(producer.getCurrentSampleFormat());
 
-    /* Create consumer and producer threads */
+    // Create consumer and producer threads
     std::thread producerThread {&player::Producer::run, &producer};
     std::thread consumerThread {&player::Consumer::run, &consumer};
 
-    /* Commands */
+    // Commands
     char c;
     while (std::cin >> c) {
         if (c == 'p') {
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]) {
     }
 
 
-    /* Free all resources and terminate */
+    // Free all resources and terminate
     producerThread.join();
     consumerThread.join();
 

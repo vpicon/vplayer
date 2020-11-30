@@ -49,5 +49,35 @@ int SampleFormat::getBitrate() const {
 
 
 
+std::ostream& operator<<(std::ostream &os, const SampleFormat &sf) {
+    os << sf.getFrameRate() << " Hz, "
+       << sf.getBitDepth() << "bit ";
+
+    switch(sf.getEncoding()) {
+        case SampleFormat::Encoding::signedEnc:
+            os << "signed, ";
+            break;
+        case SampleFormat::Encoding::unsignedEnc:
+            os << "unsigned, ";
+            break;
+        case SampleFormat::Encoding::floatEnc:
+            os << "float, ";
+            break;
+    }
+    
+    if (sf.getNumChannels() == 1)
+        os << "mono, ";
+    else if (sf.getNumChannels() == 2)
+        os << "stereo, ";
+    else
+        os << "other, ";
+
+    os << (sf.getEndian() == SampleFormat::Endian::little ? "little endian" : "big endian");
+
+    return os;
+}
+
+
+
 
 }  // namespace player 

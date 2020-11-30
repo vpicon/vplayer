@@ -1,7 +1,6 @@
 This folder contains audio test files to test wav input.
 The following files were obtained at:
 http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/Samples.html
-
     M1F1-uint8-AFsp.wav     :PCM 8 kHz, 8bit unsigned, Stereo
     M1F1-int16-AFsp.wav     :PCM 8 kHz, 16bit signed, Stereo
     M1F1-int24-AFsp.wav     :PCM 8 kHz, 24bit signed, Stereo

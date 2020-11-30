@@ -25,6 +25,10 @@ namespace player {
 
 class InputFactory {
 public:
+    /**
+     * Creates instance of one of the Input subclasses, with the given 
+     * filename.
+     */
     static std::unique_ptr<Input> create(std::string filename);
 
     /**

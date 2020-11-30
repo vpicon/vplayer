@@ -55,6 +55,11 @@ public:
      * Gets the duration of the audio stored in input object.
      */
     virtual double getDuration() const = 0;
+
+    /**
+     * Gets the metadata stored in the input file, if any.
+     */
+    virtual int getMetadata() const = 0;
 };
 
 

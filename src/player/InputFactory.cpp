@@ -9,6 +9,7 @@
 
 #include "InputFactory.h"
 #include "input_plugins/WavInput.h"
+#include "input_plugins/Mp3Input.h"
 
 #include <string>
 #include <regex>
@@ -23,6 +24,8 @@ std::unique_ptr<Input> InputFactory::create(std::string filename) {
     std::string ext = InputFactory::getExtension(filename);
     if (ext == "wav") 
         inputPtr.reset(new WavInput{filename});
+    if (ext == "mp3")
+        inputPtr.reset(new Mp3Input{filename});
 
     return inputPtr;
 }
@@ -32,6 +35,7 @@ std::unique_ptr<Input> InputFactory::create(std::string filename) {
 std::string InputFactory::getExtension(std::string filename) {
     std::string extension {};
 
+    // Create regex patter to match the ".extension" part of filename
     std::smatch m {};
     std::regex pattern {".+(\\.[[:alnum:]]+)$"};
 
