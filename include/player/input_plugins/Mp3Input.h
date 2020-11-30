@@ -55,6 +55,8 @@ public:
 
     double getDuration() const override;
 
+    int getMetadata() const override;
+
 private:
     std::string _filename;
 

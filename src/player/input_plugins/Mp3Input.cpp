@@ -99,8 +99,26 @@ size_t Mp3Input::read(Buffer::Position writePos) {
 
 
 
-// TODO: is a stub
+/**
+ * If seconds is >= than this.getDuration(), 
+ * then it is seeked to end of file.
+ */
 void Mp3Input::seek(double seconds) {
+    // Check for seek past track duration.
+    if (seconds >= getDuration()) {
+        mpg123_seek(_handle, 0, SEEK_END);
+        _eof = true;
+        return;
+    }
+
+    // Check for negative seeks.
+    if (seconds < 0) seconds = 0;
+
+    // Calculate new offset to seek (in PCM samples)
+    off_t position = static_cast<off_t>( _sampleFormat.getFrameRate() * seconds );  
+
+    // Seek to new position
+    mpg123_seek(_handle, position, SEEK_SET);  // seek relative to start
 }
 
 
@@ -114,6 +132,16 @@ bool Mp3Input::reachedEOF() const {
 double Mp3Input::getDuration() const {
     return (8.0 * _dataSize) / _sampleFormat.getBitrate();
 }
+
+
+
+// TODO is a stub.
+int Mp3Input::getMetadata() const {
+    // Check into file id3dump.c example in the mpg123 webpage. 
+    return 0;
+
+}
+
 
 
 
