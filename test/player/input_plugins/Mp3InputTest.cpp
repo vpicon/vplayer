@@ -44,6 +44,60 @@ void testSampleSpecs(const player::SampleFormat& sf,
 }
 
 
+/**
+ * Return a vector of size n, of n bytes read from pos, where n < pos.size()
+ */
+bool writeToBuffer(player::Buffer& buf, const std::vector<char>& data) {
+    size_t n = 0;
+    while (n < data.size()) {
+        player::Buffer::Position wPos = buf.getWritePosition();
+        if (wPos.size() == 0)
+            return false;
+
+        char *p = wPos.toPointer();
+        size_t i = 0;
+        while (i < wPos.size() && (i + n) < data.size()) {
+            p[i] = data[n + i];
+            i++;
+        }
+        n += i;
+        buf.markWritten(i);
+    }
+
+    return true;
+}
+
+
+/**
+ * Return a vector of size n, of n bytes read from pos, where n < pos.size()
+ */
+std::vector<char> writeToVector(player::Buffer::Position pos, size_t n) {
+    std::vector<char> v(n);
+    char *p = pos.toPointer();
+    for (size_t i = 0; i < n; i++) 
+        v[i] = p[i]; 
+      
+    return v;
+}
+
+
+/**
+ * Convert a vector of uint16_t to char.
+ */
+std::vector<char> shortToCharVec(std::vector<uint16_t> hexvec) {
+    std::vector<char> v;
+    for (uint16_t x : hexvec) {
+        char lsByte = static_cast<char>(x & 0x00ff);  // least significant byte in word
+        char msByte = static_cast<char>(x >> 8);  // most significant byte in word
+        // Append bytes in LE order
+        v.push_back(lsByte);
+        v.push_back(msByte);
+    }
+
+    return v;
+}
+
+
 
 // FIXTURE
 
@@ -53,8 +107,8 @@ protected:
     // No TearDown() needed
     static constexpr double durationErrorMargin = 1;  // getDuration tests (in seconds)
     
-    size_t numChunks    = 100; 
-    size_t chunkSize    = 1000; 
+    size_t numChunks    = 1000; 
+    size_t chunkSize    = 2048; 
     size_t minWriteSize = 100; 
     player::Buffer buffer{numChunks, chunkSize, minWriteSize};
 
@@ -74,42 +128,44 @@ protected:
  *               less data than space at buffer position.
  */
 
-/*
 // read to an empty buffer
-TEST_F(WavInputTest, readEmptyBuffer) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename};
+TEST_F(Mp3InputTest, readEmptyBuffer) {
+    // Construct Mp3Input Object and get its Format Specs
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
 
     // Read data form input into buffer
     player::Buffer::Position wPos = buffer.getWritePosition();
     size_t n = input.read(wPos);
     buffer.markWritten(n);
 
-    // Test amount of data read. Initially empty buffer, and sufficient data
-    // should have read all data available at wPos.
-    EXPECT_EQ(n, wPos.size());
+    // Check that we actually read some data
+    ASSERT_TRUE(n > 0u);
 
     // Check the data actually written to the buffer. Should be equal to all 
     // the read data (since buffer initially empty). 
-    // Read 16 first bytes of the buffer into a vector.
     player::Buffer::Position rPos = buffer.getReadPosition();
-    ASSERT_EQ(n, rPos.size()); 
-    std::vector<char> v = writeToVector(rPos, 16);
+    std::vector<char> v = writeToVector(rPos, 0x100);
 
-    // Actual PCM data, obtained with hexdump (first 16 bytes of PCMdata)
-    std::vector<uint8_t> data {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                               0x01, 0x00, 0x02, 0x00, 0xfd, 0xff, 0x00, 0x00};
-    std::vector<char> actualPCMData = hexToCharVec(data);
+    // Actual PCM data, obtained with mp3_to_pcm.c program (in test/data/mp3/ dir)
+    std::vector<uint16_t> shortVec(0xb0 / 0x10, 0x0000);
+    std::vector<uint16_t> data {0x0000, 0xffff, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+                                0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xffff, 0xffff, 0xffff,
+                                0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0001, 0x0001,
+                                0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0xffff, 0xffff,
+                                0xffff, 0xffff, 0x0000, 0x0001, 0x0001, 0x0001, 0x0001, 0x0001};
+    shortVec.insert(shortVec.end(), data.begin(), data.end());
+
+    std::vector<char> actualPCMData = shortToCharVec(data);
 
     EXPECT_EQ(v, actualPCMData);
 }
 
 // read to a full buffer. Should be 0 total read data
-TEST_F(WavInputTest, readFullBuffer) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("M1F1-int16-AFsp.wav");
-    player::WavInput input{filename};
+TEST_F(Mp3InputTest, readFullBuffer) {
+    // Construct Mp3Input Object and get its Format Specs
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
 
     // Fill buffer
     ASSERT_TRUE(writeToBuffer(buffer, std::vector<char> (numChunks * chunkSize)));
@@ -124,54 +180,22 @@ TEST_F(WavInputTest, readFullBuffer) {
     EXPECT_EQ(n, 0u);
 }
 
-// read less data from input than space of buffer
-TEST_F(WavInputTest, readLessDataThanBufferSize) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename};
-
-    // Read data form input into buffer
-    player::Buffer::Position wPos = buffer.getWritePosition();
-    size_t n = input.read(wPos);
-    buffer.markWritten(n);
-
-    // Test amount of data read. Initially empty buffer, and sufficient data
-    // should have read all data available at wPos.
-    EXPECT_TRUE(n < wPos.size());
-
-    // Check the data actually written to the buffer. Should be equal to all 
-    // the read data (since buffer initially empty). 
-    // Read 16 first bytes of the buffer into a vector.
-    player::Buffer::Position rPos = buffer.getReadPosition();
-    ASSERT_EQ(n, rPos.size()); 
-    std::vector<char> v = writeToVector(rPos, 8);
-
-    // Actual PCM data, obtained with hexdump (the 8 bytes of PCMdata)
-    std::vector<uint8_t> data {0x00, 0xfb, 0x0c, 0x83, 0x1f, 0x0c, 0x0d, 0xc8};
-    std::vector<char> actualPCMData = hexToCharVec(data);
-
-    EXPECT_EQ(v, actualPCMData);
-}
-
 // read from position containing no data
-TEST_F(WavInputTest, readNoData) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename};
+TEST_F(Mp3InputTest, readNoData) {
+    // Construct Mp3Input Object and get its Format Specs
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
 
     // Read data form input into buffer
-    player::Buffer::Position wPos = buffer.getWritePosition();
-    size_t n = input.read(wPos);
-    buffer.markWritten(n);
-    EXPECT_TRUE(n < wPos.size());
+    input.seek(input.getDuration() + 10);  // Go to end of file
 
     // Try to read data from the file completely read
-    player::Buffer::Position wPos2 = buffer.getWritePosition();
-    size_t m = input.read(wPos2);
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    size_t m = input.read(wPos);
     EXPECT_EQ(m, 0u);
     EXPECT_TRUE(input.reachedEOF());
 }
-*/
+
 
 
 /**
@@ -405,14 +429,11 @@ TEST_F(Mp3InputTest, getSampleFormatTest16bitSigned44kHz) {
  * getDuration() Test Strategy:
  *
  *   Duration ~0, >> 0
- *   Channels: 1, 2 (> 2 not supported)
- *   FrameRate: 44100, != 44100 samples per sec
- *   Encoding: Float, Unsigned/Signed Int
  *
  * Duration of files, obtained with mediainfo util.
  */
 
-// getDuration Unsigned, 8 kHz, stereo
+// getDuration
 TEST_F(Mp3InputTest, GetDurationTest) {
     // Construct WavInput Object and get its Format Specs
     std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
@@ -421,48 +442,6 @@ TEST_F(Mp3InputTest, GetDurationTest) {
     // Test the duration of input
     EXPECT_NEAR(input.getDuration(), 3 * 60 + 7, durationErrorMargin);
 }
-
-/*
-// getDuration signed, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestSignedStereo) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("M1F1-int24-AFsp.wav");
-    player::WavInput input{filename};
-
-    // Test the duration of input
-    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
-}
-
-// getDuration float, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestFloatStereo) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("M1F1-float32-AFsp.wav");
-    player::WavInput input{filename};
-
-    // Test the duration of input
-    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
-}
-
-// getDuration signed, 44.1 kHz, mono
-TEST_F(WavInputTest, GetDurationTest44kHzMono) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("pcm4410024bitmono.wav");
-    player::WavInput input{filename};
-
-    // Test the duration of input
-    EXPECT_NEAR(input.getDuration(), 0.1, durationErrorMargin);
-}
-
-// getDuration signed, 44.1 kHz, mono
-TEST_F(WavInputTest, GetDurationTestSmall) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename};
-
-    // Test the duration of input
-    EXPECT_NEAR(input.getDuration(), 0.0, durationErrorMargin);
-}
-*/
 
 
 }  // namespace 
