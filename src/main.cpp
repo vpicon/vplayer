@@ -7,8 +7,6 @@
 #include "player/Buffer.h"
 #include "player/Producer.h"
 #include "player/Consumer.h"
-#include "player/Input.h"
-#include "player/InputFactory.h"
 
 
 
@@ -18,12 +16,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::string filename {argv[1]};
-    auto input = player::InputFactory::create(filename);
-
-    std::cout << input->getSampleFormat() << std::endl;
     
-    /*
     // Create Buffer, Input and Output objects
     player::Buffer buffer {144, 24576, 1024};
 
@@ -61,7 +54,6 @@ int main(int argc, char *argv[]) {
     // Free all resources and terminate
     producerThread.join();
     consumerThread.join();
-    */
 
     return 0;
 }

@@ -68,7 +68,6 @@ Mp3Input::Mp3Input(const std::string& filename)
 
 
 
-// TODO: is a stub
 Mp3Input::~Mp3Input() 
 {
     bool init{true}, handle{true}, open{true};
@@ -77,9 +76,25 @@ Mp3Input::~Mp3Input()
 
 
 
-// TODO: is a stub
+// TODO: add noexcept
 size_t Mp3Input::read(Buffer::Position writePos) {
-    return 0;
+    // Check valid write position
+    if (writePos.size() == 0 || writePos.toPointer() == nullptr)
+        return 0;
+
+    // Read from file to writePosition
+    size_t nread = 0;
+    int rc = mpg123_read(_handle, 
+                         static_cast<char *>(writePos.toPointer()), 
+                         writePos.size(), 
+                         &nread);
+
+    // Check if we reached EOF
+    if (rc == MPG123_DONE)
+        _eof = true;
+
+    // Return number of characters read
+    return nread;
 }
 
 
@@ -90,14 +105,12 @@ void Mp3Input::seek(double seconds) {
 
 
 
-// TODO: is a stub
 bool Mp3Input::reachedEOF() const {
     return _eof;
 }
 
 
 
-// TODO: is a stub
 double Mp3Input::getDuration() const {
     return (8.0 * _dataSize) / _sampleFormat.getBitrate();
 }
