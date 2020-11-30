@@ -59,11 +59,7 @@ Mp3Input::Mp3Input(const std::string& filename)
                            std::string{ mpg123_plain_strerror(rc) });
     }
 
-    _sampleFormat = SampleFormat{static_cast<int>(rate),
-                                 channels,
-                                 0, 
-                                 SampleFormat::Endian::little,
-                                 SampleFormat::Encoding::signedEnc};
+    _sampleFormat = mpg123EncodingToSampleFormat(rate, channels, encoding);
 }
 
 
@@ -119,6 +115,45 @@ void Mp3Input::cleanup(bool init, bool handle, bool open) {
     // Exit mpg123 library
     if (init)
         mpg123_exit();
+}
+
+
+SampleFormat Mp3Input::mpg123EncodingToSampleFormat(long rate,
+                                                    int channels,
+                                                    int encoding)
+{
+    int bitDepth;
+    SampleFormat::Encoding enc;
+    SampleFormat::Endian nativeEndian = SampleFormat::Endian::little;  // TODO (make portable)
+
+    switch(encoding) {
+        case MPG123_ENC_SIGNED_8:
+            bitDepth = 8;  enc = SampleFormat::Encoding::signedEnc; break;
+        case MPG123_ENC_UNSIGNED_8:
+            bitDepth = 8;  enc = SampleFormat::Encoding::unsignedEnc; break;
+        case MPG123_ENC_SIGNED_16:
+            bitDepth = 16; enc = SampleFormat::Encoding::signedEnc; break;
+        case MPG123_ENC_UNSIGNED_16:
+            bitDepth = 16; enc = SampleFormat::Encoding::unsignedEnc; break;
+        case MPG123_ENC_SIGNED_24:
+            bitDepth = 24; enc = SampleFormat::Encoding::signedEnc; break;
+        case MPG123_ENC_UNSIGNED_24:
+            bitDepth = 24; enc = SampleFormat::Encoding::unsignedEnc; break;
+        case MPG123_ENC_SIGNED_32:
+            bitDepth = 32; enc = SampleFormat::Encoding::signedEnc; break;
+        case MPG123_ENC_UNSIGNED_32:
+            bitDepth = 32; enc = SampleFormat::Encoding::unsignedEnc; break;
+        case MPG123_ENC_FLOAT_32:
+            bitDepth = 32; enc = SampleFormat::Encoding::floatEnc; break;
+        case MPG123_ENC_FLOAT_64:
+            bitDepth = 64; enc = SampleFormat::Encoding::floatEnc; break;
+    }
+
+    return SampleFormat{static_cast<int>(rate), 
+                        bitDepth, 
+                        channels, 
+                        nativeEndian, 
+                        enc};
 }
 
 

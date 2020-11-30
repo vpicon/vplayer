@@ -67,6 +67,12 @@ private:
 
     // HELPER FUNCTIONS
     void cleanup(bool init, bool handle = false, bool open = false);
+
+    /**
+     * Given a rate, channels and encoding bitmask, obtained in mp123 format,
+     * returns a SampleFormat object of such values.
+     */
+    SampleFormat mpg123EncodingToSampleFormat(long rate, int channels, int encoding);
 };
 
 
