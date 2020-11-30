@@ -328,20 +328,22 @@ TEST_F(WavInputTest, seekFromStartToEnd) {
 
 /**
  * reachedEOF() Test Strategy:
+ *    cause: read, seek
  */
 
-/*
 // Check we reached eof set when reading
-TEST_F(WavInputTest, reachedEOFWhileReading) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename};
+TEST_F(Mp3InputTest, reachedEOFWhileReading) {
+    // Construct Mp3Input Object and get its Format Specs
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
     
     // Check EOF is false
     EXPECT_FALSE(input.reachedEOF());
 
-    // Read some data from input
-    input.read(buffer.getWritePosition());
+    // Read whole data from input
+    size_t n;
+    while ((n = input.read(buffer.getWritePosition())) != 0)
+        /* do nothing */;
     EXPECT_TRUE(input.reachedEOF());
 
     // Go to start again and check eof is false
@@ -350,19 +352,18 @@ TEST_F(WavInputTest, reachedEOFWhileReading) {
 }
 
 // Check we reached eof set when seeking
-TEST_F(WavInputTest, reachedEOFWhileSeeking) {
-    // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("testShort.wav");
-    player::WavInput input{filename};
+TEST_F(Mp3InputTest, reachedEOFWhileSeeking) {
+    // Construct Mp3Input Object and get its Format Specs
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
     
     // Check EOF is false
     EXPECT_FALSE(input.reachedEOF());
 
     // Read some data from input
-    input.seek(input.getDuration() + 1);
+    input.seek(input.getDuration() + 5);
     EXPECT_TRUE(input.reachedEOF());
 }
-*/
 
 
 /**
