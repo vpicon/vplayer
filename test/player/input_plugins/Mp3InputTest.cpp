@@ -51,7 +51,7 @@ class Mp3InputTest : public testing::Test {
 protected:
     // No SetUp() needed
     // No TearDown() needed
-    static constexpr double durationErrorMargin = 0.1;  // getDuration tests
+    static constexpr double durationErrorMargin = 1;  // getDuration tests (in seconds)
     
     size_t numChunks    = 100; 
     size_t chunkSize    = 1000; 
@@ -412,17 +412,17 @@ TEST_F(Mp3InputTest, getSampleFormatTest16bitSigned44kHz) {
  * Duration of files, obtained with mediainfo util.
  */
 
-/*
 // getDuration Unsigned, 8 kHz, stereo
-TEST_F(WavInputTest, GetDurationTestUnsignedStereo) {
+TEST_F(Mp3InputTest, GetDurationTest) {
     // Construct WavInput Object and get its Format Specs
-    std::string filename = dataPath("M1F1-uint8-AFsp.wav");
-    player::WavInput input{filename};
+    std::string filename = dataPath("ff-16b-1c-8000hz.mp3");
+    player::Mp3Input input{filename};
 
     // Test the duration of input
-    EXPECT_NEAR(input.getDuration(), 2.9, durationErrorMargin);
+    EXPECT_NEAR(input.getDuration(), 3 * 60 + 7, durationErrorMargin);
 }
 
+/*
 // getDuration signed, 8 kHz, stereo
 TEST_F(WavInputTest, GetDurationTestSignedStereo) {
     // Construct WavInput Object and get its Format Specs
