@@ -19,6 +19,12 @@ extern "C" {
 #endif  // __cplusplus
 
 
+/**
+ * TODO: There are severe memory leaks in the Pulse.c program
+ * found with valgrind. These seem to be internal to the pulseaudio
+ * library. But it needs further study.
+ */
+
 
 #include <pulse/pulseaudio.h> 
 
