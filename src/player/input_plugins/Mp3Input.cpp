@@ -112,13 +112,18 @@ void Mp3Input::seek(double seconds) {
     }
 
     // Check for negative seeks.
-    if (seconds < 0) seconds = 0;
+    if (seconds < 0) 
+        seconds = 0;
 
     // Calculate new offset to seek (in PCM samples)
     off_t position = static_cast<off_t>( _sampleFormat.getFrameRate() * seconds );  
 
     // Seek to new position
     mpg123_seek(_handle, position, SEEK_SET);  // seek relative to start
+
+    // Unmark eof flag, if set
+    if (_eof)
+        _eof = false;
 }
 
 
