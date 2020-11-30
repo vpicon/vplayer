@@ -12,10 +12,14 @@
 
 
 #include "Input.h"
+#include "SampleFormat.h"
 #include "Buffer.h"
 
-#include <fstream>
 #include <string>
+
+extern "C" {
+#include <mpg123.h>
+}
 
 
 namespace player {
@@ -55,10 +59,14 @@ private:
     std::string _filename;
 
     SampleFormat _sampleFormat;
-
-    size_t _dataSize;              // Number of bytes of PCM data
+    size_t _dataSize;        // Number of bytes of PCM data
 
     bool _eof;
+
+    mpg123_handle *_handle;  // mpg123 obscure handle
+
+    // HELPER FUNCTIONS
+    void cleanup(bool init, bool handle = false, bool open = false);
 };
 
 
