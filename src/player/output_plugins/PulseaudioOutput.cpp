@@ -62,7 +62,12 @@ void PulseaudioOutput::close() {
 size_t PulseaudioOutput::write(Buffer::Position readPos) {
     if (readPos.toPointer() == nullptr || readPos.size() == 0)
         return 0;
-    return pulse_write(readPos.toPointer(), readPos.size());
+
+    size_t n = std::min(readPos.size(), static_cast<size_t>(pulse_buffer_space()));
+    if (n == 0)
+        return 0;
+
+    return pulse_write(readPos.toPointer(), n);
 }
 
 
