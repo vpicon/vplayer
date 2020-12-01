@@ -76,6 +76,8 @@ private:
 
     bool _eof {false};
 
+    size_t count {0};  // TODO: temporal data to count bytes read. Debug purposes
+
     // HELPER METHODS
 
     /**

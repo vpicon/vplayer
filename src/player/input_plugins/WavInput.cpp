@@ -55,6 +55,7 @@ size_t WavInput::read(Buffer::Position writePos) {
         _eof = true;
 
     // Return number of characters read
+    count += nread;
     return nread;
 }
 
