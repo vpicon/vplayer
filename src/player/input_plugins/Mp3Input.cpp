@@ -198,6 +198,8 @@ SampleFormat Mp3Input::mpg123EncodingToSampleFormat(long rate,
             bitDepth = 32; enc = SampleFormat::Encoding::floatEnc; break;
         case MPG123_ENC_FLOAT_64:
             bitDepth = 64; enc = SampleFormat::Encoding::floatEnc; break;
+        default:
+            throw std::runtime_error("Invalid encoding");
     }
 
     return SampleFormat{static_cast<int>(rate), 
