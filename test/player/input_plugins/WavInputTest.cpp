@@ -381,6 +381,33 @@ TEST_F(WavInputTest, reachedEOFWhileSeeking) {
     EXPECT_TRUE(input.reachedEOF());
 }
 
+// REGRESSION TEST
+// Check end of file flag is not set, when trying to read to a previously filled buffer.
+TEST_F(WavInputTest, reachedEOFFullBufferFalse) {
+    // Construct WavInput Object and get its Format Specs
+    std::string filename = dataPath("file_example_WAV_10MG.wav");
+    player::WavInput input{filename};
+
+    // Check EOF is false before reading
+    EXPECT_FALSE(input.reachedEOF());
+
+    // Read and fill buffer
+    size_t m;
+    while ((m = input.read(buffer.getWritePosition())) != 0)
+        buffer.markWritten(m);
+    
+    // Read again to full buffer
+    player::Buffer::Position wPos = buffer.getWritePosition();
+    ASSERT_EQ(wPos.size(), 0u);
+    size_t n = input.read(wPos);
+    EXPECT_EQ(n, 0u);
+
+    // Check there is no eof flag 
+    EXPECT_FALSE(input.reachedEOF());
+}
+
+
+
 
 /**
  * getSampleFormat() Test Strategy:
