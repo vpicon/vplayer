@@ -74,7 +74,7 @@ private:
         waveFormatExtensible = 0xFFFE,
     };
 
-    bool _eof;
+    bool _eof {false};
 
     // HELPER METHODS
 

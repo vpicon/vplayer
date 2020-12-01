@@ -23,7 +23,7 @@ namespace player {
 // chunk sufficiently big but not too small.
 static constexpr int chunkSize = 2 * 12 * 1024;
 // 10 seconds worth of data may be stored in the buffer. Considering the 
-// typical frame rate 44100 frames per second, number of samples per frame, 
+// typical frame rate 44100 frames per second, number of bytes per frame, 
 // may be something about 4 * 2. 
 static constexpr size_t numChunks = 10 * 44100 * 4 * 2 / chunkSize;  
 static constexpr int minWriteSize = 1024; 
