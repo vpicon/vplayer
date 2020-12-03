@@ -42,7 +42,6 @@ public:
     static std::string getExtension(std::string filename);
 
     static const inline std::set<std::string> supportedExtensions {"wav", 
-                                                                   "flac", 
                                                                    "mp3"};
 
 private:
