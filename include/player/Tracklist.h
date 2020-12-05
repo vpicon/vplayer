@@ -27,7 +27,12 @@ public:
 
     ~Tracklist() {}
 
-    Track *nextTrack() { return nullptr; }
+
+    /**
+     * Gives a pointer to the next Track in the tracklist, or null if there 
+     * is no next track to play.
+     */
+    const Track *getNextTrack() { return nullptr; }
 };
 
 
