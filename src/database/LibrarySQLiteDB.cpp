@@ -15,20 +15,18 @@ namespace database {
 
 
 
+// TODO: is a stub
 LibrarySQLiteDB::LibrarySQLiteDB() 
 {
 }
 
 
 
+// TODO: is a stub
 LibrarySQLiteDB::~LibrarySQLiteDB() 
 {
 }
 
-// TODO: is a stub
-void insertTrackToLibrary() {
-    return;
-}
 
 
 }  // namespace database

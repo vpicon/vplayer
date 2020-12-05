@@ -54,8 +54,6 @@ public:
     void updateAlbumMetadata() override {}
     void updateTrackMetadata() override {}
     void updateTrackPlaylistPosition() override {}
-
-
 };
 
 
