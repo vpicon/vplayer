@@ -1,14 +1,16 @@
 module := database
 
-# Compilation options and flags
+# Directories
 include_dirs := ../../$(INCLUDE_DIR)
 include_dirs += ../../$(INCLUDE_DIR)/$(module)
 
 build_dir := ../../$(BIN_DIR)/$(module)
 
+# Compilation flags and options
 CXXFLAGS += $(addprefix -I,$(include_dirs))
 
 
+# Main target of the makefile
 target := lib$(module).a
 
 
