@@ -4,7 +4,12 @@ module := database
 include_dirs := ../../$(INCLUDE_DIR)
 include_dirs += ../../$(INCLUDE_DIR)/$(module)
 
+build_dir := ../../$(BIN_DIR)/$(module)
+
 CXXFLAGS += $(addprefix -I,$(include_dirs))
+
+
+target := lib$(module).a
 
 
 # Tracked Files
@@ -12,18 +17,18 @@ sources := $(wildcard *.cpp)
 
 headers := $(wildcard ../../$(INCLUDE_DIR)/$(module)/*.h)
 
-objects := $(patsubst %.cpp,../../$(BIN_DIR)/$(module)/%.o,$(sources))
+objects := $(patsubst %.cpp,$(build_dir)/%.o,$(sources))
 
 
 # Targets
-.PHONY: all output_plugins
-all: $(objects) output_plugins
+$(build_dir)/$(target): $(objects) $(headers)
+	$(AR) $(ARFLAGS) $(build_dir)/$(target) $(objects)
 
+# Compilation rules
+$(build_dir)/%.o: %.cpp $(headers)
+	$(CXX) $(CXXFLAGS) $< -o $@ -c 
 
 .PHONY: clean
 clean: 
 	-rm $(objects)
 
-# Compilation rules
-../../$(BIN_DIR)/$(module)/%.o: %.cpp $(headers)
-	$(CXX) $(CXXFLAGS) $< -o $@ -c 

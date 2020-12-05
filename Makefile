@@ -19,8 +19,11 @@ CXXFLAGS += -std=c++17
 LDFLAGS :=
 
 
+AR      := ar   # Archiver
+ARFLAGS := rcs  # Archiver flags
 
-export SHELL CXX CXXFLAGS LDFLAGS
+
+export SHELL CXX CXXFLAGS LDFLAGS AR ARFLAGS
 
 
 # DIRECTORIES
