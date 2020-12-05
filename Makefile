@@ -70,3 +70,10 @@ clean:
 	do                                                                      \
 		$(MAKE) --no-print-directory --directory=$$d -f Makefile.mk clean;  \
 	done
+
+.PHONY: cleanall
+cleanall:
+	for d in $(application) $(modules) $(test);                                \
+	do                                                                         \
+		$(MAKE) --no-print-directory --directory=$$d -f Makefile.mk cleanall;  \
+	done

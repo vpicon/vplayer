@@ -3,18 +3,27 @@ target := ../vplayer
 # Util Variables
 modules := player database ui
 
-# Compilation options and flags
-include_dirs := ../$(INCLUDE_DIR) ../$(INCLUDE_DIR)/player
+# Directories
+include_dirs := ../$(INCLUDE_DIR) 
 
+build_dir := ../$(BIN_DIR)
+
+
+# Compilation flags and options
 CXXFLAGS += $(addprefix -I,$(include_dirs))
+LDFLAGS  += -lpthread
 
-# Libraries flags
+# Module Librares flags
+LDFLAGS  += -L$(build_dir)/player   -lplayer
+LDFLAGS  += -L$(build_dir)/database -ldatabase
+
+
+# Third Party Libraries flags
 MPG123FLAGS := -lmpg123
 PULSEFLAGS  := $(shell pkg-config --cflags --libs libpulse)
+SQLITEFLAGS := -lsqlite3
 
-
-LDFLAGS += -lpthread
-LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS)
+LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS) $(SQLITEFLAGS)
 
 
 # Tracked Files
@@ -22,10 +31,7 @@ sources := $(wildcard *.cpp)
 
 headers := $(wildcard ../$(INCLUDE_DIR)/*.h)
 
-objects        := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
-module_objects  = $(foreach module,$(modules),$(wildcard ../$(BIN_DIR)/$(module)/*.o)) # Has to be evaluated at run time since these objects will be made in each module
-module_objects += $(wildcard ../$(BIN_DIR)/player/input_plugins/*.o) 
-module_objects += $(wildcard ../$(BIN_DIR)/player/output_plugins/*.o) 
+objects := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
 
 
 # Build Rules 
@@ -33,7 +39,7 @@ module_objects += $(wildcard ../$(BIN_DIR)/player/output_plugins/*.o)
 all: $(modules) $(target)
 
 $(target): $(objects)
-	$(CXX) $(CXXFLAGS) $(objects) $(module_objects) -o $@ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(objects) -o $@ $(LDFLAGS)
 
 $(modules):
 	$(MAKE) -C $@ -f Makefile.mk
