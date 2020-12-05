@@ -12,7 +12,7 @@
 
 
 
-namespace player {
+namespace database {
 
 
 
@@ -91,7 +91,7 @@ public:
 
 
 
-}  // namespace player
+}  // namespace database
 
 
 #endif  // _VPLAYER_LIBRARY_DB_H
