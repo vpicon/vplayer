@@ -12,6 +12,8 @@
 
 
 #include "LibraryDB.h"
+
+#include <string>
 #include <sqlite3.h>
 
 
@@ -28,7 +30,7 @@ class LibrarySQLiteDB : public LibraryDB {
      * TODO: Class invariants
      */
 public:
-    LibrarySQLiteDB();
+    LibrarySQLiteDB(std::string dbname);
     ~LibrarySQLiteDB();
 
     // INSERTERS
@@ -54,6 +56,10 @@ public:
     void updateAlbumMetadata() override {}
     void updateTrackMetadata() override {}
     void updateTrackPlaylistPosition() override {}
+
+private:
+    sqlite3 *_pDB;  // SQLite db handle
+    const std::string _dbname;  // Database filename (UTF-8)
 };
 
 
