@@ -22,11 +22,11 @@ test_objects := $(patsubst %.cpp,../../$(BIN_DIR)/test/$(module)/%.o,$(sources))
 .PHONY: all
 all: $(test_objects)
 
-.PHONY: clean
-clean: 
-	-rm $(test_objects)
-
-
 # Compilation rules
 ../../$(BIN_DIR)/test/$(module)/%.o: %.cpp $(headers)
 	$(CXX) $(CXXFLAGS) $< -o $@ -c 
+
+
+.PHONY: clean
+clean: 
+	-rm $(test_objects)

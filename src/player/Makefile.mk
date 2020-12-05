@@ -55,5 +55,7 @@ $(build_dir)/output_plugins/Pulse.o: output_plugins/Pulse.c $(headers)
 .PHONY: clean
 clean: 
 	-rm $(objects)
-	$(MAKE) --directory=output_plugins -f Makefile.mk clean
 
+.PHONY: cleanall
+cleanall:
+	-rm $(build_dir)/$(target)

@@ -62,3 +62,7 @@ clean:
 .PHONY: cleanall
 cleanall: clean
 	-rm $(target)
+	for d in $(modules);                                 \
+	do                                                   \
+		$(MAKE) --directory=$$d -f Makefile.mk cleanall; \
+	done

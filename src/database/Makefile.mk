@@ -34,3 +34,6 @@ $(build_dir)/%.o: %.cpp $(headers)
 clean: 
 	-rm $(objects)
 
+.PHONY: cleanall
+cleanall:
+	-rm $(build_dir)/$(target)
