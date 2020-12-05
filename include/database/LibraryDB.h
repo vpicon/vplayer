@@ -87,6 +87,10 @@ public:
      * Changes metadata of a given track.
      */
     virtual void updateTrackMetadata() = 0;
+    /**
+     * Updates the track positino in the playlist.
+     */
+    virtual void updateTrackPlaylistPosition() = 0;
 };
 
 
