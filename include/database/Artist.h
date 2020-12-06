@@ -52,4 +52,4 @@ std::ostream& operator<<(std::ostream &os, const Artist &artist);
 
 
 
-#endif  // _VPLAYER_LIBRARY_DB_H
+#endif  // _VPLAYER_ARTIST_H
