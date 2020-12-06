@@ -44,7 +44,7 @@ protected:
 
 // read to an empty buffer
 TEST_F(PulseaudioOutputTest, TODO) {
-    ASSERT_TRUE(true);
+    ASSERT_TRUE(false);
 }
 
 

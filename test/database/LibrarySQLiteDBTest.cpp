@@ -32,7 +32,7 @@ protected:
  * Trivial empty test
  */
 
-TEST_F(LibrarySQLiteDBTest, Assertion) {
+TEST_F(LibrarySQLiteDBTest, TODO) {
     ASSERT_TRUE(false);
 }
 

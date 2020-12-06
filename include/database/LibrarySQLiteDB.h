@@ -59,7 +59,26 @@ public:
 
 private:
     sqlite3 *_pDB;  // SQLite db handle
-    const std::string _dbname;  // Database filename (UTF-8)
+    const std::string _dbName;  // Database filename (UTF-8)
+
+    // DATABASE TABLES INFO
+    std::string _trackFields;
+    std::string _artistFields;
+    std::string _albumFields;
+    std::string _playlistFields;
+
+    // HELPER METHODS
+    /**
+     * Creates all the tables of the database if they do not exist
+     * already.
+     */
+    void createTables();
+    void createTableTracks();
+    void createTableArtists();
+    void createTableTracksArtists();
+    void createTableAlbums();
+    void createTablePlaylists();
+    void createTableTracksPlaylists();
 };
 
 
