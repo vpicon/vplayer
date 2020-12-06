@@ -21,7 +21,10 @@ namespace database {
 
 class Artist {
 public:
-    Artist(int id, std::string name, std::string imgSource, std::string bio);      
+    Artist(int id = 0, 
+           std::string name = "", 
+           std::string imgSource = "", 
+           std::string bio = "");      
 
     // GETTERS
     int getId() const { return _id; }
@@ -35,7 +38,7 @@ public:
     void setBio(std::string bio) { _bio = bio; }
 
 private:
-    int _id;
+    int _id {0};
     std::string _name;
     std::string _imgSource;
     std::string _bio;
