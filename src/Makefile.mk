@@ -11,19 +11,28 @@ build_dir := ../$(BIN_DIR)
 
 # Compilation flags and options
 CXXFLAGS += $(addprefix -I,$(include_dirs))
-LDFLAGS  += -lpthread
+CXXFLAGS += $(shell pkg-config gtkmm-3.0 --cflags) # gtk cflags
+
 
 # Module Librares flags
 LDFLAGS  += -L$(build_dir)/player   -lplayer
 LDFLAGS  += -L$(build_dir)/database -ldatabase
+LDFLAGS  += -L$(build_dir)/ui       -lui
 
+# Std flags
+LDFLAGS  += -lpthread
 
 # Third Party Libraries flags
+    # player 
 MPG123FLAGS := -lmpg123
-PULSEFLAGS  := $(shell pkg-config --cflags --libs libpulse)
+PULSEFLAGS  := $(shell pkg-config libpulse --libs)
+    # database
 SQLITEFLAGS := -lsqlite3
+	# ui
+GTKMMFLAGS  := $(shell pkg-config gtkmm-3.0 --libs)
 
-LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS) $(SQLITEFLAGS)
+
+LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS) $(SQLITEFLAGS) $(GTKMMFLAGS)
 
 
 # Tracked Files
@@ -39,7 +48,7 @@ objects := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
 all: $(modules) $(target)
 
 $(target): $(objects)
-	$(CXX) $(CXXFLAGS) $(objects) -o $@ $(LDFLAGS)
+	$(CXX) $(objects) -o $@ $(LDFLAGS)
 
 $(modules):
 	$(MAKE) -C $@ -f Makefile.mk

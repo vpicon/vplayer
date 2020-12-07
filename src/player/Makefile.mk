@@ -49,7 +49,7 @@ $(build_dir)/output_plugins/PulseaudioOutput.o: output_plugins/PulseaudioOutput.
 	$(CXX) $(CXXFLAGS) $< -o $@ -c 
 
 $(build_dir)/output_plugins/Pulse.o: output_plugins/Pulse.c $(headers)
-	$(CC) $(CFLAGS) $< -o $@ -c
+	$(CC) $(CFLAGS) $< -o $@ -c $(shell pkg-config --cflags libpulse)
 
 
 .PHONY: clean
