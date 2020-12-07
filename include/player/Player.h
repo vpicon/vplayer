@@ -14,6 +14,7 @@
 #include "Buffer.h"
 #include "Producer.h"
 #include "Consumer.h"
+#include "Tracklist.h"
 
 
 namespace player {
@@ -24,14 +25,15 @@ class Player {
 public:
     enum class Status { playing, paused, stopped };
 
+
     Player();
     ~Player() {}
 
-    void play();
+    void unpause();
     void pause();
     void stop();
 
-    void playTrack();
+    void playTracklist(Tracklist tl);
 
 private:
     Buffer   _buffer;
@@ -39,6 +41,8 @@ private:
     Consumer _consumer;
     
     Status _status = Status::stopped;
+
+    Tracklist *_tl;
 };
 
 

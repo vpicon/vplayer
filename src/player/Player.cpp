@@ -39,7 +39,7 @@ Player::Player():
 
 
 // TODO: is a stub
-void Player::play() {
+void Player::unpause() {
     return;
 }
 
@@ -60,7 +60,7 @@ void Player::stop() {
 
 
 // TODO: is a stub
-void Player::playTrack() {
+void Player::playTracklist(Tracklist tl) {
     return;
 }
 
