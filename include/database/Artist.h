@@ -38,7 +38,7 @@ public:
     void setBio(std::string bio) { _bio = bio; }
 
 private:
-    int _id {0};
+    int _id;
     std::string _name;
     std::string _imgSource;
     std::string _bio;
