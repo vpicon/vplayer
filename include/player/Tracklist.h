@@ -23,7 +23,11 @@ namespace player {
  */
 class Tracklist {
 public:
-    Tracklist() {}
+    // CLASS DEFINITIONS AND CONSTANTS
+    enum class Sorting { native, title, artist, album, shuffle };
+
+    // CONSTRUCTORS 
+    Tracklist(/* std::vector<Track> tracks, */ Sorting sort): _sort{sort} {}
 
     ~Tracklist() {}
 
@@ -32,7 +36,12 @@ public:
      * Gives a pointer to the next Track in the tracklist, or null if there 
      * is no next track to play.
      */
-    const Track *getNextTrack() { return nullptr; }
+    const void *getNextTrack() { return nullptr; }
+
+private:
+    // std::vector<Track> _tracks;
+    
+    Sorting _sort;
 };
 
 
