@@ -9,7 +9,6 @@
 # 	               while building the final application executable
 
 # COMPILATION VARIABLES
-
 SHELL := /usr/bin/bash 
 CXX   := g++
 
@@ -22,12 +21,10 @@ LDFLAGS :=
 AR      := ar   # Archiver
 ARFLAGS := rcs  # Archiver flags
 
-
 export SHELL CXX CXXFLAGS LDFLAGS AR ARFLAGS
 
 
 # DIRECTORIES
-
 SOURCE_DIR  := src
 INCLUDE_DIR := include
 TEST_DIR    := test
@@ -35,6 +32,23 @@ LIB_DIR     := lib
 BIN_DIR     := bin
 
 export SOURCE_DIR  INCLUDE_DIR  TEST_DIR  LIB_DIR  BIN_DIR
+
+
+# FORMATTING OUTPUT
+COM_COLOR   = \033[0;34m
+OBJ_COLOR   = \033[0;36m
+OK_COLOR    = \033[0;32m
+ERROR_COLOR = \033[0;31m
+WARN_COLOR  = \033[0;33m
+NO_COLOR    = \033[m
+
+OK_STRING    = "[OK]"
+ERROR_STRING = "[ERROR]"
+WARN_STRING  = "[WARNING]"
+COM_STRING   = "Compiling"
+
+export COM_COLOR OBJ_COLOR OK_COLOR ERROR_COLOR WARN_COLOR NO_COLOR \
+	   OK_STRING ERROR_STRING WARN_STRING COM_STRING
 
 
 # MODULES
