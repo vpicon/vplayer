@@ -16,6 +16,7 @@ namespace ui {
 MainWindow::MainWindow()
 {
     set_title("VPlayer Music");
+    maximize();
 }
 
 
