@@ -12,7 +12,7 @@
 SHELL := /usr/bin/bash 
 CXX   := g++
 
-CXXFLAGS  = -Wall -Werror -Wshadow -pedantic -g
+CXXFLAGS := -Wall -Werror -Wshadow -pedantic -g # -Wextra 
 CXXFLAGS += -std=c++17
 
 LDFLAGS :=
@@ -35,20 +35,22 @@ export SOURCE_DIR  INCLUDE_DIR  TEST_DIR  LIB_DIR  BIN_DIR
 
 
 # FORMATTING OUTPUT
-COM_COLOR   = \033[0;34m
-OBJ_COLOR   = \033[0;36m
-OK_COLOR    = \033[0;32m
-ERROR_COLOR = \033[0;31m
-WARN_COLOR  = \033[0;33m
-NO_COLOR    = \033[m
+MODULE_COLOR = \033[0;34m
+OBJ_COLOR    = \033[0;36m
+OK_COLOR     = \033[0;32m
+ERROR_COLOR  = \033[0;31m
+WARN_COLOR   = \033[0;33m
+NO_COLOR     = \033[m
 
 OK_STRING    = "[OK]"
 ERROR_STRING = "[ERROR]"
 WARN_STRING  = "[WARNING]"
 COM_STRING   = "Compiling"
+AR_STRING    = "Archiving"
+LD_STRING    = "Linking"
 
-export COM_COLOR OBJ_COLOR OK_COLOR ERROR_COLOR WARN_COLOR NO_COLOR \
-	   OK_STRING ERROR_STRING WARN_STRING COM_STRING
+export MODULE_COLOR OBJ_COLOR OK_COLOR ERROR_COLOR WARN_COLOR NO_COLOR \
+	   OK_STRING ERROR_STRING WARN_STRING COM_STRING AR_STRING LD_STRING
 
 
 # MODULES
@@ -62,21 +64,19 @@ application := $(SOURCE_DIR)
 test        := $(TEST_DIR)
 
 
-.PHONY: all $(modules) $(application)
+.PHONY: all $(application)
 all: $(application)
 
-
-$(application) $(modules):
-	$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
-
-$(application): $(modules)
-$(ui): $(player) $(database)
+$(application):
+	@$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 
 
-.PHONY: $(test) 
+.PHONY: $(test) $(modules) 
 $(test): $(modules)
-	$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
+	@$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 
+$(modules):
+	@$(MAKE) --no-print-directory --directory=$@ -f Makefile.mk
 
 .PHONY: clean
 clean:
