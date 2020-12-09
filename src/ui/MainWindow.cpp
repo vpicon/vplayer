@@ -34,7 +34,7 @@ MainWindow::MainWindow()
     _playerLibraryBox.set_spacing(boxInnerSpacing);
 
     // Add elements to the pane
-    _libraryViewPane.add1(b1);
+    _libraryViewPane.add1(_menu);
     _libraryViewPane.add2(b2);
 
     // Show widgets

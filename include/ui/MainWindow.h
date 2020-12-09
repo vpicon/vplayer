@@ -12,6 +12,7 @@
 
 
 #include "PlayerWidget.h"
+#include "LibraryPlaylistsMenuWidget.h"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/box.h>
@@ -36,7 +37,7 @@ private:
 
     // PlayerWidget _playerWidget;
     PlayerWidget _player;         // temporary button object to simulate the player widget
-    Gtk::Button b1{"Hola"};
+    LibraryPlaylistsMenuWidget _menu;
     Gtk::Button b2{"Adeu"};
 };
 
