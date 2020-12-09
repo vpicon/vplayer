@@ -35,7 +35,7 @@ MainWindow::MainWindow()
 
     // Add elements to the pane
     _libraryViewPane.add1(_menu);
-    _libraryViewPane.add2(b2);
+    _libraryViewPane.add2(_view);
 
     // Show widgets
     show_all_children();
