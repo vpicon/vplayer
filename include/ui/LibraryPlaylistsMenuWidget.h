@@ -12,6 +12,7 @@
 
 
 #include "LibraryMenuWidget.h"
+#include "PlaylistsMenuWidget.h"
 
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
@@ -30,7 +31,7 @@ public:
     ~LibraryPlaylistsMenuWidget();
 private:
     LibraryMenuWidget _libraryMenu;
-    Gtk::Button _playlistsMenu{"Playists Menu"};
+    PlaylistsMenuWidget _playlistsMenu;
 };
 
 
