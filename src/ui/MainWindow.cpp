@@ -15,8 +15,7 @@ namespace ui {
 
 MainWindow::MainWindow()
     : _playerLibraryBox {Gtk::Orientation::ORIENTATION_VERTICAL},
-      _libraryViewPane  {Gtk::Orientation::ORIENTATION_HORIZONTAL},
-      _player {"Player"}
+      _libraryViewPane  {Gtk::Orientation::ORIENTATION_HORIZONTAL}
 {
     // Set window properties
     set_title("VPlayer Music");

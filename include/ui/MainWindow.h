@@ -11,7 +11,7 @@
 #define _VPLAYER_MAIN_WINDOW_H
 
 
-// #include "PlayerWidget.h"
+#include "PlayerWidget.h"
 
 #include <gtkmm/applicationwindow.h>
 #include <gtkmm/box.h>
@@ -35,7 +35,7 @@ private:
     Gtk::Paned _libraryViewPane; // Side by side panes of library and view widget
 
     // PlayerWidget _playerWidget;
-    Gtk::Button _player;         // temporary button object to simulate the player widget
+    PlayerWidget _player;         // temporary button object to simulate the player widget
     Gtk::Button b1{"Hola"};
     Gtk::Button b2{"Adeu"};
 };
