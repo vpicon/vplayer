@@ -5,7 +5,6 @@ modules := player database ui
 
 # Directories
 include_dirs := ../$(INCLUDE_DIR) 
-
 build_dir := ../$(BIN_DIR)
 
 
@@ -31,16 +30,14 @@ SQLITEFLAGS := -lsqlite3
 	# ui
 GTKMMFLAGS  := $(shell pkg-config gtkmm-3.0 --libs)
 
-
 LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS) $(SQLITEFLAGS) $(GTKMMFLAGS)
 
 
 # Tracked Files
 sources := $(wildcard *.cpp)
-
 headers := $(wildcard ../$(INCLUDE_DIR)/*.h)
+objects := $(patsubst %.cpp,$(build_dir)/%.o,$(sources))
 
-objects := $(patsubst %.cpp,../$(BIN_DIR)/%.o,$(sources))
 
 
 # Formatting Output
@@ -66,11 +63,13 @@ endef
 
 # Build Rules 
 .PHONY: all $(modules) objects_format
-all: $(modules) objects_format $(objects) $(target)
+all: $(target)
 
-$(target): $(objects)
+
+$(target): $(modules) objects_format $(objects) 
 	@printf "%b" "$(MODULE_COLOR)Linking application $(@F) objects and libraries:$(NO_COLOR)\n"
 	@$(call format_command,$(CXX) $(objects) -o $@ $(LDFLAGS),$(LD_STRING))
+
 
 $(modules):
 	@printf "%b" "$(MODULE_COLOR)Building $(@) module:$(NO_COLOR)\n"
@@ -80,7 +79,7 @@ $(modules):
 objects_format:
 	@printf "%b" "$(MODULE_COLOR)Building application objects:$(NO_COLOR)\n"
 
-$(objects): ../$(BIN_DIR)/%.o: %.cpp $(headers)
+$(objects): $(build_dir)/%.o: %.cpp $(headers)
 	@$(call format_command,$(CXX) -c $(CXXFLAGS) $(LIBCXXFLAGS) $< -o $@,$(COM_STRING))
 
 
