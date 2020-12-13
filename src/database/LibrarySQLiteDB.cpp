@@ -18,19 +18,10 @@ namespace database {
 
 
 LibrarySQLiteDB::LibrarySQLiteDB(std::string dbName) 
-    : _dbName {dbName}   
+    : _dbName {dbName},
+      _sqlHandle{_dbName}
+     
 {
-    // Open database connection
-    int rc = sqlite3_open(_dbName.c_str(), &_pDB);
-    if (rc != SQLITE_OK || _pDB == nullptr) {
-        // Get error message and close database connection
-        std::string errMsg {sqlite3_errmsg(_pDB)};
-        sqlite3_close(_pDB);
-
-        // Throw exception
-        throw std::runtime_error {errMsg};
-    }
-
     // Database info of tables
     _trackFields = "tr.id, "
                    "tr.title, "

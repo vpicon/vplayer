@@ -12,9 +12,9 @@
 
 
 #include "LibraryDB.h"
+#include "SQLiteHandle.h"
 
 #include <string>
-#include <sqlite3.h>
 
 
 namespace database {
@@ -59,8 +59,8 @@ public:
     void updateTrackPlaylistPosition() override {}
 
 private:
-    sqlite3 *_pDB;  // SQLite db handle
-    const std::string _dbName;  // Database filename (UTF-8)
+    SQLiteHandle _sqlHandle;    // SQLite3 db handle
+    const std::string _dbName;  // Database filename
 
     // DATABASE TABLES INFO
     std::string _trackFields;

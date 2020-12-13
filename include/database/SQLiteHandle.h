@@ -29,7 +29,7 @@ class SQLiteQuery;
  */
 class SQLiteHandle {
 public:
-    SQLiteHandle(std::string);
+    SQLiteHandle(std::string dbName);
 
     ~SQLiteHandle();
 
