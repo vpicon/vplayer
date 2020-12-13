@@ -73,13 +73,13 @@ private:
      * Creates all the tables of the database if they do not exist
      * already. Returns if it created the tables or not.
      */
-    void createTables();
-    void createTableTracks();
-    void createTableArtists();
-    void createTableTracksArtists();
-    void createTableAlbums();
-    void createTablePlaylists();
-    void createTableTracksPlaylists();
+    bool createTables();
+    bool createTableTracks();
+    bool createTableArtists();
+    bool createTableTracksArtists();
+    bool createTableAlbums();
+    bool createTablePlaylists();
+    bool createTablePlaylistsTracks();
 };
 
 
