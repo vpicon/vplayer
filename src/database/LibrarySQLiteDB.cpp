@@ -69,10 +69,10 @@ LibrarySQLiteDB::~LibrarySQLiteDB()
 
 
 
-void createTables() {
+bool createTables() {
     // TODO: Check the tables are not already created
-    if (/* tables do not exist */ false)
-        return;
+    // if (tables do not exist)
+        // return false;
     
     // Call subroutines to create the different tables
     void createTableTracks();
@@ -81,6 +81,8 @@ void createTables() {
     void createTableAlbums();
     void createTablePlaylists();
     void createTableTracksPlaylists();
+
+    return true;
 }
 
 

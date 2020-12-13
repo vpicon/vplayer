@@ -61,9 +61,15 @@ public:
      */
     virtual void getPlaylistTracks() = 0;
     /**
+     * Gives all the playlists in the library. Their names and id,
+     * but not the contents of each of the playlists.
+     */
+    virtual void getPlaylists() = 0;
+    /**
      * Gives all the tracks in a given album.
      */
     virtual void getAlbumTracks() = 0;
+
     virtual void getTrack() = 0;
     /**
      * Gives all the tracks of a given author.

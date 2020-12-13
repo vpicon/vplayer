@@ -46,6 +46,7 @@ public:
     // GETTERS
     void getLibraryTracks() override {}
     void getPlaylistTracks() override {}
+    void getPlaylists() override {}
     void getAlbumTracks() override {}
     void getTrack() override {}
     void getAuthorAlbums() override {}
@@ -70,7 +71,7 @@ private:
     // HELPER METHODS
     /**
      * Creates all the tables of the database if they do not exist
-     * already.
+     * already. Returns if it created the tables or not.
      */
     void createTables();
     void createTableTracks();

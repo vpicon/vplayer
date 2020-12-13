@@ -75,10 +75,6 @@ SQLiteQuery::~SQLiteQuery() {
 
 
 
-/**
- * Executes a previously prepared SQL query. Returns true if the query 
- * executed successfully; otherwise returns false.
- */
 bool SQLiteQuery::exec() {
     int rc = sqlite3_step(_ppStmt);
 
@@ -93,12 +89,6 @@ bool SQLiteQuery::exec() {
 
 
 
-/**
- * Retrieves the next record in the result, if available, and positions 
- * the query on the retrieved record.
- *
- * Returns if there are still more columns left to be retrieved.
- */
 bool SQLiteQuery::next() {
     int rc = sqlite3_step(_ppStmt);
     return _availableRow = (rc == SQLITE_ROW);
