@@ -149,7 +149,7 @@ bool LibrarySQLiteDB::createTableAlbums() {
 
 bool LibrarySQLiteDB::createTablePlaylists() {
     std::string statement {
-        "CREATE TABLE IF NOT EXISTS Albums ("
+        "CREATE TABLE IF NOT EXISTS Playlists ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
             "name TEXT NOT NULL,"
             "imageSource TEXT"
@@ -164,7 +164,7 @@ bool LibrarySQLiteDB::createTablePlaylists() {
 
 bool LibrarySQLiteDB::createTablePlaylistsTracks() {
     std::string statement {
-        "CREATE TABLE IF NOT EXISTS TracksArtists ("
+        "CREATE TABLE IF NOT EXISTS PlaylistsTracks ("
             "trackId INTEGER NOT NULL,"
             "playlistId INTEGER NOT NULL,"
             "position INTEGER NOT NULL," // position of the track in the playlist
