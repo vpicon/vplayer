@@ -14,43 +14,64 @@ namespace database {
 
 
 // TODO: is a stub
-void updatePlaylistName() {
+void LibrarySQLiteDB::updatePlaylistName() {
     return;
 }
 
 
 
 // TODO: is a stub
-void updateTrackOrderInPlaylist() {
+void LibrarySQLiteDB::updateTrackOrderInPlaylist() {
     return;
 }
 
 
 
 // TODO: is a stub
-void updateAlbumMetadata() {
+void LibrarySQLiteDB::updateAlbumMetadata() {
     return;
 }
 
 
 
 // TODO: is a stub
-void updateTrackMetadata() {
+void LibrarySQLiteDB::updateTrackMetadata() {
     return;
 }
 
 
 
 // TODO: is a stub
-void updateTrackPlaylistPosition() {
+void LibrarySQLiteDB::updateTrackPlaylistPosition() {
     return;
 }
 
 
 
-// TODO: is a stub
-bool updateArtist(Artist &artist) {
-    return false;
+bool LibrarySQLiteDB::updateArtist(Artist &artist) {
+    // Prepare update statement with artist fields
+    std::string statement {
+        "UPDATE Artists"
+        "SET "
+            "name = ?, "
+            "imageSource = ?, "
+            "bio = ? "
+        "WHERE "
+            "id = ?"
+        ";"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, artist.getName());
+    query.bindValue(1, artist.getImgSource());
+    query.bindValue(2, artist.getBio());
+    query.bindValue(3, artist.getId());
+
+    if (!query.exec()) {
+        // TODO: error handling
+        return false;
+    }
+
+    return true;
 }
 
 
