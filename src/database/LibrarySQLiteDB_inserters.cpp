@@ -35,14 +35,48 @@ void LibrarySQLiteDB::insertTrackToPlaylist() {
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::insertNewAlbum() {
-    return false;
+bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
+    // Check if the artist is already in the database
+    if (false /* TODO: existsArtist(artist.getName() */) {
+        // TODO:
+        // Get stored artist id
+        // Update given @artist id by the retrieved one
+        return false;
+    }
+
+    // Prepare insert statement
+    std::string statement {
+        "INSERT INTO Artists ("
+            "name,"
+            "imageSource,"
+            "bio"
+        ") VALUES ("
+            "?,"
+            "?,"
+            "?"
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Bind the @artist values to the query
+    query.bindValue(1, artist.getName());
+    query.bindValue(2, artist.getImgSource());
+    query.bindValue(3, artist.getBio());
+    
+    // Execute insert query
+    if (!query.exec()) // TODO: error handling
+        return false;
+
+    // Set the id of @artist by the given id in the database
+    artist.setId(query.lastInsertId());
+
+    return true;
 }
 
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
+bool LibrarySQLiteDB::insertNewAlbum() {
     return false;
 }
 
