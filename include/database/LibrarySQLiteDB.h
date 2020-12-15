@@ -95,7 +95,8 @@ private:
      * updates the id of the given @artist to the id of the artist in the 
      * database.
      *
-     * Returns true if if could add the artist, false otherwise.
+     * Returns true if on success, independently of adding the artist
+     * or not. Return false otherwise on any error.
      */
     bool insertNewArtist(Artist &artist);
     /**
@@ -104,7 +105,8 @@ private:
      * in the database, updates the id of the given @album to the id of 
      * the album in the database.
      *
-     * Returns true if if could add the album, false otherwise.
+     * Returns true if on success, independently of adding the artist
+     * or not. Return false otherwise on any error.
      */
     bool insertNewAlbum();
 

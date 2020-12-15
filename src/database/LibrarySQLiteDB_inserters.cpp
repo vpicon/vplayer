@@ -34,14 +34,13 @@ void LibrarySQLiteDB::insertTrackToPlaylist() {
 
 
 
-// TODO: is a stub
 bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
     // Check if the artist is already in the database
     if (false /* TODO: existsArtist(artist.getName() */) {
         // TODO:
         // Get stored artist id
         // Update given @artist id by the retrieved one
-        return false;
+        return true;
     }
 
     // Prepare insert statement
