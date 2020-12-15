@@ -67,7 +67,7 @@ Track LibrarySQLiteDB::getTrack(int id) {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getAuthorAlbums() {
+void LibrarySQLiteDB::getArtistAlbums() {
     return;
 }
 

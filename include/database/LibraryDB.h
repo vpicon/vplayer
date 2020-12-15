@@ -82,7 +82,7 @@ public:
     /**
      * Gives all the tracks of a given author.
      */
-    virtual void getAuthorAlbums() = 0;
+    virtual void getArtistAlbums() = 0;
 
     // UPDATERS
     /**
