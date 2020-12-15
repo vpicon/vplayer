@@ -85,6 +85,17 @@ public:
      */
     bool availableRow() { return _availableRow; }
 
+    /**
+     * Binds values to a prepared statement query. The first parameter is the 
+     * position (index) of the SQL argument, starting with 1.
+     * Return true on success, false otherwise.
+     */
+    bool bindValue(int i, int val);
+
+    bool bindValue(int i, std::string val);
+
+    bool bindNull(int i);
+
 private:
     SQLiteHandle& _sqlHandle;
     std::string _statement;

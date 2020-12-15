@@ -116,6 +116,29 @@ SQLiteValue SQLiteQuery::value(int iCol) {
 
 
 
+bool SQLiteQuery::bindValue(int i, int val) {
+    int rc = sqlite3_bind_int(_ppStmt, i, val);
+    return rc == SQLITE_OK;
+}
+
+
+
+bool SQLiteQuery::bindValue(int i, std::string val) {
+    int rc = sqlite3_bind_text(_ppStmt, 
+                               i, 
+                               val.c_str(), 
+                               val.size() * sizeof(char), 
+                               nullptr);
+    return rc == SQLITE_OK;
+}
+
+
+
+bool SQLiteQuery::bindNull(int i) {
+    int rc = sqlite3_bind_null(_ppStmt, i);
+    return rc == SQLITE_OK;
+}
+
 // --------- SQLiteValue CLASS ---------
 
 SQLiteValue::SQLiteValue()
