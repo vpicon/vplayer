@@ -84,7 +84,7 @@ public:
      * Tells if there is an associated record with the current query and state
      * of the query.
      */
-    bool availableRow() { return _availableRow; }
+    bool availableRecord() { return _availableRecord; }
 
     /**
      * Binds values to a prepared statement query. The first parameter is the 
@@ -107,7 +107,7 @@ private:
 
     sqlite3_stmt *_ppStmt = nullptr;  // SQLite3 statement handle
 
-    bool _availableRow = false;
+    bool _availableRecord = false;
 };
 
 

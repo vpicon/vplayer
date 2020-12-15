@@ -79,7 +79,7 @@ bool SQLiteQuery::exec() {
     int rc = sqlite3_step(_ppStmt);
 
     if (rc == SQLITE_ROW) {
-        _availableRow = true;
+        _availableRecord = true;
         return true;
     } else if (rc == SQLITE_DONE) {
         return true;
@@ -91,7 +91,7 @@ bool SQLiteQuery::exec() {
 
 bool SQLiteQuery::next() {
     int rc = sqlite3_step(_ppStmt);
-    return _availableRow = (rc == SQLITE_ROW);
+    return _availableRecord = (rc == SQLITE_ROW);
 }
 
 

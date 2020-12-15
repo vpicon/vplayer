@@ -154,12 +154,12 @@ TEST_F(SQLiteHandleTest, SQLiteQueryClassExecSucess) {
 
 
 /**
- * SQLiteQuery.availableRow() Test 
+ * SQLiteQuery.availableRecord() Test 
  *    return: true, false
  *    state: false after true, true after false (TODO: from a reset)
  */
 
-TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowFalse) {
+TEST_F(SQLiteHandleTest, SQLiteQueryClassavailableRecordFalse) {
         // Create statement of creating the Persons table again
         std::string createTableStmt {
             "CREATE TABLE IF NOT EXISTS Persons ("
@@ -177,10 +177,10 @@ TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowFalse) {
         ASSERT_TRUE(query.exec());
 
         // Check if we have some available records (we shouldnt)
-        EXPECT_FALSE(query.availableRow());
+        EXPECT_FALSE(query.availableRecord());
 }
 
-TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowTrue) {
+TEST_F(SQLiteHandleTest, SQLiteQueryClassavailableRecordTrue) {
         // Create statement of creating the Persons table again
         std::string statement {
             "SELECT id FROM Persons;"
@@ -194,10 +194,10 @@ TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowTrue) {
         ASSERT_TRUE(query.exec());
 
         // Check if we have some available records (we shouldnt)
-        EXPECT_TRUE(query.availableRow());
+        EXPECT_TRUE(query.availableRecord());
 }
 
-TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowFalseAfterTrue) {
+TEST_F(SQLiteHandleTest, SQLiteQueryClassavailableRecordFalseAfterTrue) {
         // Create statement of creating the Persons table again
         std::string statement {
             "SELECT id FROM Persons;"
@@ -211,13 +211,13 @@ TEST_F(SQLiteHandleTest, SQLiteQueryClassAvailableRowFalseAfterTrue) {
         ASSERT_TRUE(query.exec());
 
         // Check if we have some available records (we shouldnt)
-        EXPECT_TRUE(query.availableRow());
+        EXPECT_TRUE(query.availableRecord());
 
         // Go to next result (if any)
         EXPECT_FALSE(query.next());
 
         // Check available records
-        EXPECT_FALSE(query.availableRow());
+        EXPECT_FALSE(query.availableRecord());
 }
 
 
