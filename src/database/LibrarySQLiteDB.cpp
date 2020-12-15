@@ -1,5 +1,5 @@
 /**
- * LibraryDB.cpp
+ * LibrarySQLiteDB.cpp
  *
  * Module: database 
  *

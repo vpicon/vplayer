@@ -23,17 +23,17 @@ public:
 
     // INSERTERS
     /**
-     * Adds a new song to the library.
+     * Adds a new track to the library.
      */
-    virtual void insertTrackToLibrary() = 0;
+    virtual void insertNewTrack() = 0;
+    /**
+     * Creates a new empty playlist with given name.
+     */
+    virtual void insertNewPlaylist() = 0;
     /**
      * Given a playlist and the given track object, inserts it to the playlist.
      */
     virtual void insertTrackToPlaylist() = 0;
-    /**
-     * Creates a new empty playlist with given name.
-     */
-    virtual void insertPlaylist() = 0;
 
     // DELETERS
     /**

@@ -38,9 +38,12 @@ public:
     ~LibrarySQLiteDB();
 
     // INSERTERS
-    void insertTrackToLibrary() override {}
+    /**
+     * Adds new track to the library.
+     */
+    void insertNewTrack() override {}
+    void insertNewPlaylist() override {}
     void insertTrackToPlaylist() override {}
-    void insertPlaylist() override {}
 
     // DELETERS
     void deleteTrackFromLibrary() override {}
@@ -85,7 +88,7 @@ private:
     bool createTablePlaylists();
     bool createTablePlaylistsTracks();
 
-    // OBJECT HYRDRATORS
+    // GETTERS : OBJECT HYRDRATORS
     void setTracksToPlaylist(Playlist &playlist);
     void setArtistsToTrack(Track &track);
     /**
@@ -95,6 +98,10 @@ private:
     Album hydrateAlbum(SQLiteQuery &query);
     Artist hydrateArtist(SQLiteQuery &query);
     Playlist hydratePlaylist(SQLiteQuery &query);
+
+    // INSERTERS
+    void insertNewArtist();
+    void insertNewAlbum();
 };
 
 
