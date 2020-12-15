@@ -73,7 +73,6 @@ void LibrarySQLiteDB::getAuthorAlbums() {
 
 
 
-// TODO: is a stub
 bool LibrarySQLiteDB::existsArtist(std::string artistName) {
     std::string statement {
         "SELECT id FROM Artists"

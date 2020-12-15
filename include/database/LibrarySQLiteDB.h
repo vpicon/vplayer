@@ -90,10 +90,12 @@ private:
 
     // INSERTERS
     /**
-     * Adds new artist to the database, if an artist with the same name is 
-     * not already in the database. If such artist is already in the database,
-     * updates the id of the given @artist to the id of the artist in the 
-     * database.
+     * Tries to add new artist to the database. If no artists exists in
+     * the database with the given name, inserts the given one into the
+     * database and sets the id of @artist by the id given by the database. 
+     * If an artist with the same name is already in the database, 
+     * updates the id of the given @artist to the id of the artist in 
+     * the database.
      *
      * Returns true if on success, independently of adding the artist
      * or not. Return false otherwise on any error.
