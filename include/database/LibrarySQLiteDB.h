@@ -59,11 +59,11 @@ public:
     void getArtistAlbums() override;
 
     // UPDATERS
-    void updatePlaylistName() override {}
-    void updateTrackOrderInPlaylist() override {}
-    void updateAlbumMetadata() override {}
-    void updateTrackMetadata() override {}
-    void updateTrackPlaylistPosition() override {}
+    void updatePlaylistName() override;
+    void updateTrackOrderInPlaylist() override;
+    void updateAlbumMetadata() override;
+    void updateTrackMetadata() override;
+    void updateTrackPlaylistPosition() override;
 
 private:
     SQLiteHandle _sqlHandle;    // SQLite3 db handle
@@ -140,7 +140,7 @@ private:
      *
      * Returns true on success. False otherwise on any errors.
      */
-    bool updateArtist(Artist &artist) { return false; }
+    bool updateArtist(Artist &artist);
 };
 
 
