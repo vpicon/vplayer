@@ -33,6 +33,15 @@ public:
           float duration,
           const std::string &source);
 
+    Track(const std::string &title,
+          const Album &album,
+          const std::vector<Artist> &artists, 
+          const std::string &dateOfAddition,   // TODO: Add format Date of addition to the library
+          float duration,
+          const std::string &source);
+
+    Track();
+
     // GETTERS
     int getId() const { return _id; }
     std::string getTitle() const { return _title; }

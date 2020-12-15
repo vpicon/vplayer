@@ -13,6 +13,7 @@
 namespace database {
 
 
+
 Track::Track(int id, 
              const std::string &title,
              const Album &album,
@@ -27,6 +28,25 @@ Track::Track(int id,
       _date{dateOfAddition},
       _duration{duration},
       _source{source}
+{
+}
+
+
+
+Track::Track(const std::string &title,
+             const Album &album,
+             const std::vector<Artist> &artists, 
+             const std::string &dateOfAddition,   // TODO: Add format Date of addition to the library
+             float duration,
+             const std::string &source)
+    : Track(0, title, album, artists, dateOfAddition, duration, source)
+{
+}
+
+
+
+Track::Track()
+    : Track(0, "", Album {}, std::vector<Artist> {}, "", 0.0, "")
 {
 }
 
