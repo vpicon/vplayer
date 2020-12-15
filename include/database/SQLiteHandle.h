@@ -91,10 +91,13 @@ public:
      * Return true on success, false otherwise.
      */
     bool bindValue(int i, int val);
-
     bool bindValue(int i, std::string val);
-
     bool bindNull(int i);
+
+    /**
+     * Returns the id of the last successful INSERT operation.
+     */
+    int lastInsertId() { return sqlite3_last_insert_rowid(_sqlHandle.get()); };
 
 private:
     SQLiteHandle& _sqlHandle;
