@@ -69,11 +69,13 @@ TEST_F(ArtistTest, defaultConstructor) {
 
 TEST_F(ArtistTest, setters) {
     // Define new values
+    int newId {13};
     std::string newName {"Victor"};
     std::string newImgSource {"/home/usr/some_image.jpg"};
     std::string newBio {"A nice person."};
 
     // Set new values
+    artist.setId(newId);
     artist.setName(newName);
     artist.setImgSource(newImgSource);
     artist.setBio(newBio);

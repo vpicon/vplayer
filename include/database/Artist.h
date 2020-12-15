@@ -33,6 +33,7 @@ public:
     std::string getBio() const { return _bio; }
 
     // SETTERS
+    void setId(int id) { _id = id; }
     void setName(std::string name) { _name = name; }
     void setImgSource(std::string source) { _imgSource = source; }
     void setBio(std::string bio) { _bio = bio; }
