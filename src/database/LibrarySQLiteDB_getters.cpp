@@ -43,8 +43,25 @@ void LibrarySQLiteDB::getAlbumTracks() {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getTrack() {
-    return;
+Track LibrarySQLiteDB::getTrack(int id) {
+    Track track;
+
+    // Make query to retrieve track with given id
+    std::string statement {
+        "SELECT " + _trackFields + "FROM Tracks AS tr"
+        "WHERE id = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(1, id);
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+    // Check if there is some record for the given query and get it
+    if (query.availableRecord()) 
+        track = hydrateTrack(query);
+
+    return track;
 }
 
 
@@ -68,7 +85,7 @@ bool LibrarySQLiteDB::existsArtist(std::string artistName) {
     if (!query.exec()) 
         /* TODO: some debug */;
         
-    return query.availableRow();
+    return query.availableRecord();
 }
 
 

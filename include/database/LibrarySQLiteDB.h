@@ -55,7 +55,7 @@ public:
     void getPlaylistTracks() override;
     void getPlaylists() override;
     void getAlbumTracks() override;
-    void getTrack() override;
+    Track getTrack(int id) override;
     void getAuthorAlbums() override;
 
     // UPDATERS
