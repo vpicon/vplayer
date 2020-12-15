@@ -52,7 +52,7 @@ Track LibrarySQLiteDB::getTrack(int id) {
         "WHERE id = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
-    query.bindValue(1, id);
+    query.bindValue(0, id);
 
     // Execute query
     if (!query.exec())
@@ -80,7 +80,7 @@ bool LibrarySQLiteDB::existsArtist(std::string artistName) {
         "WHERE Artists.name = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
-    query.bindValue(1, artistName);
+    query.bindValue(0, artistName);
     
     if (!query.exec()) 
         /* TODO: some debug */;

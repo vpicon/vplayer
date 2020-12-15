@@ -268,8 +268,8 @@ TEST_F(SQLiteHandleTest, SQLiteQueryClassBindValue) {
         database::SQLiteQuery insertQuery {sqlHandle, insertStmt};
 
         // Bind values to query
-        insertQuery.bindValue(1, p2.name);
-        insertQuery.bindValue(2, p2.age);
+        insertQuery.bindValue(0, p2.name);
+        insertQuery.bindValue(1, p2.age);
 
         // Execute query
         insertQuery.exec();

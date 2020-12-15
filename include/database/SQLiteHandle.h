@@ -88,7 +88,7 @@ public:
 
     /**
      * Binds values to a prepared statement query. The first parameter is the 
-     * position (index) of the SQL argument, starting with 1.
+     * position (index) of the SQL argument, starting with 0.
      * Return true on success, false otherwise.
      */
     bool bindValue(int i, int val);

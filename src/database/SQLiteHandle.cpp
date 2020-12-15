@@ -117,7 +117,7 @@ SQLiteValue SQLiteQuery::value(int iCol) {
 
 
 bool SQLiteQuery::bindValue(int i, int val) {
-    int rc = sqlite3_bind_int(_ppStmt, i, val);
+    int rc = sqlite3_bind_int(_ppStmt, i + 1, val);
     return rc == SQLITE_OK;
 }
 
@@ -125,7 +125,7 @@ bool SQLiteQuery::bindValue(int i, int val) {
 
 bool SQLiteQuery::bindValue(int i, std::string val) {
     int rc = sqlite3_bind_text(_ppStmt, 
-                               i, 
+                               i + 1, 
                                val.c_str(), 
                                val.size() * sizeof(char), 
                                nullptr);
@@ -135,7 +135,7 @@ bool SQLiteQuery::bindValue(int i, std::string val) {
 
 
 bool SQLiteQuery::bindNull(int i) {
-    int rc = sqlite3_bind_null(_ppStmt, i);
+    int rc = sqlite3_bind_null(_ppStmt, i + 1);
     return rc == SQLITE_OK;
 }
 

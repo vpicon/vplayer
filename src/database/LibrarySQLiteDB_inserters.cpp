@@ -59,9 +59,9 @@ bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
     SQLiteQuery query {_sqlHandle, statement};
 
     // Bind the @artist values to the query
-    query.bindValue(1, artist.getName());
-    query.bindValue(2, artist.getImgSource());
-    query.bindValue(3, artist.getBio());
+    query.bindValue(0, artist.getName());
+    query.bindValue(1, artist.getImgSource());
+    query.bindValue(2, artist.getBio());
     
     // Execute insert query
     if (!query.exec()) // TODO: error handling
