@@ -11,6 +11,12 @@
 #define _VPLAYER_LIBRARY_DB_H
 
 
+#include "Track.h"
+#include "Album.h"
+#include "Artist.h"
+#include "Playlist.h"
+
+
 
 namespace database {
 
@@ -69,8 +75,10 @@ public:
      * Gives all the tracks in a given album.
      */
     virtual void getAlbumTracks() = 0;
-
-    virtual void getTrack() = 0;
+    /**
+     * Get the track with the given id number.
+     */
+    virtual Track getTrack(int id) = 0;
     /**
      * Gives all the tracks of a given author.
      */
