@@ -35,15 +35,15 @@ void LibrarySQLiteDB::insertTrackToPlaylist() {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::insertNewAlbum() {
-    return;
+bool LibrarySQLiteDB::insertNewAlbum() {
+    return false;
 }
 
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::insertNewArtist() {
-    return;
+bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
+    return false;
 }
 
 

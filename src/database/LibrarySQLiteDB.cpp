@@ -102,7 +102,8 @@ bool LibrarySQLiteDB::createTableArtists() {
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
             "name TEXT NOT NULL,"
             "imageSource TEXT,"
-            "bio TEXT"
+            "bio TEXT,"
+            "UNIQUE(name) ON CONFLICT IGNORE" // TODO: revise conflict conseqences
         ")"
     };
 
@@ -117,8 +118,8 @@ bool LibrarySQLiteDB::createTableTracksArtists() {
         "CREATE TABLE IF NOT EXISTS TracksArtists ("
             "trackId INTEGER NOT NULL,"
             "artistId INTEGER NOT NULL,"
-            "UNIQUE(trackId, artistId) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
-            "FOREIGN KEY(trackId) REFERENCES Tracks,"    // TODO: add constraint operations
+            "UNIQUE(trackId, artistId)," // TODO: revise conflict conseqences
+            "FOREIGN KEY(trackId) REFERENCES Tracks,"  // TODO: add constraint operations
             "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: "   "          "
         ")"
     };
@@ -137,6 +138,7 @@ bool LibrarySQLiteDB::createTableAlbums() {
             "artistId INTEGER NOT NULL,"
             "year INTEGER NOT NULL,"
             "imageSource TEXT,"
+            "UNIQUE(title, artistId) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
             "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: add constraint operations
         ")"
     };

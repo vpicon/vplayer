@@ -41,9 +41,9 @@ public:
     /**
      * Adds new track to the library.
      */
-    void insertNewTrack() override {}
-    void insertNewPlaylist() override {}
-    void insertTrackToPlaylist() override {}
+    void insertNewTrack() override;
+    void insertNewPlaylist() override;
+    void insertTrackToPlaylist() override;
 
     // DELETERS
     void deleteTrackFromLibrary() override {}
@@ -100,8 +100,24 @@ private:
     Playlist hydratePlaylist(SQLiteQuery &query);
 
     // INSERTERS
-    void insertNewArtist();
-    void insertNewAlbum();
+    /**
+     * Adds new artist to the database, if an artist with the same name is 
+     * not already in the database. If such artist is already in the database,
+     * updates the id of the given @artist to the id of the artist in the 
+     * database.
+     *
+     * Returns true if if could add the artist, false otherwise.
+     */
+    bool insertNewArtist(Artist &artist);
+    /**
+     * Adds new album to the database, if an album with the same name 
+     * and artist is not already in the database. If such album is 
+     * in the database, updates the id of the given @album to the id of 
+     * the album in the database.
+     *
+     * Returns true if if could add the album, false otherwise.
+     */
+    bool insertNewAlbum();
 };
 
 
