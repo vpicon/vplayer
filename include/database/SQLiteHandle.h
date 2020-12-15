@@ -69,13 +69,14 @@ public:
      * Retrieves the next record in the result, if available, and positions 
      * the query on the retrieved record.
      *
-     * Returns if there are still more columns left to be retrieved.
+     * Returns if the result contains a record. 
      */
     bool next();  // TODO: implement as iterators
 
     /**
      * When this query returns a record (row) of the database, returns
      * the SQLiteValue stored at the iCol position of the record.
+     * The index iCol starts at 0.
      */
     SQLiteValue value(int iCol);
 
@@ -95,7 +96,8 @@ public:
     bool bindNull(int i);
 
     /**
-     * Returns the id of the last successful INSERT operation.
+     * Returns the id of the last successful INSERT operation. Must be
+     * executed exactly after an INSERT operation.
      */
     int lastInsertId() { return sqlite3_last_insert_rowid(_sqlHandle.get()); };
 
@@ -120,7 +122,15 @@ public:
     explicit SQLiteValue(int intVal);
     explicit SQLiteValue(const unsigned char *textVal);
 
+    /**
+     * Returns int value, if this object was built with an integer value.
+     * Undetermined results are yielded otherwise.
+     */
     int toInt() { return _intVal; }
+    /**
+     * Returns string value, if this object was built with a string 
+     * value. Undetermined results are yielded otherwise.
+     */
     std::string toString();
 
 private:
