@@ -13,6 +13,10 @@
 
 #include "LibraryDB.h"
 #include "SQLiteHandle.h"
+#include "Track.h"
+#include "Album.h"
+#include "Artist.h"
+#include "Playlist.h"
 
 #include <string>
 
@@ -68,7 +72,7 @@ private:
     std::string _albumFields;
     std::string _playlistFields;
 
-    // HELPER METHODS
+    // SCHEMA BUILDERS 
     /**
      * Creates all the tables of the database if they do not exist
      * already. Returns if it created the tables or not.
@@ -80,6 +84,17 @@ private:
     bool createTableAlbums();
     bool createTablePlaylists();
     bool createTablePlaylistsTracks();
+
+    // OBJECT HYRDRATORS
+    void setTracksToPlaylist(Playlist &playlist);
+    void setArtistsToTrack(Track &track);
+    /**
+     * Hydrate objects from a query containing data.
+     */
+    Track hydrateTrack(SQLiteQuery &query);
+    Album hydrateAlbum(SQLiteQuery &query);
+    Artist hydrateArtist(SQLiteQuery &query);
+    Playlist hydratePlaylist(SQLiteQuery &query);
 };
 
 

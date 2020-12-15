@@ -133,7 +133,7 @@ bool LibrarySQLiteDB::createTableAlbums() {
     std::string statement {
         "CREATE TABLE IF NOT EXISTS Albums ("
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
-            "name TEXT NOT NULL,"
+            "title TEXT NOT NULL,"
             "artistId INTEGER NOT NULL,"
             "year INTEGER NOT NULL,"
             "imageSource TEXT,"
@@ -178,6 +178,21 @@ bool LibrarySQLiteDB::createTablePlaylistsTracks() {
     return query.exec();
 }
 
+
+
+/**
+ * Creates an album object from an album containing a query row to 
+ * an album with values (id, title, artistId, year, imgSource) values.
+ */
+Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
+    Album album {query.value(0).toInt(),
+                 query.value(1).toString(),
+                 // query.value(2),
+                 query.value(3).toInt(),
+                 query.value(4).toString()};
+
+    return album;
+}
 
 
 }  // namespace database
