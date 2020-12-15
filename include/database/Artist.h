@@ -21,10 +21,17 @@ namespace database {
 
 class Artist {
 public:
-    Artist(int id = 0, 
-           std::string name = "", 
-           std::string imgSource = "", 
-           std::string bio = "");      
+    // CONSTRUCTORS
+    Artist(int id, 
+           std::string name, 
+           std::string imgSource, 
+           std::string bio);      
+
+    Artist(std::string name, 
+           std::string imgSource, 
+           std::string bio);      
+
+    Artist();
 
     // GETTERS
     int getId() const { return _id; }

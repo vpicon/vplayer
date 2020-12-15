@@ -25,6 +25,23 @@ Artist::Artist(int id,
 }
 
 
+
+Artist::Artist(std::string name, 
+               std::string imgSource, 
+               std::string bio)
+    : Artist(0, name, imgSource, bio)
+{
+}
+
+
+
+Artist::Artist()
+    : Artist(0, "", "", "")
+{
+}
+
+
+
 std::ostream& operator<<(std::ostream &os, const Artist &artist) {
     os << "Artist id: "   << artist.getId()
        << ", name: "      << artist.getName()
