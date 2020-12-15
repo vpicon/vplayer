@@ -1,6 +1,10 @@
 # Generated binaries
 *.o
+*.out
 *.a
+
+# Database files
+*.db
 
 vplayer
 vplayer_tests
