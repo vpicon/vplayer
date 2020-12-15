@@ -53,7 +53,7 @@ bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
         ") VALUES ("
             "?,"
             "?,"
-            "?"
+            "? "
         ");"
     };
     SQLiteQuery query {_sqlHandle, statement};

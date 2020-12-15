@@ -88,17 +88,6 @@ private:
     bool createTablePlaylists();
     bool createTablePlaylistsTracks();
 
-    // GETTERS : OBJECT HYRDRATORS
-    void setTracksToPlaylist(Playlist &playlist);
-    void setArtistsToTrack(Track &track);
-    /**
-     * Hydrate objects from a query containing data.
-     */
-    Track hydrateTrack(SQLiteQuery &query);
-    Album hydrateAlbum(SQLiteQuery &query);
-    Artist hydrateArtist(SQLiteQuery &query);
-    Playlist hydratePlaylist(SQLiteQuery &query);
-
     // INSERTERS
     /**
      * Adds new artist to the database, if an artist with the same name is 
@@ -118,6 +107,23 @@ private:
      * Returns true if if could add the album, false otherwise.
      */
     bool insertNewAlbum();
+
+    // GETTERS : OBJECT HYRDRATORS
+    void setTracksToPlaylist(Playlist &playlist);
+    void setArtistsToTrack(Track &track);
+    /**
+     * Hydrate objects from a query containing data.
+     */
+    Track hydrateTrack(SQLiteQuery &query);
+    Album hydrateAlbum(SQLiteQuery &query);
+    Artist hydrateArtist(SQLiteQuery &query);
+    Playlist hydratePlaylist(SQLiteQuery &query);
+
+    /**
+     * Returns true iff exists an artist in the database with the
+     * given artistName.
+     */
+    bool existsArtist(std::string artistName);
 };
 
 
