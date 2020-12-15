@@ -56,7 +56,7 @@ public:
     void getPlaylists() override;
     void getAlbumTracks() override;
     Track getTrack(int id) override;
-    void getAuthorAlbums() override;
+    void getArtistAlbums() override;
 
     // UPDATERS
     void updatePlaylistName() override {}
@@ -112,9 +112,10 @@ private:
      */
     bool insertNewAlbum();
 
-    // GETTERS : OBJECT HYRDRATORS
     void setTracksToPlaylist(Playlist &playlist);
     void setArtistsToTrack(Track &track);
+
+    // GETTERS
     /**
      * Hydrate objects from a query containing data.
      */
@@ -128,6 +129,18 @@ private:
      * given artistName.
      */
     bool existsArtist(std::string artistName);
+
+    Artist getArtistByName(std::string artistName);
+
+    // UPDATERS
+
+    /**
+     * Updates the artist stored in the database with the same id as 
+     * the artist id. 
+     *
+     * Returns true on success. False otherwise on any errors.
+     */
+    bool updateArtist(Artist &artist) { return false; }
 };
 
 

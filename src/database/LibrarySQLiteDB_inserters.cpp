@@ -36,10 +36,10 @@ void LibrarySQLiteDB::insertTrackToPlaylist() {
 
 bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
     // Check if artist with same name is already in the database
-    if (existsArtist(artist.getName()) {
+    if (existsArtist(artist.getName())) {
         // Update given @artist id by the stored artist, and
         // try to update it in case some attributes changed
-        int storedId = getArtistByName(artist.name());
+        int storedId = getArtistByName(artist.getName()).getId();
         artist.setId(storedId);
         return updateArtist(artist);
     }
