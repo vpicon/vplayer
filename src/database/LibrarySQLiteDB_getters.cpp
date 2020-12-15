@@ -58,7 +58,17 @@ void LibrarySQLiteDB::getAuthorAlbums() {
 
 // TODO: is a stub
 bool LibrarySQLiteDB::existsArtist(std::string artistName) {
-    return false;
+    std::string statement {
+        "SELECT id FROM Artists"
+        "WHERE Artists.name = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(1, artistName);
+    
+    if (!query.exec()) 
+        /* TODO: some debug */;
+        
+    return query.availableRow();
 }
 
 

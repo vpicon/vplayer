@@ -51,12 +51,12 @@ public:
     void deletePlaylist() override {}
     
     // GETTERS
-    void getLibraryTracks() override {}
-    void getPlaylistTracks() override {}
-    void getPlaylists() override {}
-    void getAlbumTracks() override {}
-    void getTrack() override {}
-    void getAuthorAlbums() override {}
+    void getLibraryTracks() override;
+    void getPlaylistTracks() override;
+    void getPlaylists() override;
+    void getAlbumTracks() override;
+    void getTrack() override;
+    void getAuthorAlbums() override;
 
     // UPDATERS
     void updatePlaylistName() override {}
