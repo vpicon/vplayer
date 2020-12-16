@@ -19,7 +19,7 @@ namespace {
 
 // HELPER METHODS
 
-bool artistsEqual(const database::Artist &artist1, const database::Artist &artist2) {
+void artistsEqual(const database::Artist &artist1, const database::Artist &artist2) {
     EXPECT_EQ(artist1.getId(), artist2.getId());
     EXPECT_EQ(artist1.getName(), artist2.getName());
     EXPECT_EQ(artist1.getImgSource(), artist2.getImgSource());
@@ -56,7 +56,7 @@ protected:
 TEST_F(AlbumTest, getters) {
     EXPECT_EQ(album.getId(), id);
     EXPECT_EQ(album.getTitle(), title);
-    artistsEqual(album.getArtist(), aritst);
+    artistsEqual(album.getArtist(), artist);
     EXPECT_EQ(album.getYear(), year);
     EXPECT_EQ(album.getImgSource(), imgSource);
 }
@@ -68,7 +68,7 @@ TEST_F(AlbumTest, getters) {
 TEST_F(AlbumTest, defaultConstructor) {
     EXPECT_EQ(emptyAlbum.getId(), 0);
     EXPECT_EQ(emptyAlbum.getTitle(), "");
-    artistsEqual(emptyArtist.getArtist(), Artist{});
+    artistsEqual(emptyAlbum.getArtist(), database::Artist{});
     EXPECT_EQ(emptyAlbum.getYear(), 0);
     EXPECT_EQ(emptyAlbum.getImgSource(), "");
 }
