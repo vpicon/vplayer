@@ -48,6 +48,7 @@ Album::Album()
 std::ostream& operator<<(std::ostream &os, const Album &album) {
     os << "Album id: "    << album.getId()
        << ", title: "     << album.getTitle()
+       << ", artist: {"   << album.getArtist() << "}"
        << ", year: "      << album.getYear()
        << ", imgSource: " << album.getImgSource();
 

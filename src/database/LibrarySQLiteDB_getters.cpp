@@ -93,6 +93,7 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
     // TODO:
     // Get Artist from artistId  and link it to tables
     // int artistId = query.value(2).toInt;
+    setArtistToAlbum(album);
 
     return album;
 }
@@ -108,6 +109,12 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
     artist.setBio(query.value(3).toString());
 
     return artist;
+}
+
+
+
+void LibrarySQLiteDB::setArtistToAlbum(Album &album) {
+    return;
 }
 
 

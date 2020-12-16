@@ -160,6 +160,12 @@ public:
     Playlist hydratePlaylist(SQLiteQuery &query);
 
     /**
+     * Gets the artist associated to the album from the database, and 
+     * sets it to the given album object.
+     */
+    void setArtistToAlbum(Album &album);
+
+    /**
      * Returns true iff exists an artist in the database with the
      * given artistName.
      */
