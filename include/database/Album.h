@@ -46,6 +46,7 @@ public:
     std::string getImgSource() const { return _imgSource; }
 
     // SETTERS
+    void setId(int id) { _id = id; }
     void setTitle(const std::string &title) { _title = title; }
     void setArtist(const Artist &artist) { _artist = artist; }
     void setYear(int year) { _year = year; }
