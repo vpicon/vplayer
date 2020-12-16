@@ -100,7 +100,14 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
 
 
 Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
-    return Artist{};
+    Artist artist; 
+
+    artist.setId(query.value(0).toInt());
+    artist.setName(query.value(1).toString());
+    artist.setImgSource(query.value(2).toString());
+    artist.setBio(query.value(3).toString());
+
+    return artist;
 }
 
 
