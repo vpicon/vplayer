@@ -73,6 +73,29 @@ void LibrarySQLiteDB::getArtistAlbums() {
 
 
 
+Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
+    return Track{};
+}
+
+
+
+Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
+    Album album; 
+
+    album.setId(query.value(0).toInt());
+    album.setTitle(query.value(1).toString());
+    album.setYear(query.value(3).toInt());
+    album.setImgSource(query.value(4).toString());
+
+    // TODO:
+    // Get Artist from artistId  and link it to tables
+    // int artistId = query.value(2).toInt;
+
+    return album;
+}
+
+
+
 bool LibrarySQLiteDB::existsArtist(std::string artistName) {
     std::string statement {
         "SELECT id FROM Artists"
@@ -120,6 +143,7 @@ Artist LibrarySQLiteDB::getArtistByName(std::string artistName) {
 Album LibrarySQLiteDB::getAlbumByTitleAndArtist(std::string albumTitle, int artistId) {
     return Album{};
 }
+
 
 
 

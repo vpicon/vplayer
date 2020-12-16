@@ -201,24 +201,6 @@ bool LibrarySQLiteDB::createTablePlaylistsTracks() {
 
 
 
-/**
- * Creates an album object from an album containing a query row to 
- * an album with values (id, title, artistId, year, imgSource) values.
- */
-Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
-    Album album; 
-
-    album.setId(query.value(0).toInt());
-    album.setTitle(query.value(1).toString());
-    album.setYear(query.value(3).toInt());
-    album.setImgSource(query.value(4).toString());
-
-    // TODO:
-    // Get Artist from artistId  and link it to tables
-    // int artistId = query.value(2).toInt;
-
-    return album;
-}
 
 
 }  // namespace database

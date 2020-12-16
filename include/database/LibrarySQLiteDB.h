@@ -146,6 +146,10 @@ private:
      * Hydrate objects from a query containing data.
      */
     Track hydrateTrack(SQLiteQuery &query);
+    /**
+     * Creates an album object from an album containing a query row to 
+     * an album with values (id, title, artistId, year, imgSource) values.
+     */
     Album hydrateAlbum(SQLiteQuery &query);
     Artist hydrateArtist(SQLiteQuery &query);
     Playlist hydratePlaylist(SQLiteQuery &query);
