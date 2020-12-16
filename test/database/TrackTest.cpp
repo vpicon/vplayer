@@ -32,6 +32,7 @@ void artistsEqual(const database::Artist &artist1, const database::Artist &artis
 void albumsEqual(const database::Album &album1, const database::Album &album2) {
     EXPECT_EQ(album1.getId(),        album2.getId());
     EXPECT_EQ(album1.getTitle(),     album2.getTitle());
+    artistsEqual(album1.getArtist(), album2.getArtist());
     EXPECT_EQ(album1.getYear(),      album2.getYear());
     EXPECT_EQ(album1.getImgSource(), album2.getImgSource());
 }
@@ -56,7 +57,7 @@ protected:
     // Generate artists and albums for the 
     database::Artist artist1 {1, "Paul Desmond", "some_pic.png", ""};
     database::Artist artist2 {2, "Jim Hall", "jim_hall.png", "A nice guitarrist."};
-    database::Album album {1, "The Best Of Paul Desmond", 1972, ""};
+    database::Album album {1, "The Best Of Paul Desmond", artist1, 1972, ""};
     std::string title {"Skylark"};
     std::string date {""};
     float duration {2.0};
@@ -96,7 +97,7 @@ TEST_F(TrackTest, getters) {
 TEST_F(TrackTest, setters) {
     // Define new values
     std::string newTitle {"OtherTrack"};
-    database::Album newAlbum {2, "Bossa Antigua", 1970, ""};
+    database::Album newAlbum {2, "Bossa Antigua", artist1, 1970, ""};
     std::vector<database::Artist> newArtists {artist1, artist2};
     std::string newDate {"Other date"};
     float newDuration {1};
