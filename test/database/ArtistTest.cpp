@@ -81,7 +81,7 @@ TEST_F(ArtistTest, setters) {
     artist.setBio(newBio);
 
     // Test new values
-    EXPECT_EQ(artist.getId(), id);
+    EXPECT_EQ(artist.getId(), newId);
     EXPECT_EQ(artist.getName(), newName);
     EXPECT_EQ(artist.getImgSource(), newImgSource);
     EXPECT_EQ(artist.getBio(), newBio);
