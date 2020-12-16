@@ -90,10 +90,9 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
     album.setYear(query.value(3).toInt());
     album.setImgSource(query.value(4).toString());
 
-    // TODO:
-    // Get Artist from artistId  and link it to tables
-    // int artistId = query.value(2).toInt;
-    setArtistToAlbum(album);
+    // Get Artist from artistId and link it to tables
+    int artistId = query.value(2).toInt();
+    setArtistToAlbum(album, artistId);
 
     return album;
 }
@@ -113,7 +112,24 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
 
 
 
-void LibrarySQLiteDB::setArtistToAlbum(Album &album) {
+void LibrarySQLiteDB::setArtistToAlbum(Album &album, const int artistId) {
+    // Retrieve artist fields with artist id
+    std::string statement {
+        "SELECT " + _artistFields + " FROM Artists AS ar "
+        "WHERE ar.id = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, artistId);
+
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Add artist to album if one found
+    if (query.availableRecord()) {
+        Artist artist = hydrateArtist(query);
+        album.setArtist(artist);
+    }
+
     return;
 }
 

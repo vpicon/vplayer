@@ -163,7 +163,7 @@ public:
      * Gets the artist associated to the album from the database, and 
      * sets it to the given album object.
      */
-    void setArtistToAlbum(Album &album);
+    void setArtistToAlbum(Album &album, const int artistId);
 
     /**
      * Returns true iff exists an artist in the database with the
