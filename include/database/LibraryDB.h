@@ -103,14 +103,14 @@ public:
      *
      * Returns true on success. False otherwise on any errors.
      */
-    virtual void updateAlbum(Album &album) = 0;
+    virtual bool updateAlbum(Album &album) = 0;
     /**
      * Updates the artist stored in the database with the same id as 
      * the @artist id. 
      *
      * Returns true on success. False otherwise on any errors.
      */
-    bool updateArtist(Artist &artist) = 0;
+    virtual bool updateArtist(Artist &artist) = 0;
     /**
      * Changes metadata of a given track.
      */

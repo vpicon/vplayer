@@ -28,13 +28,6 @@ void LibrarySQLiteDB::updateTrackOrderInPlaylist() {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::updateAlbumMetadata() {
-    return;
-}
-
-
-
-// TODO: is a stub
 void LibrarySQLiteDB::updateTrackMetadata() {
     return;
 }
