@@ -15,12 +15,12 @@ int main() {
     // Create database object
     database::LibrarySQLiteDB db{"hola.db"};
 
-    std::string albumName {"Bossa Antigua"};
-    int artistId {1};
+    database::Artist artist {db.getArtistByName("Paul Desmond")};
+    std::cout << artist << std::endl;
 
-    if (db.existsAlbum(albumName, artistId))
-        std::cout << "true" << std::endl;
+    // db.insertNewArtist(jimHall);
 
+    return 0;
     /*
     // Create track to add
     database::Artist paulDesmond {"Paul Desmond", "~/Pictures/paul_demond.jpg", "A nice saxo."};
@@ -32,10 +32,8 @@ int main() {
     
     // Add track to database
     db.insertNewTrack(bossaAntigua);
-    */
-
     
-    return 0;
+    */
 }
 
 

@@ -44,13 +44,12 @@ void LibrarySQLiteDB::getAlbumTracks() {
 
 
 
-// TODO: is a stub
 Track LibrarySQLiteDB::getTrack(const int id) {
     Track track;
 
     // Make query to retrieve track with given id
     std::string statement {
-        "SELECT " + _trackFields + "FROM Tracks AS tr"
+        "SELECT " + _trackFields + "FROM Tracks AS tr "
         "WHERE id = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
@@ -59,6 +58,8 @@ Track LibrarySQLiteDB::getTrack(const int id) {
     // Execute query
     if (!query.exec())
         /* TODO: error handling */;
+
+
     // Check if there is some record for the given query and get it
     if (query.availableRecord()) 
         track = hydrateTrack(query);
@@ -94,6 +95,12 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
     // int artistId = query.value(2).toInt;
 
     return album;
+}
+
+
+
+Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
+    return Artist{};
 }
 
 
@@ -136,9 +143,26 @@ bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle,
 
 
 
-// TODO: is a stub
 Artist LibrarySQLiteDB::getArtistByName(const std::string &artistName) {
-    return Artist{};
+    Artist artist;
+
+    // Make query to retrieve track with given id
+    std::string statement {
+        "SELECT " + _artistFields + " FROM Artists AS ar "
+        "WHERE ar.name = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, artistName);
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Check if there is some record for the given query and get it
+    if (query.availableRecord()) 
+        artist = hydrateArtist(query);
+
+    return artist;
 }
 
 

@@ -109,6 +109,7 @@ private:
      * Returns true on success, independently of adding the artist
      * or not. Return false otherwise on any error.
      */
+public:
     bool insertNewArtist(Artist &artist);
     /**
      * Tries to add new album to the database. If no album exists in
@@ -163,9 +164,7 @@ private:
      * Returns true iff exists an album in the database with the
      * given albumTitle and artistId.
      */
-public:
     bool existsAlbum(const std::string &albumTitle, const int artistId);
-private:
 
     /**
      * Given a string referring to a name of an artist, tries to 
