@@ -175,9 +175,30 @@ bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
 
 
 
-// TODO is a stub
-bool LibrarySQLiteDB::addArtistsToTrack(Artist &artist, Track &track) {
-    return false;
+bool LibrarySQLiteDB::addArtistToTrack(Artist &artist, Track &track) {
+    // Try to add artist to the database (may already be there)
+    if (!insertNewArtist(artist))  // TODO: error handling
+        return false;
+
+    // Add entry (trackId, artistId) to TracksArtists table
+    std::string statement {
+        "INSERT INTO TracksArtists ("
+            "trackId, "
+            "artistId "
+        ") VALUES ("
+            "?, "
+            "? "
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    query.bindValue(0, track.getId());
+    query.bindValue(1, artist.getId());
+
+    if (!query.exec())  // TODO: error handling
+        return false;
+
+    return true;
 }
 
 
