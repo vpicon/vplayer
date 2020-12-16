@@ -11,6 +11,8 @@
 #define _VPLAYER_ALBUM_H
 
 
+#include "Artist.h"
+
 #include <string>
 #include <ostream>
 
@@ -21,25 +23,38 @@ namespace database {
 
 class Album {
 public:
-    Album(int id = 0, 
-          const std::string &title = "", 
-          int year = 0,
-          const std::string &imgSource = "");      
+    // CONSTRUCTORS
+    Album(int id, 
+          const std::string &title, 
+          const Artist &artist,
+          int year,
+          const std::string &imgSource);      
+    
+    Album(const std::string &title, 
+          const Artist &artist,
+          int year,
+          const std::string &imgSource);      
+
+    Album();      
+
 
     // GETTERS
     int getId() const { return _id; }
     std::string getTitle() const { return _title; }
+    Artist getArtist() const { return _artist; }
     int getYear() const { return _year; }
     std::string getImgSource() const { return _imgSource; }
 
     // SETTERS
-    void setTitle(std::string title) { _title = title; }
+    void setTitle(const std::string &title) { _title = title; }
+    void setArtist(const Artist &artist) { _artist = artist; }
     void setYear(int year) { _year = year; }
-    void setImgSource(std::string source) { _imgSource = source; }
+    void setImgSource(const std::string &source) { _imgSource = source; }
 
 private:
     int _id;
     std::string _title;
+    Artist _artist;
     int _year;  
     std::string _imgSource;
 };
