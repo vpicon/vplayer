@@ -55,12 +55,15 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     track.setId(query.lastInsertId());
 
     // Add all artists to the database and link them to the track
-    /*
+    std::vector<Artist> updatedArtists {}; // store updated artists
+
     for (Artist &artist : track.getArtists()) {
-        if (!addArtistToTrack(...))
+        if (!addArtistToTrack(artist, track))
             return false;
+
+        updatedArtists.push_back(artist);
     }
-    */
+    track.setArtists(updatedArtists);
 
     return true;
 }
