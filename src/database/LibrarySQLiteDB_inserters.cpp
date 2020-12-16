@@ -136,7 +136,7 @@ bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
     if (existsAlbum(album.getTitle(), album.getId())) {
         // Update given @album id by the stored album, and try to 
         // update the stored one in case some attributes changed.
-        Album storedAlbum = getAlbumByNameAndArtist(album.getTitle(), artist.getId());
+        Album storedAlbum = getAlbumByTitleAndArtist(album.getTitle(), artist.getId());
         album.setId(storedAlbum.getId());
         return updateAlbum(album);
     }

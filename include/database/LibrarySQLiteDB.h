@@ -155,6 +155,12 @@ private:
      * If not found, returns empty artist (with empty name).
      */
     Artist getArtistByName(std::string artistName);
+    /**
+     * Given a string referring to a name of an album and an artist id, 
+     * tries to retrieve an album with given fields from database.
+     * If not found, returns empty album (with empty title).
+     */
+    Album getAlbumByTitleAndArtist(std::string albumTitle, int artistId);
 
     // UPDATERS
 
