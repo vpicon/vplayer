@@ -52,6 +52,7 @@ public:
     std::string getSource() const { return _source; }
 
     // SETTERS
+    void setId(int id) { _id = id; }
     void setTitle(const std::string &title) { _title = title; }
     void setAlbum(const Album &album) { _album = album; }
     void setArtists(const std::vector<Artist> &artists) { _artists = artists; }

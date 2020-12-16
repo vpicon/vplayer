@@ -42,7 +42,7 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
 
     query.bindValue(0, track.getTitle());
     query.bindValue(1, albumId);
-    query.bindValue(2, track.getAdditionDate());
+    query.bindValue(2, track.getDate());
     query.bindValue(3, track.getDuration());
     query.bindValue(4, track.getSource());
 

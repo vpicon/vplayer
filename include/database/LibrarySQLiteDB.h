@@ -81,7 +81,9 @@ private:
     // SCHEMA BUILDERS 
     /**
      * Creates all the tables of the database if they do not exist
-     * already. Returns if it created the tables or not.
+     * already. 
+     * 
+     * Returns false on any failure, true otherwise.
      */
     bool createTables();
     bool createTableTracks();
