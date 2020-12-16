@@ -143,7 +143,17 @@ private:
      * given artistName.
      */
     bool existsArtist(std::string artistName);
+    /**
+     * Returns true iff exists an album in the database with the
+     * given albumTitle and artistId.
+     */
+    bool existsAlbum(std::string albumTitle, int artistId);
 
+    /**
+     * Given a string referring to a name of an artist, tries to 
+     * retrieve an artist with given name from database.
+     * If not found, returns empty artist (with empty name).
+     */
     Artist getArtistByName(std::string artistName);
 
     // UPDATERS

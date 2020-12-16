@@ -89,4 +89,26 @@ bool LibrarySQLiteDB::existsArtist(std::string artistName) {
 
 
 
+bool LibrarySQLiteDB::existsAlbum(std::string albumTitle, int artistId) {
+    std::string statement {
+        "SELECT id FROM Albums AS al"
+        "WHERE "
+            "al.title    = ?,"
+            "al.artistId = ? "
+        ";"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, albumTitle);
+    query.bindValue(1, artistId);
+    
+    if (!query.exec()) 
+        /* TODO: some debug */;
+        
+    return query.availableRecord();
+}
+
+
+
+
+
 }  // namespace database
