@@ -29,9 +29,13 @@ public:
 
     // INSERTERS
     /**
-     * Adds a new track to the library.
+     * Adds a new track to the library. Returns false on any failure,
+     * true otherwise.
+     *
+     * No checks are made wether there is a track with same artists,
+     * title, source, nor any field.
      */
-    virtual void insertNewTrack() = 0;
+    virtual bool insertNewTrack(Track &track) = 0;
     /**
      * Creates a new empty playlist with given name.
      */

@@ -38,10 +38,7 @@ public:
     ~LibrarySQLiteDB();
 
     // INSERTERS
-    /**
-     * Adds new track to the library.
-     */
-    void insertNewTrack() override;
+    bool insertNewTrack(Track &track) override;
     void insertNewPlaylist() override;
     void insertTrackToPlaylist() override;
 
@@ -57,6 +54,12 @@ public:
     void getAlbumTracks() override;
     Track getTrack(int id) override;
     void getArtistAlbums() override;
+
+    /**
+     * Given a source file, says if there is a track in the database
+     * with the given source.
+     */
+    bool existsTrack(std::string source);
 
     // UPDATERS
     void updatePlaylistName() override;
