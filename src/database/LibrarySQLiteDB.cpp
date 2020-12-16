@@ -33,7 +33,7 @@ LibrarySQLiteDB::LibrarySQLiteDB(std::string dbName)
 
     _artistFields = "ar.id, "
                     "ar.name, "
-                    "ar.imgSource, "
+                    "ar.imageSource, "
                     "ar.bio ";
 
     _albumFields = "al.id, "
