@@ -133,10 +133,7 @@ bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle,
 {
     std::string statement {
         "SELECT id FROM Albums AS al "
-        "WHERE "
-            "al.title    = ? AND "
-            "al.artistId = ?"
-        ";"
+        "WHERE al.title = ? AND al.artistId = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
     query.bindValue(0, albumTitle);
@@ -178,7 +175,26 @@ Artist LibrarySQLiteDB::getArtistByName(const std::string &artistName) {
 Album LibrarySQLiteDB::getAlbumByTitleAndArtist(const std::string &albumTitle, 
                                                 const int artistId) 
 {
-    return Album{};
+    Album album;
+
+    // Make query to retrieve track with given id
+    std::string statement {
+        "SELECT " + _albumFields + " FROM Albums AS al "
+        "WHERE ar.name = ? AND ar.artistID = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, albumTitle);
+    query.bindValue(1, artistId);
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Check if there is some record for the given query and get it
+    if (query.availableRecord()) 
+        album = hydrateAlbum(query);
+
+    return album;
 }
 
 

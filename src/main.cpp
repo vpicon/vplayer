@@ -15,10 +15,13 @@ int main() {
     // Create database object
     database::LibrarySQLiteDB db{"hola.db"};
 
-    database::Artist artist {db.getArtistByName("Paul Desmond")};
-    std::cout << artist << std::endl;
+    database::Artist paulDesmond {"Paul Desmond", "~/Pictures/paul_demond.jpg", "A nice saxo."};
+    database::Album bossaAntiguaAlbum {"Bossa Antigua", paulDesmond, 1997, "~/Pictures/bossa_antigua.jpg"};
 
-    // db.insertNewArtist(jimHall);
+    db.insertNewAlbum(bossaAntiguaAlbum);
+
+    std::cout << db.getAlbumByTitleAndArtist("Bossa Antigua", 1) 
+              << std::endl;
 
     return 0;
     /*

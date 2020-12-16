@@ -92,7 +92,7 @@ public:
      * Return true on success, false otherwise.
      */
     bool bindValue(int i, int val);
-    bool bindValue(int i, std::string val);
+    bool bindValue(int i, const std::string &val);
     bool bindNull(int i);
 
     /**
