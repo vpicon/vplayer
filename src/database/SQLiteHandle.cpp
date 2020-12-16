@@ -123,12 +123,13 @@ bool SQLiteQuery::bindValue(int i, int val) {
 
 
 
-bool SQLiteQuery::bindValue(int i, std::string val) {
+bool SQLiteQuery::bindValue(int i, const std::string &val) {
     int rc = sqlite3_bind_text(_ppStmt, 
                                i + 1, 
                                val.c_str(), 
-                               val.size() * sizeof(char), 
-                               nullptr);
+                               -1,  // size (if -1 then number of bytes up to '\0')
+                               SQLITE_TRANSIENT);  // Make internal copy, otherwise 
+                                                   // memory may get corrupted.
     return rc == SQLITE_OK;
 }
 
