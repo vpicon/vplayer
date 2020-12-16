@@ -114,7 +114,7 @@ bool LibrarySQLiteDB::existsArtist(std::string artistName) {
 
 bool LibrarySQLiteDB::existsAlbum(std::string albumTitle, int artistId) {
     std::string statement {
-        "SELECT id FROM Albums AS al"
+        "SELECT id FROM Albums AS al "
         "WHERE "
             "al.title    = ?,"
             "al.artistId = ? "
