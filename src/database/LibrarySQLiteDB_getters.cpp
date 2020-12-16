@@ -43,7 +43,7 @@ void LibrarySQLiteDB::getAlbumTracks() {
 
 
 // TODO: is a stub
-Track LibrarySQLiteDB::getTrack(int id) {
+Track LibrarySQLiteDB::getTrack(const int id) {
     Track track;
 
     // Make query to retrieve track with given id
@@ -96,7 +96,7 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
 
 
 
-bool LibrarySQLiteDB::existsArtist(std::string artistName) {
+bool LibrarySQLiteDB::existsArtist(const std::string &artistName) {
     std::string statement {
         "SELECT id FROM Artists "
         "WHERE Artists.name = ?;"
@@ -112,7 +112,9 @@ bool LibrarySQLiteDB::existsArtist(std::string artistName) {
 
 
 
-bool LibrarySQLiteDB::existsAlbum(std::string albumTitle, int artistId) {
+bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle, 
+                                  const int artistId) 
+{
     std::string statement {
         "SELECT id FROM Albums AS al "
         "WHERE "
@@ -133,14 +135,16 @@ bool LibrarySQLiteDB::existsAlbum(std::string albumTitle, int artistId) {
 
 
 // TODO: is a stub
-Artist LibrarySQLiteDB::getArtistByName(std::string artistName) {
+Artist LibrarySQLiteDB::getArtistByName(const std::string &artistName) {
     return Artist{};
 }
 
 
 
 // TODO: is a stub
-Album LibrarySQLiteDB::getAlbumByTitleAndArtist(std::string albumTitle, int artistId) {
+Album LibrarySQLiteDB::getAlbumByTitleAndArtist(const std::string &albumTitle, 
+                                                const int artistId) 
+{
     return Album{};
 }
 

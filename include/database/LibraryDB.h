@@ -82,7 +82,7 @@ public:
     /**
      * Get the track with the given id number.
      */
-    virtual Track getTrack(int id) = 0;
+    virtual Track getTrack(const int id) = 0;
     /**
      * Gives all the tracks of a given author.
      */

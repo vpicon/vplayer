@@ -52,7 +52,7 @@ public:
     void getPlaylistTracks() override;
     void getPlaylists() override;
     void getAlbumTracks() override;
-    Track getTrack(int id) override;
+    Track getTrack(const int id) override;
     void getArtistAlbums() override;
 
     /**
@@ -158,25 +158,27 @@ private:
      * Returns true iff exists an artist in the database with the
      * given artistName.
      */
-    bool existsArtist(std::string artistName);
+    bool existsArtist(const std::string &artistName);
     /**
      * Returns true iff exists an album in the database with the
      * given albumTitle and artistId.
      */
-    bool existsAlbum(std::string albumTitle, int artistId);
+public:
+    bool existsAlbum(const std::string &albumTitle, const int artistId);
+private:
 
     /**
      * Given a string referring to a name of an artist, tries to 
      * retrieve an artist with given name from database.
      * If not found, returns empty artist (with empty name).
      */
-    Artist getArtistByName(std::string artistName);
+    Artist getArtistByName(const std::string &artistName);
     /**
      * Given a string referring to a name of an album and an artist id, 
      * tries to retrieve an album with given fields from database.
      * If not found, returns empty album (with empty title).
      */
-    Album getAlbumByTitleAndArtist(std::string albumTitle, int artistId);
+    Album getAlbumByTitleAndArtist(const std::string &albumTitle, const int artistId);
 
     // UPDATERS
 

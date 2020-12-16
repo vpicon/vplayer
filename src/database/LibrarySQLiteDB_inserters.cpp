@@ -97,13 +97,13 @@ bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
     // Prepare insert statement
     std::string statement {
         "INSERT INTO Artists ("
-            "name,"
-            "imageSource,"
+            "name, "
+            "imageSource, "
             "bio"
         ") VALUES ("
-            "?,"
-            "?,"
-            "? "
+            "?, "
+            "?, "
+            "?"
         ");"
     };
     SQLiteQuery query {_sqlHandle, statement};
