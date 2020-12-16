@@ -84,8 +84,8 @@ void LibrarySQLiteDB::insertTrackToPlaylist() {
 bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
     // Check if artist with same name is already in the database
     if (existsArtist(artist.getName())) {
-        // Update given @artist id by the stored artist, and
-        // try to update it in case some attributes changed
+        // Update given @artist id by the stored artist, and try to 
+        // update the stored one in case some attributes changed.
         int storedId = getArtistByName(artist.getName()).getId();
         artist.setId(storedId);
         return updateArtist(artist);
@@ -122,9 +122,55 @@ bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
 
 
 
-// TODO: is a stub
 bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
-    return false;
+    // Get the associated artist of the album and try to add it to 
+    // database, setting thus its id.
+    Artist artist = album.getArtist();
+    if (!insertNewArtist(artist))  // TODO: error handling
+        return false;
+
+    // Update the artist of the album
+    album.setArtist(artist);
+
+    // Check if album with same name and artistId is already in the database
+    if (existsAlbum(album.getName(), album.getId())) {
+        // Update given @album id by the stored album, and try to 
+        // update the stored one in case some attributes changed.
+        Album storedAlbum = getAlbumByNameAndArtist(album.getName(), artist.getId());
+        album.setId(storedAlbum.getId());
+        return updateAlbum(album);
+    }
+
+    // Prepare insert statement
+    std::string statement {
+        "INSERT INTO Albums ("
+            "title,"
+            "artistId,"
+            "year,"
+            "imageSource"
+        ") VALUES ("
+            "?,"
+            "?,"
+            "?,"
+            "? "
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Bind the album values and artist id to the query
+    query.bindValue(0, album.getTitle());
+    query.bindValue(1, artist.getId());
+    query.bindValue(2, album.getYear());
+    query.bindValue(3, album.getImgSource());
+    
+    // Execute insert query
+    if (!query.exec()) // TODO: error handling
+        return false;
+
+    // Set the id of album by the given id in the database
+    album.setId(query.lastInsertId());
+
+    return true;
 }
 
 

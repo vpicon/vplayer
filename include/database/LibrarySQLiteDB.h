@@ -58,6 +58,8 @@ public:
     /**
      * Given a source file, says if there is a track in the database
      * with the given source.
+     *
+     * Useful for when adding a new track to the database.
      */
     bool existsTrack(std::string source);
 
@@ -108,13 +110,16 @@ private:
      */
     bool insertNewArtist(Artist &artist);
     /**
-     * Tries to add new album to the database. If no artists exists in
+     * Tries to add new album to the database. If no album exists in
      * the database with the given title and artist, inserts the given 
      * one into the database and sets the id of @album by the id given 
      * by the database. 
      * If an album with the same name is already in the database, 
      * updates the id of the given @album to the id of the album in 
      * the database.
+     *
+     * The artist associated with the album is also added to the database
+     * and its id is set to the id given by the database.
      *
      * Returns true on success, independently of adding the album
      * or not. Return false otherwise on any error.
