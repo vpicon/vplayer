@@ -98,7 +98,7 @@ Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
 
 bool LibrarySQLiteDB::existsArtist(std::string artistName) {
     std::string statement {
-        "SELECT id FROM Artists"
+        "SELECT id FROM Artists "
         "WHERE Artists.name = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
