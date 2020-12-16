@@ -109,6 +109,18 @@ bool LibrarySQLiteDB::existsAlbum(std::string albumTitle, int artistId) {
 
 
 
+// TODO: is a stub
+Artist LibrarySQLiteDB::getArtistByName(std::string artistName) {
+    return Artist{};
+}
+
+
+
+// TODO: is a stub
+Album LibrarySQLiteDB::getAlbumByTitleAndArtist(std::string albumTitle, int artistId) {
+    return Album{};
+}
+
 
 
 }  // namespace database
