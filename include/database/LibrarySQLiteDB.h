@@ -66,7 +66,8 @@ public:
     // UPDATERS
     void updatePlaylistName() override;
     void updateTrackOrderInPlaylist() override;
-    void updateAlbumMetadata() override;
+    void updateAlbum(Album &album) override;
+    bool updateArtist(Artist &artist) override;
     void updateTrackMetadata() override;
     void updateTrackPlaylistPosition() override;
 
@@ -164,13 +165,6 @@ private:
 
     // UPDATERS
 
-    /**
-     * Updates the artist stored in the database with the same id as 
-     * the artist id. 
-     *
-     * Returns true on success. False otherwise on any errors.
-     */
-    bool updateArtist(Artist &artist);
 };
 
 
