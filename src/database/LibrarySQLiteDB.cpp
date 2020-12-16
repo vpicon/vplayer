@@ -68,6 +68,7 @@ bool LibrarySQLiteDB::createTables() {
     createTableArtists();
     createTableTracksArtists();
     createTableAlbums();
+    createTableAlbumsTracks();
     createTablePlaylists();
     createTablePlaylistsTracks();
 
@@ -87,7 +88,7 @@ bool LibrarySQLiteDB::createTableTracks() {
             // "genre TEXT," // TODO: add as a relation table (track, genre) (and add another genre table)
             "source TEXT NOT NULL,"
             "FOREIGN KEY(albumId) REFERENCES Albums" // TODO: add constraint operations
-        ")"
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};
@@ -104,7 +105,7 @@ bool LibrarySQLiteDB::createTableArtists() {
             "imageSource TEXT,"
             "bio TEXT,"
             "UNIQUE(name) ON CONFLICT IGNORE" // TODO: revise conflict conseqences
-        ")"
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};
@@ -121,7 +122,7 @@ bool LibrarySQLiteDB::createTableTracksArtists() {
             "UNIQUE(trackId, artistId)," // TODO: revise conflict conseqences
             "FOREIGN KEY(trackId) REFERENCES Tracks,"  // TODO: add constraint operations
             "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: "   "          "
-        ")"
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};
@@ -140,7 +141,25 @@ bool LibrarySQLiteDB::createTableAlbums() {
             "imageSource TEXT,"
             "UNIQUE(title, artistId) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
             "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: add constraint operations
-        ")"
+        ");"
+    };
+
+    SQLiteQuery query{_sqlHandle, statement};
+    return query.exec();
+}
+
+
+
+bool LibrarySQLiteDB::createTableAlbumsTracks() {
+    std::string statement {
+        "CREATE TABLE IF NOT EXISTS AlbumsTracks ("
+            "trackId INTEGER NOT NULL,"
+            "albumId INTEGER NOT NULL,"
+            "position INTEGER NOT NULL," // position of the track in the playlist
+            "UNIQUE(trackId, albumId, position) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
+            "FOREIGN KEY(trackId) REFERENCES Tracks," // TODO: add constraint operations
+            "FOREIGN KEY(albumId) REFERENCES Albums"  // TODO: "   "          "
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};
@@ -155,7 +174,7 @@ bool LibrarySQLiteDB::createTablePlaylists() {
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
             "name TEXT NOT NULL,"
             "imageSource TEXT"
-        ")"
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};
@@ -173,7 +192,7 @@ bool LibrarySQLiteDB::createTablePlaylistsTracks() {
             "UNIQUE(trackId, playlistId, position) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
             "FOREIGN KEY(trackId) REFERENCES Tracks,"    // TODO: add constraint operations
             "FOREIGN KEY(playlistId) REFERENCES Playlists" // TODO: "   "          "
-        ")"
+        ");"
     };
 
     SQLiteQuery query{_sqlHandle, statement};

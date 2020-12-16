@@ -88,6 +88,7 @@ private:
     bool createTableArtists();
     bool createTableTracksArtists();
     bool createTableAlbums();
+    bool createTableAlbumsTracks();
     bool createTablePlaylists();
     bool createTablePlaylistsTracks();
 

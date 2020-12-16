@@ -14,8 +14,55 @@ namespace database {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::insertNewTrack() {
-    return;
+bool LibrarySQLiteDB::insertNewTrack(Track &track) {
+    // Add album to database and get its id
+    Album album {track.getAlbum()};
+    if (!insertNewAlbum(album)) // sets id of album
+        return false;
+
+    int albumId = album.getId();
+
+    // Prepare query to insert a track from the given one
+    std::string statement {
+        "INSERT INTO Tracks ("
+            "title,"
+            "albumId,"
+            "additionDate,"
+            "duration,"
+            "source "
+        ") VALUES ("
+            "?,"
+            "?,"
+            "?,"
+            "?,"
+            "? "
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    query.bindValue(0, track.getTitle());
+    query.bindValue(1, albumId);
+    query.bindValue(2, track.getAdditionDate());
+    query.bindValue(3, track.getDuration());
+    query.bindValue(4, track.getSource());
+
+    // Execute the query and set id of the track to the given by database
+    if (!query.exec()) {
+        // TODO: error handling
+        return false;
+    }
+
+    track.setId(query.lastInsertId());
+
+    // Add all artists to the database and link them to the track
+    /*
+    for (Artist &artist : track.getArtists()) {
+        if (!addArtistToTrack(...))
+            return false;
+    }
+    */
+
+    return true;
 }
 
 
@@ -76,7 +123,7 @@ bool LibrarySQLiteDB::insertNewArtist(Artist &artist) {
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::insertNewAlbum() {
+bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
     return false;
 }
 
