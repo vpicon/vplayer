@@ -180,7 +180,7 @@ Album LibrarySQLiteDB::getAlbumByTitleAndArtist(const std::string &albumTitle,
     // Make query to retrieve track with given id
     std::string statement {
         "SELECT " + _albumFields + " FROM Albums AS al "
-        "WHERE ar.name = ? AND ar.artistID = ?;"
+        "WHERE al.title = ? AND al.artistId = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
     query.bindValue(0, albumTitle);
