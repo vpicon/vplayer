@@ -9,6 +9,8 @@
 
 #include "LibrarySQLiteDB.h"
 
+#include <string>
+
 
 namespace database {
 
