@@ -120,8 +120,8 @@ bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle,
     std::string statement {
         "SELECT id FROM Albums AS al "
         "WHERE "
-            "al.title    = ?,"
-            "al.artistId = ? "
+            "al.title    = ? AND "
+            "al.artistId = ?"
         ";"
     };
     SQLiteQuery query {_sqlHandle, statement};
