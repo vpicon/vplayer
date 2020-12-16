@@ -77,7 +77,7 @@ protected:
     
     // Create some tracks to generate the playlists
     database::Artist artist {1, "Paul Desmond", "some_pic.png", ""};
-    database::Album album {1, "The Best Of Paul Desmond", 1972, ""};
+    database::Album album {1, "The Best Of Paul Desmond", artist, 1972, ""};
 
     database::Track track1 {1, "Skylark", album, 
                             std::vector<database::Artist> {artist}, "", 0.0, ""};
