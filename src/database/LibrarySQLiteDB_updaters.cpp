@@ -74,14 +74,11 @@ bool LibrarySQLiteDB::updateAlbum(Album &album) {
 bool LibrarySQLiteDB::updateArtist(Artist &artist) {
     // Prepare update statement with artist fields
     std::string statement {
-        "UPDATE Artists"
-        "SET "
-            "name = ?, "
+        "UPDATE Artists "
+        "SET name = ?, "
             "imageSource = ?, "
             "bio = ? "
-        "WHERE "
-            "id = ?"
-        ";"
+        "WHERE id = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
     query.bindValue(0, artist.getName());

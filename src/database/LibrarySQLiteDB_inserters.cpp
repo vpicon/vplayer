@@ -31,11 +31,11 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
             "duration,"
             "source "
         ") VALUES ("
-            "?,"
-            "?,"
-            "?,"
-            "?,"
-            "? "
+            "?, "
+            "?, "
+            "?, "
+            "?, "
+            "?"
         ");"
     };
     SQLiteQuery query {_sqlHandle, statement};
@@ -59,7 +59,7 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
 
     for (Artist &artist : track.getArtists()) {
         if (!addArtistToTrack(artist, track))
-            return false;
+            return false;  // failure
 
         updatedArtists.push_back(artist);
     }
