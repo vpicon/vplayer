@@ -132,11 +132,11 @@ bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
     // Update the artist of the album
     album.setArtist(artist);
 
-    // Check if album with same name and artistId is already in the database
-    if (existsAlbum(album.getName(), album.getId())) {
+    // Check if album with same title and artistId is already in the database
+    if (existsAlbum(album.getTitle(), album.getId())) {
         // Update given @album id by the stored album, and try to 
         // update the stored one in case some attributes changed.
-        Album storedAlbum = getAlbumByNameAndArtist(album.getName(), artist.getId());
+        Album storedAlbum = getAlbumByNameAndArtist(album.getTitle(), artist.getId());
         album.setId(storedAlbum.getId());
         return updateAlbum(album);
     }
