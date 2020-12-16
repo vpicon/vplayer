@@ -94,7 +94,7 @@ TEST_F(AlbumTest, setters) {
     album.setImgSource(newImgSource);
 
     // Test new values
-    EXPECT_EQ(album.getId(), id);
+    EXPECT_EQ(album.getId(), newId);
     EXPECT_EQ(album.getTitle(), newTitle);
     artistsEqual(album.getArtist(), newArtist);
     EXPECT_EQ(album.getYear(), newYear);
