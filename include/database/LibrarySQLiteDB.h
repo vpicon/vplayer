@@ -128,7 +128,18 @@ private:
     bool insertNewAlbum(Album &album);
 
     void setTracksToPlaylist(Playlist &playlist);
-    void setArtistsToTrack(Track &track);
+
+    /**
+     * Given a potentially new artist, and a track previously added to
+     * the database, adds the artist to the database and links the 
+     * track to the artist.
+     *
+     * When adding the artist to the database, its id is set to the
+     * id given by the database.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool addArtistToTrack(Artist &artist, Track &track);
 
     // GETTERS
     /**

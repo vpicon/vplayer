@@ -175,4 +175,10 @@ bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
 
 
 
+// TODO is a stub
+bool LibrarySQLiteDB::addArtistsToTrack(Artist &artist, Track &track) {
+    return false;
+}
+
+
 }  // namespace database

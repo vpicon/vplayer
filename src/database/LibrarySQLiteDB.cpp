@@ -206,13 +206,16 @@ bool LibrarySQLiteDB::createTablePlaylistsTracks() {
  * an album with values (id, title, artistId, year, imgSource) values.
  */
 Album LibrarySQLiteDB::hydrateAlbum(SQLiteQuery &query) {
-    Album album {query.value(0).toInt(),      // id
-                 query.value(1).toString(),   // title
-         // Skip query.value(2) artistId
-                 query.value(3).toInt(),      // year
-                 query.value(4).toString()};  // imgSource
+    Album album; 
 
-    // TODO: add artist to Album
+    album.setId(query.value(0).toInt());
+    album.setTitle(query.value(1).toString());
+    album.setYear(query.value(3).toInt());
+    album.setImgSource(query.value(4).toString());
+
+    // TODO:
+    // Get Artist from artistId  and link it to tables
+    // int artistId = query.value(2).toInt;
 
     return album;
 }
