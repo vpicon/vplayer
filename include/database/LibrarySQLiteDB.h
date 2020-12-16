@@ -100,20 +100,23 @@ private:
      * updates the id of the given @artist to the id of the artist in 
      * the database.
      *
-     * Returns true if on success, independently of adding the artist
+     * Returns true on success, independently of adding the artist
      * or not. Return false otherwise on any error.
      */
     bool insertNewArtist(Artist &artist);
     /**
-     * Adds new album to the database, if an album with the same name 
-     * and artist is not already in the database. If such album is 
-     * in the database, updates the id of the given @album to the id of 
-     * the album in the database.
+     * Tries to add new album to the database. If no artists exists in
+     * the database with the given title and artist, inserts the given 
+     * one into the database and sets the id of @album by the id given 
+     * by the database. 
+     * If an album with the same name is already in the database, 
+     * updates the id of the given @album to the id of the album in 
+     * the database.
      *
-     * Returns true if on success, independently of adding the artist
+     * Returns true on success, independently of adding the album
      * or not. Return false otherwise on any error.
      */
-    bool insertNewAlbum();
+    bool insertNewAlbum(Album &album);
 
     void setTracksToPlaylist(Playlist &playlist);
     void setArtistsToTrack(Track &track);
