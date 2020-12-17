@@ -39,7 +39,7 @@ public:
     /**
      * Creates a new empty playlist with given name.
      */
-    virtual void insertNewPlaylist() = 0;
+    virtual bool insertNewPlaylist(Playlist &playlist) = 0;
     /**
      * Given a playlist and the given track object, inserts it to the playlist.
      */

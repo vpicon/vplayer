@@ -13,7 +13,7 @@
 namespace database {
 
 
-// TODO: is a stub
+
 bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     // Add album to database and get its id
     Album album {track.getAlbum()};
@@ -70,9 +70,42 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
 
 
 
-// TODO: is a stub
-void LibrarySQLiteDB::insertNewPlaylist() {
-    return;
+void LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
+    // Prepare query to insert a playlist to db from the given one
+    std::string statement {
+        "INSERT INTO Tracks ("
+            "name,"
+            "imageSource "
+        ") VALUES ("
+            "?, "
+            "?"
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    query.bindValue(0, playlist.getName());
+    query.bindValue(1, playlist.getImgSource());
+
+    // Execute the query and set id of the track to the given by database
+    if (!query.exec()) {
+        // TODO: error handling
+        return false;
+    }
+
+    playlist.setId(query.lastInsertId());
+
+    // Add all artists to the database and link them to the track
+    std::vector<Artist> updatedTracks {}; // store updated artists
+
+    for (Track &track : playlist.getTracks()) {
+        if (!addTrackToPlaylist(track, playlist))
+            return false;  // failure
+
+        updatedTracks.push_back(track);
+    }
+    playlist.setTracks(updatedTracks);
+
+    return true;
 }
 
 
@@ -203,6 +236,7 @@ bool LibrarySQLiteDB::addArtistToTrack(Artist &artist, Track &track) {
 
     return true;
 }
+
 
 
 }  // namespace database

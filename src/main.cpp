@@ -6,6 +6,7 @@
 #include "database/Track.h"
 #include "database/Album.h"
 #include "database/Artist.h"
+#include "database/Playlist.h"
 
 #include <iostream>
 #include <string>
@@ -20,7 +21,11 @@ int main() {
     database::Artist jimHall {"Jim Hall", "~/Pictures/jim_hall.jpg", "A guitar."};
 
     database::Album bossaAntiguaAlbum {"Bossa Antigua", paulDesmond, 1997, "~/Pictures/bossa_antigua.jpg"};
+
     database::Track bossaAntigua {"Bossa Antigua", bossaAntiguaAlbum, {paulDesmond, jimHall}, "today", 432, "~/Music/bossa.mp3"};
+    database::Track oGato {"O Gato", bossaAntiguaAlbum, {paulDesmond, jimHall}, "yesterday", 11, "gatito.wav"};
+
+    databse::Playlist playlist {"Jazz", "jazzy.jpeg", {bossaAntigua, oGato}};
     
     // Add track to database
     db.insertNewTrack(bossaAntigua);

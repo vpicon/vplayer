@@ -39,7 +39,7 @@ public:
 
     // INSERTERS
     bool insertNewTrack(Track &track) override;
-    void insertNewPlaylist() override;
+    bool insertNewPlaylist(Playlist &playlist) override;
     void insertTrackToPlaylist() override;
 
     // DELETERS
