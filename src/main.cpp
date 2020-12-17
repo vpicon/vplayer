@@ -23,12 +23,16 @@ int main() {
     database::Album bossaAntiguaAlbum {"Bossa Antigua", paulDesmond, 1997, "~/Pictures/bossa_antigua.jpg"};
 
     database::Track bossaAntigua {"Bossa Antigua", bossaAntiguaAlbum, {paulDesmond, jimHall}, "today", 432, "~/Music/bossa.mp3"};
+    db.insertNewTrack(bossaAntigua);
     database::Track oGato {"O Gato", bossaAntiguaAlbum, {paulDesmond, jimHall}, "yesterday", 11, "gatito.wav"};
+    db.insertNewTrack(oGato);
 
-    databse::Playlist playlist {"Jazz", "jazzy.jpeg", {bossaAntigua, oGato}};
+
+
+    database::Playlist playlist {"Jazz", "jazzy.jpeg", {bossaAntigua, oGato}};
     
     // Add track to database
-    db.insertNewTrack(bossaAntigua);
+    db.insertNewPlaylist(playlist);
     
     return 0;
 }

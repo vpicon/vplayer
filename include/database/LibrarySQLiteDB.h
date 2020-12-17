@@ -40,7 +40,20 @@ public:
     // INSERTERS
     bool insertNewTrack(Track &track) override;
     bool insertNewPlaylist(Playlist &playlist) override;
-    void insertTrackToPlaylist() override;
+    /**
+     * Given a potentially new track, and a playlist previously added 
+     * to the database, adds the track to the database and links the 
+     * track to the playlist.
+     *
+     * The playlist object must be liable to the database, that is, 
+     * all its tracks must be linked to the playlist in the database.
+     *
+     * When adding the track to the database, its id is set to the
+     * id given by the database.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool addTrackToPlaylist(Track &track, Playlist &playlist) override;
 
     // DELETERS
     void deleteTrackFromLibrary() override {}

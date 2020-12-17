@@ -37,13 +37,29 @@ public:
      */
     virtual bool insertNewTrack(Track &track) = 0;
     /**
-     * Creates a new empty playlist with given name.
+     * Inserts new playlist to the database, given there is no playlist
+     * with the given name already stored in the database (can be checked
+     * using the existPlaylist method).
+     * The playlist must have no tracks associated with it (must be empty).
+     * The given playslist object is modified to store the id given by the
+     * database.
+     *
+     * Returns false on any error or failure, true otherwise.
      */
     virtual bool insertNewPlaylist(Playlist &playlist) = 0;
     /**
-     * Given a playlist and the given track object, inserts it to the playlist.
+     * Given a track and playlist, both previously added to the 
+     * database, links the track to the playlist.
+     *
+     * The playlist object must be liable to the database, that is, 
+     * all its tracks must be linked to the playlist in the database.
+     *
+     * When adding the track to the database, its id is set to the
+     * id given by the database.
+     *
+     * Returns false on any error or failure, true otherwise.
      */
-    virtual void insertTrackToPlaylist() = 0;
+    virtual bool addTrackToPlaylist(Track &track, Playlist &playlist) = 0;
 
     // DELETERS
     /**
