@@ -22,12 +22,9 @@ LDFLAGS  += -L$(build_dir)/ui       -lui
 LDFLAGS  += -lpthread
 
 # Third Party Libraries flags
-    # player 
 MPG123FLAGS := -lmpg123
 PULSEFLAGS  := $(shell pkg-config libpulse --libs)
-    # database
 SQLITEFLAGS := -lsqlite3
-	# ui
 GTKMMFLAGS  := $(shell pkg-config gtkmm-3.0 --libs)
 
 LDFLAGS += $(MPG123FLAGS) $(PULSEFLAGS) $(SQLITEFLAGS) $(GTKMMFLAGS)

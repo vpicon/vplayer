@@ -32,16 +32,40 @@ test_objects += $(wildcard $(build_dir)/player/input_plugins/*.o)
 test_objects += $(wildcard $(build_dir)/player/output_plugins/*.o)
 
 
+
+# Formatting Output
+# 	@param1: command
+# 	@param2: command string rep
+#	@param3: module name
+define format_command
+	printf "%-80b%b" "  $(NO_COLOR)$(2)$(OBJ_COLOR) $(3)$(@F) $(NO_COLOR)...";     			  			\
+	$(1) 2> $@.log; 																    \
+	RESULT=$$?;  																	    \
+	if [ $$RESULT -ne 0 ]; then 													    \
+		printf "%b" "$(ERROR_COLOR)$(ERROR_STRING)$(NO_COLOR)\n"; 				    \
+	elif [ -s $@.log ]; then 														    \
+		printf "%b" "$(WARN_COLOR)$(WARN_STRING)$(NO_COLOR)\n";   				        \
+	else  																			    \
+		printf "%b" "$(OK_COLOR)$(OK_STRING)$(NO_COLOR)\n";                        \
+	fi; 																			    \
+	cat $@.log; 															 		    \
+	rm -f $@.log; 																	    \
+	exit $$RESULT
+endef
+
+
 # TEST MODULES
 
 .PHONY: all $(modules)
 all: $(modules) $(target)
 
 $(target): $(modules)
-	$(CXX) $(CXXFLAGS) $(objects) $(test_objects) -o $(target) $(LDFLAGS)
+	@printf "%b" "$(MODULE_COLOR)Linking test objects and libraries:$(NO_COLOR)\n"
+	@$(call format_command,$(CXX) $(CXXFLAGS) $(objects) $(test_objects) -o $(target) $(LDFLAGS),$(LD_STRING))
 
 $(modules): 
-	$(MAKE) --directory=$@ -f Makefile.mk
+	@printf "%b" "$(MODULE_COLOR)Building $(@) tests:$(NO_COLOR)\n"
+	@$(MAKE) --directory=$@ -f Makefile.mk
 
 
 .PHONY: clean

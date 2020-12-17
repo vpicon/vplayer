@@ -1,5 +1,5 @@
 all:
-	echo "test/ui makefile"
+	@echo "  Nothing to be done."
 
 .PHONY: clean
 clean:
