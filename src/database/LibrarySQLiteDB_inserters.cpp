@@ -119,12 +119,12 @@ bool LibrarySQLiteDB::addTrackToPlaylist(Track &track, Playlist &playlist) {
 
     query.bindValue(0, track.getId());
     query.bindValue(1, playlist.getId());
-    query.bindValue(2, playlist.getTracks().size() + 1);
+    query.bindValue(2, playlist.numTracks()); 
 
     if (!query.exec())  // TODO: error handling
         return false;
 
-    // TODO: playlist.addTrack(track);
+    playlist.addTrack(track, playlist.numTracks());
 
     return true;
 }

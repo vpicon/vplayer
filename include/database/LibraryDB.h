@@ -50,14 +50,15 @@ public:
     virtual bool insertNewPlaylist(Playlist &playlist) = 0;
     /**
      * Given a track and playlist, both previously added to the 
-     * database, links the track to the playlist.
+     * database, links the track to the playlist, setting it to the end
+     * of the playlist.
      *
      * The playlist object must be liable to the database, that is, 
      * all its tracks must be linked to the playlist in the database.
      *
      * When adding the track to the database, its id is set to the
-     * id given by the database. And the track is added to the list 
-     * of tracks in the given playlist object.
+     * id given by the database. And the track is added to the end of 
+     * the list of tracks in the given playlist object.
      *
      * Returns false on any error or failure, true otherwise.
      */

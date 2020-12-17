@@ -139,7 +139,7 @@ TEST_F(PlaylistTest, settersTest) {
 
 
 /**
- * Test modifyers
+ * addTrack() Test 
  */
 
 TEST_F(PlaylistTest, addTrackAtBeginningTest) {
@@ -169,7 +169,6 @@ TEST_F(PlaylistTest, addTrackAtMiddleTest) {
     EXPECT_EQ(playlist.numTracks(), 3);
     tracksEqual(playlist.getTracks()[1], track3);
 }
-
 
 
 
