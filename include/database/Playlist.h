@@ -42,6 +42,7 @@ public:
     std::vector<Track> getTracks() const { return _tracks; }
 
     // SETTERS
+    void setId(int id) { _id = id; }
     void setName(std::string name) { _name = name; }
     void setImgSource(std::string source) { _imgSource = source; }
     void setTracks(const std::vector<Track> &tracks) { _tracks = tracks; }

@@ -70,7 +70,7 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
 
 
 
-void LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
+bool LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
     // Prepare query to insert a playlist to db from the given one
     std::string statement {
         "INSERT INTO Tracks ("
@@ -95,7 +95,7 @@ void LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
     playlist.setId(query.lastInsertId());
 
     // Add all artists to the database and link them to the track
-    std::vector<Artist> updatedTracks {}; // store updated artists
+    std::vector<Track> updatedTracks {}; // store updated artists
 
     for (Track &track : playlist.getTracks()) {
         if (!addTrackToPlaylist(track, playlist))
