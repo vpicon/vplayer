@@ -106,8 +106,11 @@ bool LibrarySQLiteDB::addTrackToPlaylist(Track &track,
                                          Playlist &playlist, 
                                          int pos) 
 {
-    // TODO: Update positions of all tracks in the given playlist, 
+    // Update positions of all tracks in the given playlist, 
     // which are after the given position.
+    if (!incrementPlaylistPositions(playlist, pos))
+        return false;  // failure
+    
     
     // Add entry (trackId, artistId) to TracksArtists table
     std::string statement {

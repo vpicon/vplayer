@@ -204,7 +204,6 @@ private:
      * Returns false on any error or failure, true otherwise.
      */
     bool incrementPlaylistPositions(Playlist &playlist, int startingPos);
-
 };
 
 

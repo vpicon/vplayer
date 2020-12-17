@@ -96,4 +96,26 @@ bool LibrarySQLiteDB::updateArtist(Artist &artist) {
 
 
 
+bool LibrarySQLiteDB::incrementPlaylistPositions(Playlist &playlist, 
+                                                 int startingPos) 
+{
+    std::string statement {
+        "UPDATE PlaylistsTracks "
+        "SET position = position + 1 "
+        "WHERE playlistId = ? AND position >= ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, playlist.getId());
+    query.bindValue(1, startingPos);
+
+    if (!query.exec()) {
+        // TODO: error handling
+        return false;
+    }
+
+    return true;
+}
+
+
+
 }  // namespace database
