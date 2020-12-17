@@ -84,7 +84,7 @@ protected:
     }
     
     // Declare database handles
-    std::string dbName {"test/.test.db"};
+    std::string dbName {"test/.sqliteHandleTest.db"};
     database::SQLiteHandle sqlHandle {dbName};
 
     // Declare some objects to play with the database

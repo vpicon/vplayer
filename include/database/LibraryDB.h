@@ -34,6 +34,12 @@ public:
      *
      * No checks are made wether there is a track with same artists,
      * title, source, nor any field.
+     *
+     * The albums and artists are added to the database (if not already
+     * there), and its id is set to the given by the database. The 
+     * track id is also set to the one in the database.
+     *
+     * Returns false on any error or failure, true otherwise.
      */
     virtual bool insertNewTrack(Track &track) = 0;
     /**
