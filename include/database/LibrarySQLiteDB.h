@@ -109,7 +109,6 @@ private:
      * Returns true on success, independently of adding the artist
      * or not. Return false otherwise on any error.
      */
-public:
     bool insertNewArtist(Artist &artist);
     /**
      * Tries to add new album to the database. If no album exists in

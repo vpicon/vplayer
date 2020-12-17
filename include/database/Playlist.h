@@ -29,6 +29,12 @@ public:
              std::string imgSource, 
              std::vector<Track> tracks);      
 
+    Playlist(std::string name, 
+             std::string imgSource, 
+             std::vector<Track> tracks);      
+
+    Playlist();
+
     // GETTERS
     int getId() const { return _id; }
     std::string getName() const { return _name; }

@@ -26,6 +26,22 @@ Playlist::Playlist(int id,
 
 
 
+Playlist::Playlist(std::string name, 
+                   std::string imgSource, 
+                   std::vector<Track> tracks)
+    : Playlist(0, name, imgSource, tracks)
+{
+}
+
+
+
+Playlist::Playlist()
+    : Playlist(0, "", "", {})
+{
+}
+
+
+
 /*
 bool Playlist::addTrack(const Track &track) {
     _tracks.push_back(
