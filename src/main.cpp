@@ -27,12 +27,11 @@ int main() {
     database::Track oGato {"O Gato", bossaAntiguaAlbum, {paulDesmond, jimHall}, "yesterday", 11, "gatito.wav"};
     db.insertNewTrack(oGato);
 
-
-
+    // Create new playlist
     database::Playlist playlist {"Jazz", "jazzy.jpeg", {bossaAntigua, oGato}};
+    db.insertNewPlaylist(playlist);
     
     // Add track to database
-    db.insertNewPlaylist(playlist);
     
     return 0;
 }

@@ -56,7 +56,8 @@ public:
      * all its tracks must be linked to the playlist in the database.
      *
      * When adding the track to the database, its id is set to the
-     * id given by the database.
+     * id given by the database. And the track is added to the list 
+     * of tracks in the given playlist object.
      *
      * Returns false on any error or failure, true otherwise.
      */
