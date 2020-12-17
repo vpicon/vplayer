@@ -115,8 +115,9 @@ bool Track::updateArtist(const Artist &artist) {
 
 
 
-std::ostream& operator<<(std::ostream &os, const Track &tr) {
-    os << "Track.";
+std::ostream& operator<<(std::ostream &os, const Track &track) {
+    os << "Track id: " << track.getId()
+       << ", title: "  << track.getTitle();
 
     return os;
 }

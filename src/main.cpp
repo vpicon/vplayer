@@ -32,6 +32,11 @@ int main() {
     db.insertNewPlaylist(playlist);
     
     // Add track to database
+    db.addTrackToPlaylist(bossaAntigua, playlist);
+    db.addTrackToPlaylist(oGato, playlist);
+
+    // Print playlist
+    std::cout << playlist << std::endl;
     
     return 0;
 }
