@@ -189,7 +189,7 @@ bool LibrarySQLiteDB::createTablePlaylistsTracks() {
             "trackId INTEGER NOT NULL,"
             "playlistId INTEGER NOT NULL,"
             "position INTEGER NOT NULL," // position of the track in the playlist, starting at 0
-            "UNIQUE(trackId, playlistId, position) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
+            "UNIQUE(playlistId, position) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
             "FOREIGN KEY(trackId) REFERENCES Tracks,"    // TODO: add constraint operations
             "FOREIGN KEY(playlistId) REFERENCES Playlists" // TODO: "   "          "
         ");"
