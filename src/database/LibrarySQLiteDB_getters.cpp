@@ -170,8 +170,7 @@ bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle,
 
 
 
-bool LibrarySQLiteDB::existsPlaylist(const std::string &playlistName);
-{
+bool LibrarySQLiteDB::existsPlaylist(const std::string &playlistName) {
     std::string statement {
         "SELECT id FROM Playlists AS pl "
         "WHERE pl.name = ?;"

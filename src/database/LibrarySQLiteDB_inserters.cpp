@@ -71,9 +71,13 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
 
 
 bool LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
+    // Error checking
+    if (existsPlaylist(playlist.getName()))
+        return false;
+
     // Prepare query to insert a playlist to db from the given one
     std::string statement {
-        "INSERT INTO Tracks ("
+        "INSERT INTO Playlists ("
             "name,"
             "imageSource "
         ") VALUES ("
@@ -93,26 +97,36 @@ bool LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
     }
 
     playlist.setId(query.lastInsertId());
-
-    // Add all artists to the database and link them to the track
-    std::vector<Track> updatedTracks {}; // store updated artists
-
-    for (Track &track : playlist.getTracks()) {
-        if (!addTrackToPlaylist(track, playlist))
-            return false;  // failure
-
-        updatedTracks.push_back(track);
-    }
-    playlist.setTracks(updatedTracks);
-
     return true;
 }
 
 
 
-// TODO: is a stub
-void LibrarySQLiteDB::insertTrackToPlaylist() {
-    return;
+bool LibrarySQLiteDB::addTrackToPlaylist(Track &track, Playlist &playlist) {
+    // Add entry (trackId, artistId) to TracksArtists table
+    std::string statement {
+        "INSERT INTO PlaylistsTracks ("
+            "trackId, "
+            "playlistId, "
+            "position"
+        ") VALUES ("
+            "?, "
+            "?, "
+            "?"
+        ");"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    query.bindValue(0, track.getId());
+    query.bindValue(1, playlist.getId());
+    query.bindValue(2, playlist.getTracks().size() + 1);
+
+    if (!query.exec())  // TODO: error handling
+        return false;
+
+    // TODO: playlist.addTrack(track);
+
+    return true;
 }
 
 
