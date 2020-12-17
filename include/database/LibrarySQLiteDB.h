@@ -40,20 +40,7 @@ public:
     // INSERTERS
     bool insertNewTrack(Track &track) override;
     bool insertNewPlaylist(Playlist &playlist) override;
-    /**
-     * Given a potentially new track, and a playlist previously added 
-     * to the database, adds the track to the database and links the 
-     * track to the playlist.
-     *
-     * The playlist object must be liable to the database, that is, 
-     * all its tracks must be linked to the playlist in the database.
-     *
-     * When adding the track to the database, its id is set to the
-     * id given by the database.
-     *
-     * Returns false on any error or failure, true otherwise.
-     */
-    bool addTrackToPlaylist(Track &track, Playlist &playlist) override;
+    bool addTrackToPlaylist(Track &track, Playlist &playlist, int pos) override;
 
     // DELETERS
     void deleteTrackFromLibrary() override {}
@@ -207,6 +194,16 @@ private:
     Album getAlbumByTitleAndArtist(const std::string &albumTitle, const int artistId);
 
     // UPDATERS
+    /**
+     * Given a playlist previously added to the database, increments the 
+     * position number of the tracks with position >= startingPos.
+     *
+     * Should not be called directly, but from a playlist inserter or 
+     * updater method.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool incrementPlaylistPositions(Playlist &playlist, int startingPos);
 
 };
 

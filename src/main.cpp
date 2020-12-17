@@ -28,12 +28,12 @@ int main() {
     db.insertNewTrack(oGato);
 
     // Create new playlist
-    database::Playlist playlist {"Jazz", "jazzy.jpeg", {bossaAntigua, oGato}};
+    database::Playlist playlist {"Jazz", "jazzy.jpeg"};
     db.insertNewPlaylist(playlist);
     
     // Add track to database
-    db.addTrackToPlaylist(bossaAntigua, playlist);
-    db.addTrackToPlaylist(oGato, playlist);
+    db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
+    db.addTrackToPlaylist(oGato, playlist, 0);
 
     // Print playlist
     std::cout << playlist << std::endl;

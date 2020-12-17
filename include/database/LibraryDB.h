@@ -50,19 +50,23 @@ public:
     virtual bool insertNewPlaylist(Playlist &playlist) = 0;
     /**
      * Given a track and playlist, both previously added to the 
-     * database, links the track to the playlist, setting it to the end
-     * of the playlist.
+     * database, links the track to the playlist, setting it to the 
+     * given position in the playlist.
+     *
+     * The position satisfies 0 <= pos <= playlist.numTracks(); being 
+     * the last equality the case where we add the track to the end of 
+     * the list.
      *
      * The playlist object must be liable to the database, that is, 
      * all its tracks must be linked to the playlist in the database.
      *
      * When adding the track to the database, its id is set to the
-     * id given by the database. And the track is added to the end of 
-     * the list of tracks in the given playlist object.
+     * id given by the database. And the track is added to given position
+     * in the list of tracks in the given playlist object.
      *
      * Returns false on any error or failure, true otherwise.
      */
-    virtual bool addTrackToPlaylist(Track &track, Playlist &playlist) = 0;
+    virtual bool addTrackToPlaylist(Track &track, Playlist &playlist, int pos) = 0;
 
     // DELETERS
     /**

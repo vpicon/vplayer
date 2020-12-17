@@ -102,7 +102,13 @@ bool LibrarySQLiteDB::insertNewPlaylist(Playlist &playlist) {
 
 
 
-bool LibrarySQLiteDB::addTrackToPlaylist(Track &track, Playlist &playlist) {
+bool LibrarySQLiteDB::addTrackToPlaylist(Track &track, 
+                                         Playlist &playlist, 
+                                         int pos) 
+{
+    // TODO: Update positions of all tracks in the given playlist, 
+    // which are after the given position.
+    
     // Add entry (trackId, artistId) to TracksArtists table
     std::string statement {
         "INSERT INTO PlaylistsTracks ("
@@ -119,12 +125,12 @@ bool LibrarySQLiteDB::addTrackToPlaylist(Track &track, Playlist &playlist) {
 
     query.bindValue(0, track.getId());
     query.bindValue(1, playlist.getId());
-    query.bindValue(2, playlist.numTracks()); 
+    query.bindValue(2, pos); 
 
     if (!query.exec())  // TODO: error handling
         return false;
 
-    playlist.addTrack(track, playlist.numTracks());
+    playlist.addTrack(track, pos);
 
     return true;
 }
