@@ -41,11 +41,6 @@ public:
     bool insertNewTrack(Track &track) override;
     bool insertNewPlaylist(Playlist &playlist) override;
     bool addTrackToPlaylist(Track &track, Playlist &playlist, int pos) override;
-
-    // DELETERS
-    void deleteTrackFromLibrary() override {}
-    void deleteTrackFromPlaylist() override {}
-    void deletePlaylist() override {}
     
     // GETTERS
     void getLibraryTracks() override;
@@ -70,6 +65,11 @@ public:
     bool updateArtist(Artist &artist) override;
     void updateTrackMetadata() override;
     void updateTrackPlaylistPosition() override;
+
+    // DELETERS
+    bool deleteTrack(const Track &track) override;
+    bool deleteTrackFromPlaylist(Playlist &playlist, int pos) override;
+    void deletePlaylist() override;
 
 private:
     SQLiteHandle _sqlHandle;    // SQLite3 db handle

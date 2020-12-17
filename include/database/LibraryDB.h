@@ -74,22 +74,6 @@ public:
      */
     virtual bool addTrackToPlaylist(Track &track, Playlist &playlist, int pos) = 0;
 
-    // DELETERS
-    /**
-     * Removes song from the entire library, and from all playlists referencing 
-     * it.
-     */
-    virtual void deleteTrackFromLibrary() = 0; 
-    /**
-     * Removes song from the given playlist, but the song remains in the library.
-     */
-    virtual void deleteTrackFromPlaylist() = 0; 
-    /**
-     * Removes the entire playlist, with all the song references in it. But the 
-     * songs still remain in the library.
-     */
-    virtual void deletePlaylist() = 0; 
-    
     // GETTERS
     /**
      * Gives all the tracks in the library.
@@ -130,14 +114,14 @@ public:
      * Updates the album stored in the database with the same id as 
      * the @album id. 
      *
-     * Returns true on success. False otherwise on any errors.
+     * Returns false on any error or failure, true otherwise.
      */
     virtual bool updateAlbum(Album &album) = 0;
     /**
      * Updates the artist stored in the database with the same id as 
      * the @artist id. 
      *
-     * Returns true on success. False otherwise on any errors.
+     * Returns false on any error or failure, true otherwise.
      */
     virtual bool updateArtist(Artist &artist) = 0;
     /**
@@ -148,6 +132,30 @@ public:
      * Updates the track positino in the playlist.
      */
     virtual void updateTrackPlaylistPosition() = 0;
+
+    // DELETERS
+    /**
+     * Given a track object, previously added to the database, removes
+     * it from the database, and removing all associated unnecessary 
+     * objects with it: artists and albums, and references to playlists.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    virtual bool deleteTrack(const Track &track) = 0; 
+    /**
+     * Given a playlist object, previously added to the database, and
+     * a position (0 <= pos < numTracks); deletes the link between the
+     * playlist and the track at the given position, also removing
+     * such track from the given playlist object tracks list.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    virtual bool deleteTrackFromPlaylist(Playlist &playlist, int pos) = 0; 
+    /**
+     * Removes the entire playlist, with all the song references in it. But the 
+     * songs still remain in the library.
+     */
+    virtual void deletePlaylist() = 0; 
 };
 
 
