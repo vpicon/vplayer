@@ -171,9 +171,10 @@ bool LibrarySQLiteDB::createTableAlbumsTracks() {
 bool LibrarySQLiteDB::createTablePlaylists() {
     std::string statement {
         "CREATE TABLE IF NOT EXISTS Playlists ("
-            "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
-            "name TEXT NOT NULL,"
-            "imageSource TEXT"
+            "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
+            "name TEXT NOT NULL, "
+            "imageSource TEXT, "
+            "UNIQUE(name) ON CONFLICT IGNORE"
         ");"
     };
 
