@@ -187,6 +187,11 @@ private:
      * given albumTitle and artistId.
      */
     bool existsAlbum(const std::string &albumTitle, const int artistId);
+    /**
+     * Returns true iff exists a playlist in the database with the
+     * given playlistName.
+     */
+    bool existsPlaylist(const std::string &playlistName);
 
     /**
      * Given a string referring to a name of an artist, tries to 

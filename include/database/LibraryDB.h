@@ -38,9 +38,10 @@ public:
     virtual bool insertNewTrack(Track &track) = 0;
     /**
      * Inserts new playlist to the database, given there is no playlist
-     * with the given name already stored in the database (can be checked
-     * using the existPlaylist method).
+     * with the given name already stored in the database.
+     *
      * The playlist must have no tracks associated with it (must be empty).
+     *
      * The given playslist object is modified to store the id given by the
      * database.
      *

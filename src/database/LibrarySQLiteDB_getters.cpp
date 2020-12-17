@@ -170,6 +170,23 @@ bool LibrarySQLiteDB::existsAlbum(const std::string &albumTitle,
 
 
 
+bool LibrarySQLiteDB::existsPlaylist(const std::string &playlistName);
+{
+    std::string statement {
+        "SELECT id FROM Playlists AS pl "
+        "WHERE pl.name = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, playlistName);
+    
+    if (!query.exec()) 
+        /* TODO: some debug */;
+        
+    return query.availableRecord();
+}
+
+
+
 Artist LibrarySQLiteDB::getArtistByName(const std::string &artistName) {
     Artist artist;
 
