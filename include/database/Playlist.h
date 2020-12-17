@@ -40,6 +40,7 @@ public:
     std::string getName() const { return _name; }
     std::string getImgSource() const { return _imgSource; }
     std::vector<Track> getTracks() const { return _tracks; }
+    int numTracks() const { return _tracks.size(); }
 
     // SETTERS
     void setId(int id) { _id = id; }
@@ -49,10 +50,18 @@ public:
 
     // MODIFYERS
     /**
-     * Tries to add track to the list of tracks of the track. Returns 
-     * true on success, false otherwise.
+     * Adds track to the list of tracks of this playlist objects. The 
+     * track is added before the element ordered by the given position,
+     * where 0 <= position <= numTracks.
+     *
+     * That is, if position is 0, the element is stored at the beginning
+     * of the list, moving all elements one position further. If position
+     * is numTracks, then the element is positioned at the end of the 
+     * list.
+     *
+     * By default the position is the end of the list.
      */
-    // bool addTrack(const Track &track);
+    void addTrack(const Track &track, int position);
     /**
      * Tries to remove track to the list of tracks of the track, looking 
      * if it is there. Returns true if it could remove the track from 

@@ -42,15 +42,12 @@ Playlist::Playlist()
 
 
 
-/*
-bool Playlist::addTrack(const Track &track) {
-    _tracks.push_back(
-
-    return !found;
+void Playlist::addTrack(const Track &track, int position) {
+    _tracks.insert(_tracks.begin() + position, track);
 }
 
 
-
+/*
 bool Playlist::removeTrack(const Track &track) {
     int givenId = track.getId();
 
