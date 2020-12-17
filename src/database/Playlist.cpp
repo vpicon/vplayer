@@ -35,6 +35,14 @@ Playlist::Playlist(std::string name,
 
 
 
+Playlist::Playlist(std::string name, 
+                   std::string imgSource)
+    : Playlist(0, name, imgSource, {})
+{
+}
+
+
+
 Playlist::Playlist()
     : Playlist(0, "", "", {})
 {

@@ -33,6 +33,9 @@ public:
              std::string imgSource, 
              std::vector<Track> tracks);      
 
+    Playlist(std::string name, 
+             std::string imgSource);
+
     Playlist();
 
     // GETTERS
