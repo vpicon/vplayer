@@ -137,7 +137,7 @@ bool LibrarySQLiteDB::createTableAlbums() {
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
             "title TEXT NOT NULL,"
             "artistId INTEGER NOT NULL,"
-            "year INTEGER NOT NULL,"
+            "year INTEGER,"
             "imageSource TEXT,"
             "UNIQUE(title, artistId) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
             "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: add constraint operations
