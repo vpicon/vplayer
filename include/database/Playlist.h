@@ -58,8 +58,6 @@ public:
      * of the list, moving all elements one position further. If position
      * is numTracks, then the element is positioned at the end of the 
      * list.
-     *
-     * By default the position is the end of the list.
      */
     void addTrack(const Track &track, int position);
     /**

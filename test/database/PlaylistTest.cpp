@@ -83,6 +83,8 @@ protected:
                             std::vector<database::Artist> {artist}, "", 0.0, ""};
     database::Track track2 {2, "Take Ten", album, 
                             std::vector<database::Artist> {artist}, "", 0.0, ""};
+    database::Track track3 {3, "Take Twelve", album, 
+                            std::vector<database::Artist> {artist}, "", 0.0, ""};
 
     // Generate a new Playlist
     int id {10};
@@ -104,6 +106,10 @@ TEST_F(PlaylistTest, gettersTest) {
     EXPECT_EQ(playlist.getName(), name);
     EXPECT_EQ(playlist.getImgSource(), imgSource);
     listTracksEqual(playlist.getTracks(), tracks);
+}
+
+TEST_F(PlaylistTest, numTracksTest) {
+    EXPECT_EQ(playlist.numTracks(), static_cast<int>(tracks.size()));
 }
 
 
@@ -129,6 +135,41 @@ TEST_F(PlaylistTest, settersTest) {
     EXPECT_EQ(playlist.getImgSource(), newImgSource);
     listTracksEqual(playlist.getTracks(), newTracks);
 }
+
+
+
+/**
+ * Test modifyers
+ */
+
+TEST_F(PlaylistTest, addTrackAtBeginningTest) {
+    // Add one track to the beginning of the playlist
+    playlist.addTrack(track2, 0);
+
+    // Check tracks 
+    EXPECT_EQ(playlist.numTracks(), 2);
+    tracksEqual(playlist.getTracks()[0], track2);
+}
+
+TEST_F(PlaylistTest, addTrackAtEndTest) {
+    // Add one track to the beginning of the playlist
+    playlist.addTrack(track2, playlist.numTracks());
+
+    // Check tracks 
+    EXPECT_EQ(playlist.numTracks(), 2);
+    tracksEqual(playlist.getTracks()[1], track2);
+}
+
+TEST_F(PlaylistTest, addTrackAtMiddleTest) {
+    // Add one track to the beginning of the playlist
+    playlist.addTrack(track2, playlist.numTracks());
+    playlist.addTrack(track3, playlist.numTracks() - 1);
+
+    // Check tracks 
+    EXPECT_EQ(playlist.numTracks(), 3);
+    tracksEqual(playlist.getTracks()[1], track3);
+}
+
 
 
 
