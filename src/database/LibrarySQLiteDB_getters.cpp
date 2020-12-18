@@ -95,9 +95,25 @@ void LibrarySQLiteDB::getArtistAlbums() {
 
 
 
-// TODO: is a stub
 Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
-    return Track{};
+    Track track; 
+
+    track.setId(query.value(0).toInt());
+    track.setTitle(query.value(1).toString());
+    track.setDate(query.value(4).toString());
+    track.setDuration(query.value(5).toInt());
+    track.setSource(query.value(6).toString());
+
+    // Set album to track, if it has one
+    if (!query.value(2).isNull()) {
+        int artistId = query.value(2).toInt(); 
+        setAlbumTotrack(track, artistId);
+    }
+
+    // Add all artists to the track
+    setArtistsToTrack(track);
+
+    return track;
 }
 
 

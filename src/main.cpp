@@ -16,28 +16,29 @@ int main() {
     // Create database
     database::LibrarySQLiteDB db {"hola.db"};
     
-    // Create track to add
+    // Create artist and albums
     database::Artist paulDesmond {"Paul Desmond", "~/Pictures/paul_demond.jpg", "A nice saxo."};
     database::Artist jimHall {"Jim Hall", "~/Pictures/jim_hall.jpg", "A guitar."};
 
     database::Album bossaAntiguaAlbum {"Bossa Antigua", paulDesmond, 1997, "~/Pictures/bossa_antigua.jpg"};
 
+    // Create traks and add them to database
     database::Track bossaAntigua {"Bossa Antigua", bossaAntiguaAlbum, {paulDesmond, jimHall}, "today", 432, "~/Music/bossa.mp3"};
     db.insertNewTrack(bossaAntigua);
     database::Track oGato {"O Gato", bossaAntiguaAlbum, {paulDesmond, jimHall}, "yesterday", 11, "gatito.wav"};
     db.insertNewTrack(oGato);
 
     // Create new playlist
-    database::Playlist playlist {"Jazz", "jazzy.jpeg"};
-    db.insertNewPlaylist(playlist);
+    // database::Playlist playlist {"Jazz", "jazzy.jpeg"};
+    // db.insertNewPlaylist(playlist);
     
     // Add track to database
-    db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
-    db.addTrackToPlaylist(oGato, playlist, 0);
-
-    // Print playlist
-    std::cout << playlist << std::endl;
+    // db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
+    // db.addTrackToPlaylist(oGato, playlist, 0);
     
+    for (database::Track &track : db.getAllTracks()) 
+        std::cout << track << std::endl;
+
     return 0;
 }
 
