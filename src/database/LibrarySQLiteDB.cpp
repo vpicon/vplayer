@@ -25,11 +25,11 @@ LibrarySQLiteDB::LibrarySQLiteDB(std::string dbName)
     _trackFields = "tr.id, "
                    "tr.title, "
                    "tr.albumId, "
-                   "tr.genre, "
+                   // "tr.genre, "
                    "tr.duration, "
                    "tr.additionDate, "
-                   "tr.source, "
-                   "tr.type ";
+                   // "tr.type, "
+                   "tr.source ";
 
     _artistFields = "ar.id, "
                     "ar.name, "
@@ -85,7 +85,6 @@ bool LibrarySQLiteDB::createTableTracks() {
             "albumId INTEGER," 
             "additionDate TEXT NOT NULL,"  // TODO: change to a type to code - decode
             "duration INTEGER,"
-            // "genre TEXT," // TODO: add as a relation table (track, genre) (and add another genre table)
             "source TEXT NOT NULL,"
             "FOREIGN KEY(albumId) REFERENCES Albums" // TODO: add constraint operations
         ");"

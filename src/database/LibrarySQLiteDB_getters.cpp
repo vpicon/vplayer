@@ -16,9 +16,28 @@ namespace database {
 
 
 
-// TODO: is a stub
 std::vector<Track> LibrarySQLiteDB::getAllTracks() {
-    return {};
+    // Make query to retrieve all tracks
+    std::string statement {
+        "SELECT " + _trackFields + "FROM Tracks AS tr;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Track> tracks {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Track track = hydrateTrack(query);
+        query.next();
+        tracks.push_back(track);
+    }
+
+    return tracks;
 }
 
 
@@ -76,6 +95,7 @@ void LibrarySQLiteDB::getArtistAlbums() {
 
 
 
+// TODO: is a stub
 Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
     return Track{};
 }
@@ -210,7 +230,6 @@ Artist LibrarySQLiteDB::getArtistByName(const std::string &artistName) {
 
 
 
-// TODO: is a stub
 Album LibrarySQLiteDB::getAlbumByTitleAndArtist(const std::string &albumTitle, 
                                                 const int artistId) 
 {
