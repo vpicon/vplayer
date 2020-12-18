@@ -19,13 +19,6 @@ namespace {
 
 // HELPER METHODS
 
-void artistsEqual(const database::Artist &artist1, const database::Artist &artist2) {
-    EXPECT_EQ(artist1.getId(), artist2.getId());
-    EXPECT_EQ(artist1.getName(), artist2.getName());
-    EXPECT_EQ(artist1.getImgSource(), artist2.getImgSource());
-    EXPECT_EQ(artist1.getBio(), artist2.getBio());
-}
-
 
 // FIXTURE
 
@@ -56,7 +49,7 @@ protected:
 TEST_F(AlbumTest, Getters) {
     EXPECT_EQ(album.getId(), id);
     EXPECT_EQ(album.getTitle(), title);
-    artistsEqual(album.getArtist(), artist);
+    EXPECT_EQ(album.getArtist(), artist);
     EXPECT_EQ(album.getYear(), year);
     EXPECT_EQ(album.getImgSource(), imgSource);
 }
@@ -68,7 +61,7 @@ TEST_F(AlbumTest, Getters) {
 TEST_F(AlbumTest, DefaultConstructor) {
     EXPECT_EQ(emptyAlbum.getId(), 0);
     EXPECT_EQ(emptyAlbum.getTitle(), "");
-    artistsEqual(emptyAlbum.getArtist(), database::Artist{});
+    EXPECT_EQ(emptyAlbum.getArtist(), database::Artist{});
     EXPECT_EQ(emptyAlbum.getYear(), 0);
     EXPECT_EQ(emptyAlbum.getImgSource(), "");
 }
@@ -96,7 +89,7 @@ TEST_F(AlbumTest, Setters) {
     // Test new values
     EXPECT_EQ(album.getId(), newId);
     EXPECT_EQ(album.getTitle(), newTitle);
-    artistsEqual(album.getArtist(), newArtist);
+    EXPECT_EQ(album.getArtist(), newArtist);
     EXPECT_EQ(album.getYear(), newYear);
     EXPECT_EQ(album.getImgSource(), newImgSource);
 }

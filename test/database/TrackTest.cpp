@@ -22,31 +22,6 @@ namespace {
 // HELPER METHODS
 
 
-void artistsEqual(const database::Artist &artist1, const database::Artist &artist2) {
-    EXPECT_EQ(artist1.getId(),        artist2.getId());
-    EXPECT_EQ(artist1.getName(),      artist2.getName());
-    EXPECT_EQ(artist1.getImgSource(), artist2.getImgSource());
-    EXPECT_EQ(artist1.getBio(),       artist2.getBio());
-}
-
-void albumsEqual(const database::Album &album1, const database::Album &album2) {
-    EXPECT_EQ(album1.getId(),        album2.getId());
-    EXPECT_EQ(album1.getTitle(),     album2.getTitle());
-    artistsEqual(album1.getArtist(), album2.getArtist());
-    EXPECT_EQ(album1.getYear(),      album2.getYear());
-    EXPECT_EQ(album1.getImgSource(), album2.getImgSource());
-}
-
-void listArtistsEqual(const std::vector<database::Artist> &v1,
-                      const std::vector<database::Artist> &v2) 
-{
-    ASSERT_EQ(v1.size(), v2.size());
-    
-    for (size_t i = 0; i < v1.size(); i++)
-        artistsEqual(v1[i], v2[i]);
-}
-
-
 // FIXTURE
 
 class TrackTest : public testing::Test {
@@ -81,8 +56,8 @@ protected:
 TEST_F(TrackTest, Getters) {
     EXPECT_EQ(track.getId(), 1);
     EXPECT_EQ(track.getTitle(), title);
-    albumsEqual(track.getAlbum(), album);
-    listArtistsEqual(track.getArtists(), std::vector<database::Artist> {artist1});
+    EXPECT_EQ(track.getAlbum(), album);
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {artist1});
     EXPECT_EQ(track.getDate(), date);
     EXPECT_EQ(track.getDuration(), duration);
     EXPECT_EQ(track.getSource(), source);
@@ -142,8 +117,8 @@ TEST_F(TrackTest, Setters) {
     // Test new values
     EXPECT_EQ(track.getId(), 1);
     EXPECT_EQ(track.getTitle(), newTitle);
-    albumsEqual(track.getAlbum(), newAlbum);
-    listArtistsEqual(track.getArtists(), newArtists);
+    EXPECT_EQ(track.getAlbum(), newAlbum);
+    EXPECT_EQ(track.getArtists(), newArtists);
     EXPECT_EQ(track.getDate(), newDate); 
     EXPECT_EQ(track.getDuration(), newDuration);
     EXPECT_EQ(track.getSource(), newSource);
@@ -158,36 +133,31 @@ TEST_F(TrackTest, Setters) {
 TEST_F(TrackTest, AddArtist) {
     // Check we cannot add the same artist to the track
     EXPECT_FALSE(track.addArtist(artist1));
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {artist1});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {artist1});
 
     // Check we can add a different artist to track
     EXPECT_TRUE(track.addArtist(artist2));
 
     // Check artist added to track
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {artist1, artist2});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist>({artist1, artist2}));
 }
 
 TEST_F(TrackTest, RemoveArtist) {
     // Check we cannot remove a missing artist from the track
     EXPECT_FALSE(track.removeArtist(artist2));
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {artist1});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {artist1});
 
     // Check we remove an artist from track
     EXPECT_TRUE(track.removeArtist(artist1));
 
     // Check artist added to track
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {});
 }
 
 TEST_F(TrackTest, UpdateArtist) {
     // Check we cannot update a missing artist from the track
     EXPECT_FALSE(track.updateArtist(artist2));
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {artist1});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {artist1});
 
     // Update same artist values
     artist1.setName("Other Name");
@@ -196,8 +166,7 @@ TEST_F(TrackTest, UpdateArtist) {
     EXPECT_TRUE(track.updateArtist(artist1));
 
     // Check artist added to track
-    listArtistsEqual(track.getArtists(), 
-                     std::vector<database::Artist> {artist1});
+    EXPECT_EQ(track.getArtists(), std::vector<database::Artist> {artist1});
 }
 
 
@@ -219,7 +188,7 @@ TEST_F(TrackTest, EqualOperatorFalse) {
     EXPECT_FALSE(track == database::Track{});
 
     // Test with album with other attributes
-    EXPECT_FALSE(track == database::Track ("Title"));
+    EXPECT_FALSE(track == database::Track("Title"));
 }
 
 
