@@ -44,7 +44,7 @@ protected:
  * Test getters
  */
 
-TEST_F(ArtistTest, getters) {
+TEST_F(ArtistTest, Getters) {
     EXPECT_EQ(artist.getId(), id);
     EXPECT_EQ(artist.getName(), name);
     EXPECT_EQ(artist.getImgSource(), imgSource);
@@ -53,13 +53,23 @@ TEST_F(ArtistTest, getters) {
 
 
 /**
- * Test default constructor
+ * Constructors Test
  */
-TEST_F(ArtistTest, defaultConstructor) {
+
+TEST_F(ArtistTest, DefaultConstructor) {
     EXPECT_EQ(emptyArtist.getId(), 0);
     EXPECT_EQ(emptyArtist.getName(), "");
     EXPECT_EQ(emptyArtist.getImgSource(), "");
     EXPECT_EQ(emptyArtist.getBio(), "");
+}
+
+TEST_F(ArtistTest, MinimalConstructor) {
+    // Create a minimal artist
+    database::Artist minimal {name};
+    EXPECT_EQ(minimal.getId(), 0);
+    EXPECT_EQ(minimal.getName(), name);
+    EXPECT_EQ(minimal.getImgSource(), "");
+    EXPECT_EQ(minimal.getBio(), "");
 }
 
 
@@ -67,7 +77,7 @@ TEST_F(ArtistTest, defaultConstructor) {
  * Test setters
  */
 
-TEST_F(ArtistTest, setters) {
+TEST_F(ArtistTest, Setters) {
     // Define new values
     int newId {13};
     std::string newName {"Victor"};
@@ -85,6 +95,18 @@ TEST_F(ArtistTest, setters) {
     EXPECT_EQ(artist.getName(), newName);
     EXPECT_EQ(artist.getImgSource(), newImgSource);
     EXPECT_EQ(artist.getBio(), newBio);
+}
+
+/**
+ * Operators test
+ */
+
+TEST_F(ArtistTest, EqualOperatorTrue) {
+    EXPECT_TRUE(artist == database::Artist(id, name, imgSource, bio));
+}
+
+TEST_F(ArtistTest, EqualOperatorFalse) {
+    EXPECT_FALSE(artist == database::Artist(id, "Other name", imgSource, bio));
 }
 
 

@@ -56,7 +56,16 @@ private:
 };
 
 
+
+inline bool operator==(const Artist &la, const Artist &ra) {
+    return la.getId() == ra.getId()               &&
+           la.getName() == ra.getName()           &&
+           la.getImgSource() == ra.getImgSource() &&
+           la.getBio() == ra.getBio();
+}
+
 std::ostream& operator<<(std::ostream &os, const Artist &artist);
+
 
 
 }  // namespace database
