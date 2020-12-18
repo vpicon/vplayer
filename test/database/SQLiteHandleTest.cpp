@@ -109,6 +109,21 @@ TEST_F(SQLiteHandleTest, SQLiteHandleClassGetHandle) {
  * SQLiteValue Class getters and constructors.
  */
 
+TEST_F(SQLiteHandleTest, SQLiteValueClassTextVal) {
+    // Null type
+    database::SQLiteValue nullValObj {};
+
+    // Check the value is null 
+    EXPECT_TRUE(nullValObj.isNull());
+
+    // Not Null Type
+    int x = 3;
+    database::SQLiteValue intValObj {x};
+
+    // Check the value returned
+    EXPECT_FALSE(intValObj.isNull());
+}
+
 TEST_F(SQLiteHandleTest, SQLiteValueClassIntVal) {
     // Build SQLiteValue object from integer
     int x = 3;

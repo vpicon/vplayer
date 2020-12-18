@@ -143,6 +143,7 @@ bool SQLiteQuery::bindNull(int i) {
 // --------- SQLiteValue CLASS ---------
 
 SQLiteValue::SQLiteValue()
+    : _null{true}
 {
 }
 
@@ -162,7 +163,7 @@ SQLiteValue::SQLiteValue(const unsigned char *textVal)
 
 
 
-std::string SQLiteValue::toString() {
+std::string SQLiteValue::toString() const {
     return (!_textVal) ? "" : std::string { reinterpret_cast<const char*>(_textVal) };
 }
 

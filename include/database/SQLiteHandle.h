@@ -118,6 +118,9 @@ private:
  */
 class SQLiteValue {
 public:
+    /**
+     * Null value constructor.
+     */
     explicit SQLiteValue();
     explicit SQLiteValue(int intVal);
     explicit SQLiteValue(const unsigned char *textVal);
@@ -126,16 +129,21 @@ public:
      * Returns int value, if this object was built with an integer value.
      * Undetermined results are yielded otherwise.
      */
-    int toInt() { return _intVal; }
+    int toInt() const { return _intVal; }
     /**
      * Returns string value, if this object was built with a string 
      * value. Undetermined results are yielded otherwise.
      */
-    std::string toString();
+    std::string toString() const;
+    /**
+     * Returns if the value is associated to NULL in SQL.
+     */
+    bool isNull() const { return _null; };
 
 private:
-    int _intVal;
-    const unsigned char *_textVal;
+    int _intVal = 0;
+    const unsigned char *_textVal = nullptr;
+    bool _null = false;
 };
 
 
