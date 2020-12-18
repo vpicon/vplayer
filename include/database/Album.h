@@ -35,6 +35,10 @@ public:
           int year,
           const std::string &imgSource);      
 
+    // Album minimal constructor
+    Album(const std::string &title, 
+          const Artist &artist);
+
     Album();      
 
 

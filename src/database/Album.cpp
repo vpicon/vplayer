@@ -38,6 +38,14 @@ Album::Album(const std::string &title,
 
 
 
+Album::Album(const std::string &title, 
+             const Artist &artist)
+    : Album(0, title, artist, 0, "")
+{
+}
+
+
+
 Album::Album()
     : Album(0, "", Artist{}, 0, "")
 {
