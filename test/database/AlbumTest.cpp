@@ -53,7 +53,7 @@ protected:
  * Test getters
  */
 
-TEST_F(AlbumTest, getters) {
+TEST_F(AlbumTest, Getters) {
     EXPECT_EQ(album.getId(), id);
     EXPECT_EQ(album.getTitle(), title);
     artistsEqual(album.getArtist(), artist);
@@ -65,7 +65,7 @@ TEST_F(AlbumTest, getters) {
 /**
  * Test default constructor
  */
-TEST_F(AlbumTest, defaultConstructor) {
+TEST_F(AlbumTest, DefaultConstructor) {
     EXPECT_EQ(emptyAlbum.getId(), 0);
     EXPECT_EQ(emptyAlbum.getTitle(), "");
     artistsEqual(emptyAlbum.getArtist(), database::Artist{});
@@ -78,7 +78,7 @@ TEST_F(AlbumTest, defaultConstructor) {
  * Test setters
  */
 
-TEST_F(AlbumTest, setters) {
+TEST_F(AlbumTest, Setters) {
     // Define new values
     int newId {81241};
     std::string newTitle {"OtherAlbum"};
@@ -101,6 +101,27 @@ TEST_F(AlbumTest, setters) {
     EXPECT_EQ(album.getImgSource(), newImgSource);
 }
 
+
+
+/**
+ * Operators Test
+ */
+
+TEST_F(AlbumTest, EqualOperatorTrue) {
+    // Test with itself
+    EXPECT_TRUE(album == album);
+
+    // Test with album with same attributes
+    EXPECT_TRUE(album == database::Album(id, title, artist, year, imgSource));
+}
+
+TEST_F(AlbumTest, EqualOperatorFalse) {
+    // Test with empty album
+    EXPECT_FALSE(album == database::Album{});
+
+    // Test with album with other attributes
+    EXPECT_FALSE(album == database::Album(id, "Other things", database::Artist{}, year, imgSource));
+}
 
 
 

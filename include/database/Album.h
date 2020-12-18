@@ -65,6 +65,15 @@ private:
 };
 
 
+
+inline bool operator==(const Album &la, const Album &ra) {
+    return la.getId() == ra.getId()         &&
+           la.getTitle() == ra.getTitle()   &&
+           la.getArtist() == ra.getArtist() &&
+           la.getYear() == ra.getYear()     &&
+           la.getImgSource() == ra.getImgSource();
+}
+
 std::ostream& operator<<(std::ostream &os, const Album &album);
 
 
