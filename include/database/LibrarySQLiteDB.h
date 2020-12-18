@@ -161,7 +161,7 @@ private:
      * Gets the album associated to the track from the database, and 
      * sets it to the given track object.
      */
-    void setAlbumToTrack(Track &track, const int artistId);
+    void setAlbumToTrack(Track &track, const int albumId);
     /**
      * Gets the artist associated to the track from the database, and 
      * sets it to the given track object.

@@ -109,7 +109,7 @@ TEST_F(SQLiteHandleTest, SQLiteHandleClassGetHandle) {
  * SQLiteValue Class getters and constructors.
  */
 
-TEST_F(SQLiteHandleTest, SQLiteValueClassTextVal) {
+TEST_F(SQLiteHandleTest, SQLiteValueClassNullVal) {
     // Null type
     database::SQLiteValue nullValObj {};
 
