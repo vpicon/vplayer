@@ -107,7 +107,7 @@ Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
     // Set album to track, if it has one
     if (!query.value(2).isNull()) {
         int artistId = query.value(2).toInt(); 
-        setAlbumTotrack(track, artistId);
+        setAlbumToTrack(track, artistId);
     }
 
     // Add all artists to the track
@@ -144,6 +144,18 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
     artist.setBio(query.value(3).toString());
 
     return artist;
+}
+
+
+
+void LibrarySQLiteDB::setAlbumToTrack(Track &track, const int albumId) {
+    return;
+}
+
+
+
+void LibrarySQLiteDB::setArtistsToTrack(Track &track) {
+    return;
 }
 
 

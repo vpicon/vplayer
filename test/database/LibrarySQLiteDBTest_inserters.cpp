@@ -27,27 +27,30 @@ class LibrarySQLiteDBInsertersTest : public testing::Test {
 protected:
     void SetUp() override {
         // Add track1 to the database
-        ASSERT_TRUE(db.inesrtNewTrack(track1));
+        ASSERT_TRUE(db.insertNewTrack(track1));
     }
 
     void TearDown() override {
         // Delete all tracks stored in the database
-        for (Track &track : db.getTracks())
+        for (database::Track &track : db.getAllTracks())
             ASSERT_TRUE(db.deleteTrack(track));
     }
     
     // Create database object
-    database::LibrarySQLiteDB db {"test/.librarySqliteDB_getters.db"};
+    database::LibrarySQLiteDB db {"test/.librarySqliteDB_inserters.db"};
 
     // Create track objects
     database::Artist artist1 {"Paul Desmond", "~/Pictures/paul_demond.jpg", "A nice saxo."};
     database::Artist artist2 {"Jim Hall", "~/Pictures/jim_hall.jpg", "A guitar."};
+    database::Artist minimalArtist {"Minimal Guy"};
 
     database::Album album {"Bossa Antigua", artist1, 1997, "~/Pictures/bossa_antigua.jpg"};
+    database::Album minimalAlbum {"Minimal Collection", minimalArtist};
+
 
     database::Track track1 {"Bossa Antigua", album, {artist1, artist2}, "today", 432, "~/Music/bossa.mp3"};
     database::Track track2 {"O Gato", album, {artist1, artist2}, "yesterday", 11, "gatito.wav"};
-    database::Track minimalTrack {"Minimalist", Album{}, {artist1, artist2}, "yesterday", 11, "gatito.wav"};
+    database::Track minimalTrack {"MinimalisT"};
 };
 
 // UNIT TESTS
@@ -74,7 +77,14 @@ protected:
  */
 
 TEST_F(LibrarySQLiteDBInsertersTest, InsertNewTrackMinimalTrack) {
-    ASSERT_TRUE(false);
+    // Insert the new track, should return true on success
+    ASSERT_TRUE(db.insertNewTrack(minimalTrack));
+
+    // Check if the track is stored in the database
+    database::Track retrievedTrack = db.getTrack(minimalTrack.getId());
+
+    // Compare two tracks
+    EXPECT_EQ(retrievedTrack, minimalTrack);
 }
 
 

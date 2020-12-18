@@ -127,7 +127,6 @@ private:
      */
     bool insertNewAlbum(Album &album);
 
-    void setTracksToPlaylist(Playlist &playlist);
 
     /**
      * Given a potentially new artist, and a track previously added to
@@ -159,10 +158,21 @@ private:
     Playlist hydratePlaylist(SQLiteQuery &query);
 
     /**
+     * Gets the album associated to the track from the database, and 
+     * sets it to the given track object.
+     */
+    void setAlbumToTrack(Track &track, const int artistId);
+    /**
+     * Gets the artist associated to the track from the database, and 
+     * sets it to the given track object.
+     */
+    void setArtistsToTrack(Track &track);
+    /**
      * Gets the artist associated to the album from the database, and 
      * sets it to the given album object.
      */
     void setArtistToAlbum(Album &album, const int artistId);
+    void setTracksToPlaylist(Playlist &playlist);
 
     /**
      * Returns true iff exists an artist in the database with the
