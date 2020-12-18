@@ -16,6 +16,7 @@
 #include "Artist.h"
 #include "Playlist.h"
 
+#include <vector>
 
 
 namespace database {
@@ -78,7 +79,7 @@ public:
     /**
      * Gives all the tracks in the library.
      */
-    virtual void getLibraryTracks() = 0;
+    virtual std::vector<Track> getAllTracks() = 0;
     /**
      * Gives all the tracks in a given playlist.
      */

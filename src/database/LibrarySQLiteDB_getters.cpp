@@ -17,8 +17,8 @@ namespace database {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getLibraryTracks() {
-    return;
+std::vector<Track> LibrarySQLiteDB::getAllTracks() {
+    return {};
 }
 
 

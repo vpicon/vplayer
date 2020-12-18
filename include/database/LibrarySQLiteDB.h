@@ -43,7 +43,7 @@ public:
     bool addTrackToPlaylist(Track &track, Playlist &playlist, int pos) override;
     
     // GETTERS
-    void getLibraryTracks() override;
+    std::vector<Track> getAllTracks() override;
     void getPlaylistTracks() override;
     void getPlaylists() override;
     void getAlbumTracks() override;
