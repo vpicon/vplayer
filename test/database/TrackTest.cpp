@@ -201,5 +201,27 @@ TEST_F(TrackTest, UpdateArtist) {
 }
 
 
+/**
+ * Operators test.
+ */
+
+TEST_F(TrackTest, EqualOperatorTrue) {
+    // Test with itself
+    EXPECT_TRUE(track == track);
+
+    // Test with album with same attributes
+    EXPECT_TRUE(track == database::Track (1, title, album, 
+                std::vector<database::Artist> {artist1}, date, duration, source));
+}
+
+TEST_F(TrackTest, EqualOperatorFalse) {
+    // Test with empty album
+    EXPECT_FALSE(track == database::Track{});
+
+    // Test with album with other attributes
+    EXPECT_FALSE(track == database::Track ("Title"));
+}
+
+
 
 }  // namespace

@@ -100,6 +100,17 @@ private:
 };
 
 
+
+inline bool operator==(const Track &lt, const Track &rt) {
+    return lt.getId() == rt.getId()             &&
+           lt.getTitle() == rt.getTitle()       &&
+           lt.getAlbum() == rt.getAlbum()       &&
+           lt.getArtists() == rt.getArtists()   &&
+           lt.getDate() == rt.getDate()         &&
+           lt.getDuration() == rt.getDuration() &&
+           lt.getSource() == rt.getSource();
+}
+
 std::ostream& operator<<(std::ostream &os, const Track &tr);
 
 
