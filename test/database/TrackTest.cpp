@@ -78,7 +78,7 @@ protected:
  * Test getters
  */
 
-TEST_F(TrackTest, getters) {
+TEST_F(TrackTest, Getters) {
     EXPECT_EQ(track.getId(), 1);
     EXPECT_EQ(track.getTitle(), title);
     albumsEqual(track.getAlbum(), album);
@@ -91,10 +91,38 @@ TEST_F(TrackTest, getters) {
 
 
 /**
+ * hasAlbum() test:
+ *      return: true, false, false then true
+ */
+
+TEST_F(TrackTest, HasAlbumTrue) {
+    EXPECT_TRUE(track.hasAlbum());
+}
+
+TEST_F(TrackTest, HasAlbumFalse) {
+    database::Track minimalTrack {"Minimal"};
+    EXPECT_FALSE(minimalTrack.hasAlbum());
+}
+
+TEST_F(TrackTest, HasAlbumFalseThenTrue) {
+    database::Track minimalTrack {"Minimal"};
+    EXPECT_FALSE(minimalTrack.hasAlbum());
+
+    // Add artist and album to the track
+    minimalTrack.setArtists({artist1});
+    minimalTrack.setAlbum(album);
+
+    // Check if has album now
+    EXPECT_TRUE(minimalTrack.hasAlbum());
+}
+
+
+
+/**
  * Test setters
  */
 
-TEST_F(TrackTest, setters) {
+TEST_F(TrackTest, Setters) {
     // Define new values
     std::string newTitle {"OtherTrack"};
     database::Album newAlbum {2, "Bossa Antigua", artist1, 1970, ""};
@@ -127,7 +155,7 @@ TEST_F(TrackTest, setters) {
  * Test modifyers
  */
 
-TEST_F(TrackTest, addArtistTest) {
+TEST_F(TrackTest, AddArtist) {
     // Check we cannot add the same artist to the track
     EXPECT_FALSE(track.addArtist(artist1));
     listArtistsEqual(track.getArtists(), 
@@ -141,7 +169,7 @@ TEST_F(TrackTest, addArtistTest) {
                      std::vector<database::Artist> {artist1, artist2});
 }
 
-TEST_F(TrackTest, removeArtistTest) {
+TEST_F(TrackTest, RemoveArtist) {
     // Check we cannot remove a missing artist from the track
     EXPECT_FALSE(track.removeArtist(artist2));
     listArtistsEqual(track.getArtists(), 
@@ -155,7 +183,7 @@ TEST_F(TrackTest, removeArtistTest) {
                      std::vector<database::Artist> {});
 }
 
-TEST_F(TrackTest, updateArtistTest) {
+TEST_F(TrackTest, UpdateArtist) {
     // Check we cannot update a missing artist from the track
     EXPECT_FALSE(track.updateArtist(artist2));
     listArtistsEqual(track.getArtists(), 

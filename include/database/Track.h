@@ -53,6 +53,11 @@ public:
     std::string getDate() const { return _date; }
     float getDuration() const { return _duration; }
     std::string getSource() const { return _source; }
+    /**
+     * Returns if the track has an album associated to it,
+     * i.e a non-empty album with a non-empty title.
+     */
+    bool hasAlbum() const { return _album.getTitle() != ""; }
 
     // SETTERS
     void setId(int id) { _id = id; }
