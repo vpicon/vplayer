@@ -40,6 +40,9 @@ public:
           float duration,
           const std::string &source);
 
+    // Minimal track constructor
+    Track(const std::string &title);
+
     Track();
 
     // GETTERS

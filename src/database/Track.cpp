@@ -45,6 +45,13 @@ Track::Track(const std::string &title,
 
 
 
+Track::Track(const std::string &title)
+    : Track(0, title, {}, {}, "", 0.0, "")
+{
+}
+
+
+
 Track::Track()
     : Track(0, "", Album {}, std::vector<Artist> {}, "", 0.0, "")
 {
