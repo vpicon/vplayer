@@ -83,7 +83,7 @@ bool LibrarySQLiteDB::createTableTracks() {
             "id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"
             "title TEXT NOT NULL,"
             "albumId INTEGER," 
-            "additionDate INTEGER NOT NULL,"  // TODO: change to a type to code - decode
+            "additionDate TEXT NOT NULL,"  // TODO: change to a type to code - decode
             "duration INTEGER,"
             // "genre TEXT," // TODO: add as a relation table (track, genre) (and add another genre table)
             "source TEXT NOT NULL,"
