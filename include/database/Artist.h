@@ -31,6 +31,9 @@ public:
            std::string imgSource, 
            std::string bio);      
 
+    // Minimal artist constructor
+    Artist(std::string name);
+
     Artist();
 
     // GETTERS

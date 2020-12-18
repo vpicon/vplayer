@@ -35,6 +35,13 @@ Artist::Artist(std::string name,
 
 
 
+Artist::Artist(std::string name)
+    : Artist(0, name, "", "")
+{
+}
+
+
+
 Artist::Artist()
     : Artist(0, "", "", "")
 {
