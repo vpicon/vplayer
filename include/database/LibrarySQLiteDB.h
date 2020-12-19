@@ -68,8 +68,8 @@ public:
 
     // DELETERS
     bool deleteTrack(const Track &track) override;
-    bool deleteTrackFromPlaylist(Playlist &playlist, int pos) override;
-    void deletePlaylist() override;
+    bool deletePlaylist() override;
+    bool removeTrackFromPlaylist(Playlist &playlist, int pos) override;
 
 private:
     SQLiteHandle _sqlHandle;    // SQLite3 db handle
@@ -205,10 +205,29 @@ private:
 
     // DELETERS
     /**
+     * Given a track previously added to the database, removes the 
+     * track's album from the database if there are no more tracks 
+     * in the database linked to such album.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool removeAlbumFromTrack(const Track &track);
+    /**
+     * Given a track and artist, both previously added to the database,
+     * removes the link between the artist and the track, and removes
+     * artist from the database if there are no more tracks in the 
+     * database linked to such artist.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool removeArtistFromTrack(const Track &track, const Artist &artist);
+    /**
      * Given a track previously added to the database, removes its links
      * with all the playlists in the database.
+     *
+     * Returns false on any error or failure, true otherwise.
      */
-    bool deleteTrackFromAllPlaylists(const Track &track);
+    bool removeTrackFromAllPlaylists(const Track &track);
 
     // UPDATERS
     /**

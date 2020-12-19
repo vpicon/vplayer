@@ -15,14 +15,14 @@ namespace database {
 
 bool LibrarySQLiteDB::deleteTrack(const Track &track) {
     // Remove Album from track.
-    deleteTrackFromAllPlaylists(track);
+    removeAlbumFromTrack(track);
     
     // Remove Artists from database and its links to the track.
     for (Artist &artist : track.getArtists()) 
-        deleteArtistFromTrack(track, artist);
+        removeArtistFromTrack(track, artist);
 
     // Remove playlist links to track.
-    deleteTrackFromAllPlaylists(track)
+    removeTrackFromAllPlaylists(track);
     
     // Romove track from Tracks table
     std::string statement {
@@ -40,21 +40,37 @@ bool LibrarySQLiteDB::deleteTrack(const Track &track) {
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::deleteTrackFromPlaylist(Playlist &playlist, int pos) {
+bool LibrarySQLiteDB::deletePlaylist() {
     return false;
 }
 
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::deletePlaylist() {
-    return;
+bool LibrarySQLiteDB::removeAlbumFromTrack(const Track &track) {
+    return false;
 }
 
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::deleteTrackFromAllPlaylists(const Track &track) {
+bool LibrarySQLiteDB::removeArtistFromTrack(const Track &track, 
+                                            const Artist &artist) 
+{
+    return false;
+}
+
+
+
+// TODO: is a stub
+bool LibrarySQLiteDB::removeTrackFromPlaylist(Playlist &playlist, int pos) {
+    return false;
+}
+
+
+
+// TODO: is a stub
+bool LibrarySQLiteDB::removeTrackFromAllPlaylists(const Track &track) {
     return false;
 }
 

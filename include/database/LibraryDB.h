@@ -144,6 +144,13 @@ public:
      */
     virtual bool deleteTrack(const Track &track) = 0; 
     /**
+     * Removes the entire playlist, with all the song references in it. But the 
+     * songs still remain in the library.
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    virtual bool deletePlaylist() = 0; 
+    /**
      * Given a playlist object, previously added to the database, and
      * a position (0 <= pos < numTracks); deletes the link between the
      * playlist and the track at the given position, also removing
@@ -151,12 +158,7 @@ public:
      *
      * Returns false on any error or failure, true otherwise.
      */
-    virtual bool deleteTrackFromPlaylist(Playlist &playlist, int pos) = 0; 
-    /**
-     * Removes the entire playlist, with all the song references in it. But the 
-     * songs still remain in the library.
-     */
-    virtual void deletePlaylist() = 0; 
+    virtual bool removeTrackFromPlaylist(Playlist &playlist, int pos) = 0; 
 };
 
 
