@@ -203,6 +203,13 @@ private:
      */
     Album getAlbumByTitleAndArtist(const std::string &albumTitle, const int artistId);
 
+    // DELETERS
+    /**
+     * Given a track previously added to the database, removes its links
+     * with all the playlists in the database.
+     */
+    bool deleteTrackFromAllPlaylists(const Track &track);
+
     // UPDATERS
     /**
      * Given a playlist previously added to the database, increments the 

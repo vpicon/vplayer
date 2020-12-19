@@ -148,12 +148,14 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
 
 
 
+// TODO: is a stub
 void LibrarySQLiteDB::setAlbumToTrack(Track &track, const int albumId) {
     return;
 }
 
 
 
+// TODO: is a stub
 void LibrarySQLiteDB::setArtistsToTrack(Track &track) {
     return;
 }

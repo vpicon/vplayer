@@ -137,7 +137,7 @@ public:
     // DELETERS
     /**
      * Given a track object, previously added to the database, removes
-     * it from the database, and removing all associated unnecessary 
+     * it from the database, and removing if necessary all associated 
      * objects with it: artists and albums, and references to playlists.
      *
      * Returns false on any error or failure, true otherwise.
