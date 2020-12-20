@@ -179,15 +179,36 @@ void LibrarySQLiteDB::setAlbumToTrack(Track &track, const int albumId) {
         Album album = hydrateAlbum(query);
         track.setAlbum(album);
     }
-
-    return;
 }
 
 
 
-// TODO: is a stub
 void LibrarySQLiteDB::setArtistsToTrack(Track &track) {
-    return;
+    // Create empty list of artists
+    std::vector<Artist> artists {};
+
+    // Retrieve artists linked to given track
+    std::string statement {
+        "SELECT " + _artistFields + " "
+        "FROM Artists AS ar, TracksArtists AS ta "
+        "WHERE ar.id = ta.artistId AND "
+              "ta.trackId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, track.getId());
+
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Add retrieve artists and add them to list
+    while (query.availableRecord()) {
+        Artist artist = hydrateArtist(query);
+        artists.push_back(artist);
+        query.next();
+    }
+
+    // Set the artists to the track
+    track.setArtists(artists);
 }
 
 
