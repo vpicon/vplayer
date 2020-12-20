@@ -33,8 +33,8 @@ std::vector<Track> LibrarySQLiteDB::getAllTracks() {
     // Hydrate tracks while available records
     while (query.availableRecord()) {
         Track track = hydrateTrack(query);
-        query.next();
         tracks.push_back(track);
+        query.next();
     }
 
     return tracks;
@@ -63,9 +63,28 @@ void LibrarySQLiteDB::getAlbumTracks() {
 
 
 
-// TODO: is a stub
 std::vector<Album> LibrarySQLiteDB::getAllAlbums() {
-    return {};
+    // Make query to retrieve all albums
+    std::string statement {
+        "SELECT " + _albumFields + "FROM Albums AS al;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Album> albums {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Album album = hydrateAlbum(query);
+        albums.push_back(album);
+        query.next();
+    }
+
+    return albums;
 }
 
 
