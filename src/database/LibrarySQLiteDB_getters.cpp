@@ -95,6 +95,13 @@ void LibrarySQLiteDB::getArtistAlbums() {
 
 
 
+// TODO: is a stub
+std::vector<Artist> LibrarySQLiteDB::getAllArtists() {
+    return {};
+}
+
+
+
 Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
     Track track; 
 

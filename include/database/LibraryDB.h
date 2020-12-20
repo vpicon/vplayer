@@ -101,6 +101,10 @@ public:
      * Gives all the tracks of a given author.
      */
     virtual void getArtistAlbums() = 0;
+    /**
+     * Gives all the artists in the database.
+     */
+    virtual std::vector<Artist> getAllArtists() = 0;
 
     // UPDATERS
     /**

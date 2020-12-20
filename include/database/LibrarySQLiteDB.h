@@ -49,6 +49,7 @@ public:
     void getAlbumTracks() override;
     Track getTrack(const int id) override;
     void getArtistAlbums() override;
+    std::vector<Artist> getAllArtists() override;
 
     /**
      * Given a source file, says if there is a track in the database
