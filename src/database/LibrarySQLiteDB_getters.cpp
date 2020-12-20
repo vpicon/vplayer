@@ -121,9 +121,28 @@ void LibrarySQLiteDB::getArtistAlbums() {
 
 
 
-// TODO: is a stub
 std::vector<Artist> LibrarySQLiteDB::getAllArtists() {
-    return {};
+    // Make query to retrieve all albums
+    std::string statement {
+        "SELECT " + _artistFields + "FROM Artists AS ar;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all artists
+    std::vector<Artist> artists {};
+
+    // Hydrate artists while available records
+    while (query.availableRecord()) {
+        Artist artist = hydrateArtist(query);
+        artists.push_back(artist);
+        query.next();
+    }
+
+    return artists;
 }
 
 
