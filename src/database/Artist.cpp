@@ -50,10 +50,11 @@ Artist::Artist()
 
 
 std::ostream& operator<<(std::ostream &os, const Artist &artist) {
-    os << "Artist id: "   << artist.getId()
+    os << "{id: "         << artist.getId()
        << ", name: "      << artist.getName()
        << ", imgSource: " << artist.getImgSource()
-       << ", bio: "       << artist.getBio();
+       << ", bio: "       << artist.getBio()
+       << "}";
 
     return os;
 }
