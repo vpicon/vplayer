@@ -47,6 +47,7 @@ public:
     void getPlaylistTracks() override;
     void getPlaylists() override;
     void getAlbumTracks() override;
+    std::vector<Album> getAllAlbums() override;
     Track getTrack(const int id) override;
     void getArtistAlbums() override;
     std::vector<Artist> getAllArtists() override;

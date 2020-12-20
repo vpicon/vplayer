@@ -63,6 +63,13 @@ void LibrarySQLiteDB::getAlbumTracks() {
 
 
 
+// TODO: is a stub
+std::vector<Album> LibrarySQLiteDB::getAllAlbums() {
+    return {};
+}
+
+
+
 Track LibrarySQLiteDB::getTrack(const int id) {
     Track track;
 

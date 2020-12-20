@@ -94,6 +94,10 @@ public:
      */
     virtual void getAlbumTracks() = 0;
     /**
+     * Gives all the albums in the database.
+     */
+    virtual std::vector<Album> getAllAlbums() = 0;
+    /**
      * Get the track with the given id number.
      */
     virtual Track getTrack(const int id) = 0;
