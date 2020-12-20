@@ -123,8 +123,25 @@ bool Track::updateArtist(const Artist &artist) {
 
 
 std::ostream& operator<<(std::ostream &os, const Track &track) {
-    os << "Track id: " << track.getId()
-       << ", title: "  << track.getTitle();
+    os << "{id: "     << track.getId()
+       << ", title: " << track.getTitle()
+       << ", album: " << track.getAlbum()
+       << ", artists: {";
+
+    bool first = true;
+    for (const Artist &artist : track.getArtists()) {
+        if (first)
+            first = false;
+        else 
+            os << ", ";
+
+        os << artist;
+    }
+
+    os << "}, date: "    << track.getDate()
+       << ", duration: " << track.getDuration()
+       << ", source: "   << track.getSource()
+       << "}";
 
     return os;
 }
