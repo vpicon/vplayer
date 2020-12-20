@@ -44,11 +44,11 @@ public:
     
     // GETTERS
     std::vector<Track> getAllTracks() override;
-    void getPlaylistTracks() override;
+    Track getTrack(const int id) override;
     void getPlaylists() override;
+    void getPlaylistTracks() override;
     void getAlbumTracks() override;
     std::vector<Album> getAllAlbums() override;
-    Track getTrack(const int id) override;
     void getArtistAlbums() override;
     std::vector<Artist> getAllArtists() override;
 
