@@ -36,8 +36,9 @@ int main() {
     // db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
     // db.addTrackToPlaylist(oGato, playlist, 0);
     
+    int count = 1;
     for (database::Track &track : db.getAllTracks()) 
-        std::cout << track << std::endl;
+        std::cout << "Track " << count++ << ": " << track << std::endl;
 
     return 0;
 }

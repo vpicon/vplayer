@@ -44,15 +44,12 @@ void LibrarySQLiteDB::updateTrackPlaylistPosition() {
 bool LibrarySQLiteDB::updateAlbum(Album &album) {
     // Prepare update statement with artist fields
     std::string statement {
-        "UPDATE Albums"
-        "SET "
-            "title = ?, "
+        "UPDATE Albums "
+        "SET title = ?, "
             "artistId = ?, "
             "year = ?,"
             "imageSource = ? "
-        "WHERE "
-            "id = ?"
-        ";"
+        "WHERE id = ?;"
     };
     SQLiteQuery query {_sqlHandle, statement};
     query.bindValue(0, album.getTitle());
