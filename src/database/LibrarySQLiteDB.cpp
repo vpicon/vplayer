@@ -26,8 +26,8 @@ LibrarySQLiteDB::LibrarySQLiteDB(std::string dbName)
                    "tr.title, "
                    "tr.albumId, "
                    // "tr.genre, "
-                   "tr.duration, "
                    "tr.additionDate, "
+                   "tr.duration, "  // in seconds
                    // "tr.type, "
                    "tr.source ";
 
@@ -84,7 +84,7 @@ bool LibrarySQLiteDB::createTableTracks() {
             "title TEXT NOT NULL,"
             "albumId INTEGER," 
             "additionDate TEXT NOT NULL,"  // TODO: change to a type to code - decode
-            "duration INTEGER,"
+            "duration INTEGER,"    // duration of track in seconds
             "source TEXT NOT NULL,"
             "FOREIGN KEY(albumId) REFERENCES Albums" // TODO: add constraint operations
         ");"

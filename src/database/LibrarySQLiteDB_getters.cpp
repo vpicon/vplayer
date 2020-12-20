@@ -114,9 +114,9 @@ Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
 
     track.setId(query.value(0).toInt());
     track.setTitle(query.value(1).toString());
-    track.setDate(query.value(4).toString());
-    track.setDuration(query.value(5).toInt());
-    track.setSource(query.value(6).toString());
+    track.setDate(query.value(3).toString());
+    track.setDuration(query.value(4).toInt());
+    track.setSource(query.value(5).toString());
 
     // Set album to track, if it has one
     if (!query.value(2).isNull()) {
@@ -162,8 +162,24 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
 
 
 
-// TODO: is a stub
 void LibrarySQLiteDB::setAlbumToTrack(Track &track, const int albumId) {
+    // Retrieve album fields with album id
+    std::string statement {
+        "SELECT " + _albumFields + " FROM Albums AS al "
+        "WHERE al.id = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, albumId);
+
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Add artist to album if one found
+    if (query.availableRecord()) {
+        Album album = hydrateAlbum(query);
+        track.setAlbum(album);
+    }
+
     return;
 }
 
