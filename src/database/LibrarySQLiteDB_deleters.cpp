@@ -13,6 +13,7 @@
 namespace database {
 
 
+
 bool LibrarySQLiteDB::deleteTrack(const Track &track) {
     // Remove Album from track.
     removeAlbumFromTrack(track);
