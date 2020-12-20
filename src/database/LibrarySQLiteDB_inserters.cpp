@@ -20,6 +20,8 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     if (!insertNewAlbum(album)) // sets id of album
         return false;
 
+    // Update the album of the track (id may change) and get its new id
+    track.setAlbum(album);
     int albumId = album.getId();
 
     // Prepare query to insert a track from the given one
@@ -192,7 +194,7 @@ bool LibrarySQLiteDB::insertNewAlbum(Album &album) {
     album.setArtist(artist);
 
     // Check if album with same title and artistId is already in the database
-    if (existsAlbum(album.getTitle(), album.getId())) {
+    if (existsAlbum(album.getTitle(), artist.getId())) {
         // Update given @album id by the stored album, and try to 
         // update the stored one in case some attributes changed.
         Album storedAlbum = getAlbumByTitleAndArtist(album.getTitle(), artist.getId());
