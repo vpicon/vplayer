@@ -78,7 +78,8 @@ TEST_F(LibrarySQLiteDBDeletersTest, DeleteMinimalTrack) {
 
 // deleteTrack from a database containing multiple tracks.
 TEST_F(LibrarySQLiteDBDeletersTest, DeleteTrackFromMultipleTrackDatabase) {
-    // Insert the new track, should return true on success ASSERT_TRUE(db.insertNewTrack(track1));
+    // Insert the new track, should return true on success 
+    ASSERT_TRUE(db.insertNewTrack(track1));
     ASSERT_TRUE(db.insertNewTrack(track3));
 
     // Delete the track from database
@@ -88,9 +89,9 @@ TEST_F(LibrarySQLiteDBDeletersTest, DeleteTrackFromMultipleTrackDatabase) {
     EXPECT_EQ(db.getAllTracks().size(), 1u);
     EXPECT_EQ(db.getAllTracks()[0], track3);
     EXPECT_EQ(db.getAllArtists().size(), 1u);
-    EXPECT_EQ(db.getAllArtists()[0], artist3);
+    EXPECT_EQ(db.getAllArtists()[0], track3.getArtists()[0]);
     EXPECT_EQ(db.getAllAlbums().size(), 1u);
-    EXPECT_EQ(db.getAllAlbums()[0], album3);
+    EXPECT_EQ(db.getAllAlbums()[0], track3.getAlbum());
 }
 
 
