@@ -202,13 +202,11 @@ TEST_F(LibrarySQLiteDBGettersTest, GetTrackNonEmptyDatabase) {
  *   TODO: tracks on playlists
  */
 
-// getAllTracks test with empty database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllPlaylistsNoPlaylists) {
     // Check empty vector from all Playlists
     EXPECT_TRUE(db.getAllPlaylists().empty());
 }
 
-// getAllPlaylists test with one playlist database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllPlaylistsOnePlaylist) {
     // Add one playlist to database
     db.insertNewPlaylist(playlist1);
@@ -218,7 +216,6 @@ TEST_F(LibrarySQLiteDBGettersTest, GetAllPlaylistsOnePlaylist) {
     // EXPECT_EQ(db.getAllPlaylists()[0], playlist1);
 }
 
-// getAllPlaylists test with multiple track database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllPlaylistsMultiplePlaylists) {
     // Add one playlist to database
     db.insertNewPlaylist(playlist1);
@@ -238,13 +235,11 @@ TEST_F(LibrarySQLiteDBGettersTest, GetAllPlaylistsMultiplePlaylists) {
  *   vector size: 0, 1, >1
  */
 
-// getAllAlbums test with empty database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsEmptyDatabase) {
     // Check empty vector from all Albums
     EXPECT_TRUE(db.getAllAlbums().empty());
 }
 
-// getAllAlbums test with empty database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsNonEmptyDatabaseNoAlbums) {
     // Add one track to database with no albums
     db.insertNewTrack(minimalTrack);
@@ -253,7 +248,6 @@ TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsNonEmptyDatabaseNoAlbums) {
     ASSERT_TRUE(db.getAllAlbums().empty());
 }
 
-// getAllAlbums test with one album from one single track database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsOneTrackOneAlbum) {
     // Add one track to database
     db.insertNewTrack(track1);
@@ -263,7 +257,6 @@ TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsOneTrackOneAlbum) {
     EXPECT_EQ(db.getAllAlbums()[0], track1.getAlbum());
 }
 
-// getAllAlbums test with one album from one multiple tracks database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsMultipleTracksOneAlbum) {
     // Add one track to database
     db.insertNewTrack(track1);
@@ -274,7 +267,6 @@ TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsMultipleTracksOneAlbum) {
     EXPECT_EQ(db.getAllAlbums()[0], track1.getAlbum());
 }
 
-// getAllAlbums test with multiple albums database
 TEST_F(LibrarySQLiteDBGettersTest, GetAllAlbumsMultipleAlbums) {
     // Add one track to database
     db.insertNewTrack(track1);

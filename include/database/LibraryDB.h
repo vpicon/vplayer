@@ -98,7 +98,8 @@ public:
      */
     virtual std::vector<Album> getAllAlbums() = 0;
     /**
-     * Gives all the tracks in a given album.
+     * Given an album previously stored in the database, gives all the 
+     * tracks of such album.
      */
     virtual std::vector<Track> getAlbumTracks(const Album &album) = 0;
     /**

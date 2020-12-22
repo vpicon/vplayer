@@ -56,9 +56,30 @@ std::vector<Playlist> LibrarySQLiteDB::getAllPlaylists() {
 
 
 
-// TODO: is a stub
 std::vector<Track> LibrarySQLiteDB::getAlbumTracks(const Album &album) {
-    return {};
+    // Make query to retrieve all tracks from album
+    std::string statement {
+        "SELECT " + _trackFields + "FROM Tracks AS tr "
+        "WHERE tr.albumId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, album.getId());
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Track> tracks {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Track track = hydrateTrack(query);
+        tracks.push_back(track);
+        query.next();
+    }
+
+    return tracks;
 }
 
 
