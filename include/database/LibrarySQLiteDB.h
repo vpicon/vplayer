@@ -210,6 +210,14 @@ public:
 
     // DELETERS
     /**
+     * Given an artist object, deletes it from the database.
+     *
+     * Should not be called directly but after removing any links from 
+     * tracks to it.
+     */
+    bool deleteArtist(const Artist &artist);
+
+    /**
      * Given a track previously added to the database, removes the 
      * track's album from the database if there are no more tracks 
      * in the database linked to such album.

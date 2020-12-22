@@ -47,6 +47,22 @@ bool LibrarySQLiteDB::deletePlaylist() {
 
 
 
+bool LibrarySQLiteDB::deleteArtist(const Artist &artist) {
+    // Romove artist from Artists table
+    std::string statement {
+        "DELETE FROM Artists WHERE id = ?;"
+    };
+    SQLiteQuery query{_sqlHandle, statement};
+    query.bindValue(0, artist.getId());
+
+    if (!query.exec())
+        return false;
+    
+    return true;
+}
+
+
+
 // TODO: is a stub
 bool LibrarySQLiteDB::removeAlbumFromTrack(const Track &track) {
     return false;
@@ -71,17 +87,17 @@ bool LibrarySQLiteDB::removeArtistFromTrack(const Track &track,
         return false;
 
     // Check if artist still used by other tracks, otherwise delete it
-    std::string statement {
-        "SELECT 1 FROM TrackArtists "
+    std::string statement2 {
+        "SELECT 1 FROM TracksArtists "
         "WHERE artistId = ?;"
     };
-    SQLiteQuery query {_sqlHandle, statement};
-    query.bindValue(0, artist.getId());
-    if (!query.exec())
+    SQLiteQuery query2 {_sqlHandle, statement2};
+    query2.bindValue(0, artist.getId());
+    if (!query2.exec())
         return false;
 
     // Delete artist if not used
-    if (!query.availableRecord()) {
+    if (!query2.availableRecord()) {
         // Delete orphan artist
         deleteArtist(artist);
     }

@@ -36,7 +36,7 @@ int main() {
     // db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
     // db.addTrackToPlaylist(oGato, playlist, 0);
     
-    // db.removeArtistFromTrack(bossaAntigua, bossaAntigua.getArtists()[1]);
+    db.removeArtistFromTrack(bossaAntigua, bossaAntigua.getArtists()[1]);
 
     int count = 1;
     for (auto &artist : db.getAllArtists())
