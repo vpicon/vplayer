@@ -16,15 +16,16 @@ namespace database {
 
 bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     // Add album to database and get its id
+    int albumId = 0;  // defined only if track has album
     if (track.hasAlbum()) {
         Album album {track.getAlbum()};
         if (!insertNewAlbum(album)) // sets id of album
             return false;
-    }
 
-    // Update the album of the track (id may change) and get its new id
-    track.setAlbum(album);
-    int albumId = album.getId();
+        // Update the album of the track (id may change) and get its new id
+        track.setAlbum(album);
+        albumId = album.getId();  // defined only if track has album
+    }
 
     // Prepare query to insert a track from the given one
     std::string statement {
@@ -45,10 +46,11 @@ bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     SQLiteQuery query {_sqlHandle, statement};
 
     query.bindValue(0, track.getTitle());
-    query.bindValue(1, albumId);
+    track.hasAlbum() ? query.bindValue(1, albumId) : query.bindNull(1);
     query.bindValue(2, track.getDate());
     query.bindValue(3, track.getDuration());
     query.bindValue(4, track.getSource());
+
 
     // Execute the query and set id of the track to the given by database
     if (!query.exec()) {

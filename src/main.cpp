@@ -24,9 +24,9 @@ int main() {
 
     // Create traks and add them to database
     database::Track bossaAntigua {"Bossa Antigua", bossaAntiguaAlbum, {paulDesmond, jimHall}, "today", 432, "~/Music/bossa.mp3"};
-    db.insertNewTrack(bossaAntigua);
+    // db.insertNewTrack(bossaAntigua);
     database::Track oGato {"O Gato", bossaAntiguaAlbum, {paulDesmond}, "yesterday", 11, "gatito.wav"};
-    db.insertNewTrack(oGato);
+    // db.insertNewTrack(oGato);
 
     // Create new playlist
     // database::Playlist playlist {"Jazz", "jazzy.jpeg"};
@@ -35,8 +35,10 @@ int main() {
     // Add track to database
     // db.addTrackToPlaylist(bossaAntigua, playlist, playlist.numTracks());
     // db.addTrackToPlaylist(oGato, playlist, 0);
+    database::Track minimalTrack {"Minimalist"};
+    db.insertNewTrack(minimalTrack);
     
-    db.deleteTrack(bossaAntigua);
+    db.deleteTrack(minimalTrack);
 
     int count = 1;
     for (auto &artist : db.getAllArtists())
