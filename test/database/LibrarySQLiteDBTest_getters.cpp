@@ -36,6 +36,10 @@ protected:
         // Delete all tracks stored in the database
         for (database::Track &track : db.getAllTracks())
             ASSERT_TRUE(db.deleteTrack(track));
+
+        // Delete all playlists stored in database
+        for (database::Playlist &playlist : db.getAllPlaylists())
+            ASSERT_TRUE(db.deletePlaylist(playlist));
     }
     
     // Create database object

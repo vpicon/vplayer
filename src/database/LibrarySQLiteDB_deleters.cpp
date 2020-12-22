@@ -41,15 +41,34 @@ bool LibrarySQLiteDB::deleteTrack(const Track &track) {
 
 
 
+bool LibrarySQLiteDB::deletePlaylist(const Playlist &playlist) {
+    // Remove all tracks linked to playlist.
+    removeAllTracksFromPlaylist(playlist);
+
+    // Remove playlist from Playlists table
+    std::string statement {
+        "DELETE FROM Playlists WHERE id = ?;"
+    };
+    SQLiteQuery query{_sqlHandle, statement};
+    query.bindValue(0, playlist.getId());
+
+    if (!query.exec())
+        return false;
+    
+    return true;
+}
+
+
+
 // TODO: is a stub
-bool LibrarySQLiteDB::deletePlaylist() {
+bool LibrarySQLiteDB::removeTrackFromPlaylist(Playlist &playlist, int pos) {
     return false;
 }
 
 
 
 bool LibrarySQLiteDB::deleteArtist(const Artist &artist) {
-    // Romove artist from Artists table
+    // Remove artist from Artists table
     std::string statement {
         "DELETE FROM Artists WHERE id = ?;"
     };
@@ -148,15 +167,25 @@ bool LibrarySQLiteDB::removeArtistFromTrack(const Track &track,
 
 
 // TODO: is a stub
-bool LibrarySQLiteDB::removeTrackFromPlaylist(Playlist &playlist, int pos) {
+bool LibrarySQLiteDB::removeTrackFromAllPlaylists(const Track &track) {
     return false;
 }
 
 
 
-// TODO: is a stub
-bool LibrarySQLiteDB::removeTrackFromAllPlaylists(const Track &track) {
-    return false;
+bool LibrarySQLiteDB::removeAllTracksFromPlaylist(const Playlist &playlist) {
+    // Prepare statement to delete links between artists and track
+    std::string statement {
+        "DELETE FROM PlaylistsTracks "
+        "WHERE playlistId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, playlist.getId());
+
+    if (!query.exec())
+        return false;
+
+    return true;
 }
 
 

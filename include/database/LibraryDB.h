@@ -155,7 +155,7 @@ public:
      *
      * Returns false on any error or failure, true otherwise.
      */
-    virtual bool deletePlaylist() = 0; 
+    virtual bool deletePlaylist(const Playlist &playlist) = 0; 
     /**
      * Given a playlist object, previously added to the database, and
      * a position (0 <= pos < numTracks); deletes the link between the

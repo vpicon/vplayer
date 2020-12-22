@@ -69,7 +69,7 @@ public:
 
     // DELETERS
     bool deleteTrack(const Track &track) override;
-    bool deletePlaylist() override;
+    bool deletePlaylist(const Playlist &playlist) override;
     bool removeTrackFromPlaylist(Playlist &playlist, int pos) override;
 
 private:
@@ -255,6 +255,13 @@ private:
      * Returns false on any error or failure, true otherwise.
      */
     bool removeTrackFromAllPlaylists(const Track &track);
+    /**
+     * Given a playlist previously added to the database, removes the 
+     * links between all tracks and the playlist. 
+     *
+     * Returns false on any error or failure, true otherwise.
+     */
+    bool removeAllTracksFromPlaylist(const Playlist &playlist);
 
     // UPDATERS
     /**
