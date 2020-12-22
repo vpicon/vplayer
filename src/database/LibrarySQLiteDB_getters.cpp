@@ -57,7 +57,7 @@ std::vector<Playlist> LibrarySQLiteDB::getAllPlaylists() {
 
 
 // TODO: is a stub
-std::vector<Track> LibrarySQLiteDB::getAlbumTracks() {
+std::vector<Track> LibrarySQLiteDB::getAlbumTracks(const Album &album) {
     return {};
 }
 
@@ -115,7 +115,7 @@ Track LibrarySQLiteDB::getTrack(const int id) {
 
 
 // TODO: is a stub
-std::vector<Album> LibrarySQLiteDB::getArtistAlbums() {
+std::vector<Album> LibrarySQLiteDB::getArtistAlbums(const Artist &artist) {
     return {};
 }
 

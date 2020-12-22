@@ -81,6 +81,10 @@ public:
      */
     virtual std::vector<Track> getAllTracks() = 0;
     /**
+     * Get the track with the given id number.
+     */
+    virtual Track getTrack(const int id) = 0;
+    /**
      * Gives all the playlists in the library. Their names and id,
      * but not the contents of each of the playlists.
      */
@@ -96,19 +100,15 @@ public:
     /**
      * Gives all the tracks in a given album.
      */
-    virtual std::vector<Track> getAlbumTracks() = 0;
-    /**
-     * Get the track with the given id number.
-     */
-    virtual Track getTrack(const int id) = 0;
-    /**
-     * Gives all the tracks of a given author.
-     */
-    virtual std::vector<Album> getArtistAlbums() = 0;
+    virtual std::vector<Track> getAlbumTracks(const Album &album) = 0;
     /**
      * Gives all the artists in the database.
      */
     virtual std::vector<Artist> getAllArtists() = 0;
+    /**
+     * Gives all the tracks of a given author.
+     */
+    virtual std::vector<Album> getArtistAlbums(const Artist &artist) = 0;
 
     // UPDATERS
     /**
