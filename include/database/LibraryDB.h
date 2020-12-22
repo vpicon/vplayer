@@ -81,22 +81,22 @@ public:
      */
     virtual std::vector<Track> getAllTracks() = 0;
     /**
+     * Gives all the playlists in the library. Their names and id,
+     * but not the contents of each of the playlists.
+     */
+    virtual std::vector<Playlist> getAllPlaylists() = 0;
+    /**
      * Gives all the tracks in a given playlist.
      */
     virtual void getPlaylistTracks() = 0;
     /**
-     * Gives all the playlists in the library. Their names and id,
-     * but not the contents of each of the playlists.
+     * Gives all the albums in the database.
      */
-    virtual void getPlaylists() = 0;
+    virtual std::vector<Album> getAllAlbums() = 0;
     /**
      * Gives all the tracks in a given album.
      */
     virtual void getAlbumTracks() = 0;
-    /**
-     * Gives all the albums in the database.
-     */
-    virtual std::vector<Album> getAllAlbums() = 0;
     /**
      * Get the track with the given id number.
      */
