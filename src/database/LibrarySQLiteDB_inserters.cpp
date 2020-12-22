@@ -16,9 +16,11 @@ namespace database {
 
 bool LibrarySQLiteDB::insertNewTrack(Track &track) {
     // Add album to database and get its id
-    Album album {track.getAlbum()};
-    if (!insertNewAlbum(album)) // sets id of album
-        return false;
+    if (track.hasAlbum()) {
+        Album album {track.getAlbum()};
+        if (!insertNewAlbum(album)) // sets id of album
+            return false;
+    }
 
     // Update the album of the track (id may change) and get its new id
     track.setAlbum(album);
