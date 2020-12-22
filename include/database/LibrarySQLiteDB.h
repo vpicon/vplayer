@@ -48,9 +48,9 @@ public:
     std::vector<Playlist> getAllPlaylists() override;
     void getPlaylistTracks() override;
     std::vector<Album> getAllAlbums() override;
-    void getAlbumTracks() override;
+    std::vector<Track> getAlbumTracks() override;
     std::vector<Artist> getAllArtists() override;
-    void getArtistAlbums() override;
+    std::vector<Album> getArtistAlbums() override;
 
     /**
      * Given a source file, says if there is a track in the database

@@ -50,15 +50,15 @@ void LibrarySQLiteDB::getPlaylistTracks() {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getPlaylists() {
-    return;
+std::vector<Playlist> LibrarySQLiteDB::getAllPlaylists() {
+    return {};
 }
 
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getAlbumTracks() {
-    return;
+std::vector<Track> LibrarySQLiteDB::getAlbumTracks() {
+    return {};
 }
 
 
@@ -115,8 +115,8 @@ Track LibrarySQLiteDB::getTrack(const int id) {
 
 
 // TODO: is a stub
-void LibrarySQLiteDB::getArtistAlbums() {
-    return;
+std::vector<Album> LibrarySQLiteDB::getArtistAlbums() {
+    return {};
 }
 
 

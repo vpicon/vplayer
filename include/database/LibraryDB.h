@@ -96,7 +96,7 @@ public:
     /**
      * Gives all the tracks in a given album.
      */
-    virtual void getAlbumTracks() = 0;
+    virtual std::vector<Track> getAlbumTracks() = 0;
     /**
      * Get the track with the given id number.
      */
@@ -104,7 +104,7 @@ public:
     /**
      * Gives all the tracks of a given author.
      */
-    virtual void getArtistAlbums() = 0;
+    virtual std::vector<Album> getArtistAlbums() = 0;
     /**
      * Gives all the artists in the database.
      */
