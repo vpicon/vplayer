@@ -90,10 +90,6 @@ public:
      */
     virtual std::vector<Playlist> getAllPlaylists() = 0;
     /**
-     * Gives all the tracks in a given playlist.
-     */
-    virtual void getPlaylistTracks() = 0;
-    /**
      * Gives all the albums in the database.
      */
     virtual std::vector<Album> getAllAlbums() = 0;

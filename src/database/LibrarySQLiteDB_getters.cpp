@@ -42,16 +42,79 @@ std::vector<Track> LibrarySQLiteDB::getAllTracks() {
 
 
 
-// TODO: is a stub
-void LibrarySQLiteDB::getPlaylistTracks() {
-    return;
+Track LibrarySQLiteDB::getTrack(const int id) {
+    Track track;
+
+    // Make query to retrieve track with given id
+    std::string statement {
+        "SELECT " + _trackFields + "FROM Tracks AS tr "
+        "WHERE id = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, id);
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+
+    // Check if there is some record for the given query and get it
+    if (query.availableRecord()) 
+        track = hydrateTrack(query);
+
+    return track;
 }
 
 
 
-// TODO: is a stub
 std::vector<Playlist> LibrarySQLiteDB::getAllPlaylists() {
-    return {};
+    // Make query to retrieve all playlists
+    std::string statement {
+        "SELECT " + _playlistFields + "FROM Playlists AS pl;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Playlist> playlists {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Playlist playlist = hydratePlaylist(query);
+        playlists.push_back(playlist);
+        query.next();
+    }
+
+    return playlists;
+}
+
+
+
+std::vector<Album> LibrarySQLiteDB::getAllAlbums() {
+    // Make query to retrieve all albums
+    std::string statement {
+        "SELECT " + _albumFields + "FROM Albums AS al;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Album> albums {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Album album = hydrateAlbum(query);
+        albums.push_back(album);
+        query.next();
+    }
+
+    return albums;
 }
 
 
@@ -84,10 +147,10 @@ std::vector<Track> LibrarySQLiteDB::getAlbumTracks(const Album &album) {
 
 
 
-std::vector<Album> LibrarySQLiteDB::getAllAlbums() {
+std::vector<Artist> LibrarySQLiteDB::getAllArtists() {
     // Make query to retrieve all albums
     std::string statement {
-        "SELECT " + _albumFields + "FROM Albums AS al;"
+        "SELECT " + _artistFields + "FROM Artists AS ar;"
     };
     SQLiteQuery query {_sqlHandle, statement};
 
@@ -95,42 +158,17 @@ std::vector<Album> LibrarySQLiteDB::getAllAlbums() {
     if (!query.exec())
         /* TODO: error handling */;
 
-    // Vector of all tracks
-    std::vector<Album> albums {};
+    // Vector of all artists
+    std::vector<Artist> artists {};
 
-    // Hydrate tracks while available records
+    // Hydrate artists while available records
     while (query.availableRecord()) {
-        Album album = hydrateAlbum(query);
-        albums.push_back(album);
+        Artist artist = hydrateArtist(query);
+        artists.push_back(artist);
         query.next();
     }
 
-    return albums;
-}
-
-
-
-Track LibrarySQLiteDB::getTrack(const int id) {
-    Track track;
-
-    // Make query to retrieve track with given id
-    std::string statement {
-        "SELECT " + _trackFields + "FROM Tracks AS tr "
-        "WHERE id = ?;"
-    };
-    SQLiteQuery query {_sqlHandle, statement};
-    query.bindValue(0, id);
-
-    // Execute query
-    if (!query.exec())
-        /* TODO: error handling */;
-
-
-    // Check if there is some record for the given query and get it
-    if (query.availableRecord()) 
-        track = hydrateTrack(query);
-
-    return track;
+    return artists;
 }
 
 
@@ -159,32 +197,6 @@ std::vector<Album> LibrarySQLiteDB::getArtistAlbums(const Artist &artist) {
     }
 
     return albums;
-}
-
-
-
-std::vector<Artist> LibrarySQLiteDB::getAllArtists() {
-    // Make query to retrieve all albums
-    std::string statement {
-        "SELECT " + _artistFields + "FROM Artists AS ar;"
-    };
-    SQLiteQuery query {_sqlHandle, statement};
-
-    // Execute query
-    if (!query.exec())
-        /* TODO: error handling */;
-
-    // Vector of all artists
-    std::vector<Artist> artists {};
-
-    // Hydrate artists while available records
-    while (query.availableRecord()) {
-        Artist artist = hydrateArtist(query);
-        artists.push_back(artist);
-        query.next();
-    }
-
-    return artists;
 }
 
 
@@ -238,6 +250,21 @@ Artist LibrarySQLiteDB::hydrateArtist(SQLiteQuery &query) {
     artist.setBio(query.value(3).toString());
 
     return artist;
+}
+
+
+
+Playlist LibrarySQLiteDB::hydratePlaylist(SQLiteQuery &query) {
+    Playlist playlist; 
+
+    playlist.setId(query.value(0).toInt());
+    playlist.setName(query.value(1).toString());
+    playlist.setImgSource(query.value(2).toString());
+
+    // Add all tracks to the playlist
+    setTracksToPlaylist(playlist);
+
+    return playlist;
 }
 
 
@@ -312,6 +339,37 @@ void LibrarySQLiteDB::setArtistToAlbum(Album &album, const int artistId) {
     }
 
     return;
+}
+
+
+
+void LibrarySQLiteDB::setTracksToPlaylist(Playlist &playlist) {
+    // Create empty list of artists
+    std::vector<Track> tracks {};
+
+    // Retrieve artists linked to given track
+    std::string statement {
+        "SELECT " + _trackFields + " "
+        "FROM Tracks AS tr, PlaylistsTracks AS pt "
+        "WHERE tr.id = pt.trackId AND "
+              "pt.playlistId = ? "
+        "ORDER BY pt.position ASC;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, playlist.getId());
+
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Add retrieve artists and add them to list
+    while (query.availableRecord()) {
+        Track track = hydrateTrack(query);
+        tracks.push_back(track);
+        query.next();
+    }
+
+    // Set the artists to the track
+    playlist.setTracks(tracks);
 }
 
 

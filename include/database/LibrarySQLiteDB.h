@@ -46,7 +46,6 @@ public:
     std::vector<Track> getAllTracks() override;
     Track getTrack(const int id) override;
     std::vector<Playlist> getAllPlaylists() override;
-    void getPlaylistTracks() override;
     std::vector<Album> getAllAlbums() override;
     std::vector<Track> getAlbumTracks(const Album &album) override;
     std::vector<Artist> getAllArtists() override;
@@ -159,6 +158,9 @@ private:
      * with values (id, name, imageSource, bio) values.
      */
     Artist hydrateArtist(SQLiteQuery &query);
+    /**
+     * Hydrate objects from a query containing data.
+     */
     Playlist hydratePlaylist(SQLiteQuery &query);
 
     /**
@@ -166,7 +168,7 @@ private:
      * sets it to the given track object.
      */
     void setAlbumToTrack(Track &track, const int albumId);
-    /**
+    /*
      * Given a track with an id from the database, gets the artist 
      * associated to the track from the database, and sets it to the 
      * given track object.
@@ -177,6 +179,10 @@ private:
      * sets it to the given album object.
      */
     void setArtistToAlbum(Album &album, const int artistId);
+    /*
+     * Given a playlist with an id from the database, gets the tracks 
+     * associated to such playlist from the database.
+     */
     void setTracksToPlaylist(Playlist &playlist);
 
     /**

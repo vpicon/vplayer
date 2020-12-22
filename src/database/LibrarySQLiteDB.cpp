@@ -43,7 +43,7 @@ LibrarySQLiteDB::LibrarySQLiteDB(std::string dbName)
                    "al.imageSource ";
 
     _playlistFields = "pl.id, "
-                      "pl.title, "
+                      "pl.name, "
                       "pl.imageSource ";
 
     // Create the entire tables of the database
