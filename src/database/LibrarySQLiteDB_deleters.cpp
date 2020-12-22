@@ -64,6 +64,25 @@ bool LibrarySQLiteDB::deleteArtist(const Artist &artist) {
 
 
 
+bool LibrarySQLiteDB::deleteAlbum(const Album &album) {
+    // Delete album's artist
+    deleteArtist(album.getArtist());
+
+    // Romove artist from Artists table
+    std::string statement {
+        "DELETE FROM Albums WHERE id = ?;"
+    };
+    SQLiteQuery query{_sqlHandle, statement};
+    query.bindValue(0, album.getId());
+
+    if (!query.exec())
+        return false;
+    
+    return true;
+}
+
+
+
 bool LibrarySQLiteDB::removeAlbumFromTrack(const Track &track) {
     // Check if there are more tracks linked to the given track's album
     std::string statement {

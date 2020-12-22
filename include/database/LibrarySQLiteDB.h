@@ -216,6 +216,14 @@ public:
      * tracks to it.
      */
     bool deleteArtist(const Artist &artist);
+    /**
+     * Given an album object, deletes it from the database, deleting
+     * also its artist.
+     *
+     * Should not be called directly but after removing any links from 
+     * tracks to it.
+     */
+    bool deleteAlbum(const Album &album);
 
     /**
      * Given a track previously added to the database, removes the 
