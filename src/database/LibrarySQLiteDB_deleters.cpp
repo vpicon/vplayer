@@ -16,7 +16,8 @@ namespace database {
 
 bool LibrarySQLiteDB::deleteTrack(const Track &track) {
     // Remove Album from track.
-    removeAlbumFromTrack(track);
+    if (track.hasAlbum())
+        removeAlbumFromTrack(track);
     
     // Remove Artists from database and its links to the track.
     for (Artist &artist : track.getArtists()) 
@@ -63,9 +64,29 @@ bool LibrarySQLiteDB::deleteArtist(const Artist &artist) {
 
 
 
-// TODO: is a stub
 bool LibrarySQLiteDB::removeAlbumFromTrack(const Track &track) {
-    return false;
+    // Check if there are more tracks linked to the given track's album
+    std::string statement {
+        "SELECT id FROM Tracks "
+        "WHERE albumId = ?;"
+    };
+    SQLiteQuery query{_sqlHandle, statement};
+    query.bindValue(0, track.getAlbum().getId());
+
+    if (!query.exec())
+        return false;
+
+    int numResults = 0; // count number of tracks having such albumId
+    while (query.availableRecord()) {
+        numResults++;
+        query.next();
+    }
+    
+    if (numResults <= 1) { // only the given track linked to such album
+        deleteAlbum(track.getAlbum());         
+    }
+
+    return true;
 }
 
 

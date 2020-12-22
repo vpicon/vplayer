@@ -100,7 +100,7 @@ bool LibrarySQLiteDB::createTableTracks() {
             "additionDate TEXT NOT NULL,"  // TODO: change to a type to code - decode
             "duration INTEGER,"    // duration of track in seconds
             "source TEXT NOT NULL,"
-            "FOREIGN KEY(albumId) REFERENCES Albums" // TODO: add constraint operations
+            "FOREIGN KEY(albumId) REFERENCES Albums ON DELETE SET NULL" // TODO: add constraint operations
         ");"
     };
 
