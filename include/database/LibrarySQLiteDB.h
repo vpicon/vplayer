@@ -73,7 +73,7 @@ public:
     bool deletePlaylist() override;
     bool removeTrackFromPlaylist(Playlist &playlist, int pos) override;
 
-private:
+// private:
     SQLiteHandle _sqlHandle;    // SQLite3 db handle
     const std::string _dbName;  // Database filename
 
@@ -84,6 +84,8 @@ private:
     std::string _playlistFields;
 
     // SCHEMA BUILDERS 
+    
+    void configureDB();
     /**
      * Creates all the tables of the database if they do not exist
      * already. 

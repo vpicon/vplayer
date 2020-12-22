@@ -62,6 +62,9 @@ bool LibrarySQLiteDB::createTables() {
     // TODO: Check the tables are not already created
     // if (tables do not exist)
         // return false;
+
+    // Configure the db management
+    configureDB();
     
     // Call subroutines to create the different tables
     createTableTracks();
@@ -73,6 +76,17 @@ bool LibrarySQLiteDB::createTables() {
     createTablePlaylistsTracks();
 
     return true;
+}
+
+
+
+void LibrarySQLiteDB::configureDB() {
+    // Add support for foreign keys.
+    std::string statement {
+        "PRAGMA foreign_keys = ON;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.exec();
 }
 
 
@@ -118,9 +132,9 @@ bool LibrarySQLiteDB::createTableTracksArtists() {
         "CREATE TABLE IF NOT EXISTS TracksArtists ("
             "trackId INTEGER NOT NULL,"
             "artistId INTEGER NOT NULL,"
-            "UNIQUE(trackId, artistId)," // TODO: revise conflict conseqences
-            "FOREIGN KEY(trackId) REFERENCES Tracks,"  // TODO: add constraint operations
-            "FOREIGN KEY(artistId) REFERENCES Artists" // TODO: "   "          "
+            "UNIQUE(trackId, artistId) ON CONFLICT IGNORE," // TODO: revise conflict conseqences
+            "FOREIGN KEY(trackId) REFERENCES Tracks ON DELETE CASCADE,"  // TODO: add constraint operations
+            "FOREIGN KEY(artistId) REFERENCES Artists ON DELETE CASCADE" // TODO: "   "          "
         ");"
     };
 
