@@ -405,4 +405,31 @@ TEST_F(LibrarySQLiteDBGettersTest, GetArtistAlbumsMultipleAlbums) {
 
 
 
+/**
+ * existsTrack Tests: 
+ *      result: true, false
+ */
+
+TEST_F(LibrarySQLiteDBGettersTest, ExistsTrackTrue) {
+    // Add track to database
+    db.insertNewTrack(track1);
+
+    // Check there is track with source of track1
+    EXPECT_TRUE(db.existsTrack(track1.getSource()));
+}
+
+TEST_F(LibrarySQLiteDBGettersTest, ExistsTrackFalseEmptyDatabase) {
+    // Check there is track with source of track1
+    EXPECT_FALSE(db.existsTrack(track1.getSource()));
+}
+
+TEST_F(LibrarySQLiteDBGettersTest, ExistsTrackFalseNonEmptyDatabase) {
+    // Add track to database
+    db.insertNewTrack(track4);
+
+    // Check there is track with source of track1
+    EXPECT_FALSE(db.existsTrack(track1.getSource()));
+}
+
+
 }  // namespace 

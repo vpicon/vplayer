@@ -107,6 +107,13 @@ public:
      * albums of such given artist.
      */
     virtual std::vector<Album> getArtistAlbums(const Artist &artist) = 0;
+    /**
+     * Given a source file, says if there is a track in the database
+     * with the given source.
+     *
+     * Useful for when adding a new track to the database.
+     */
+    virtual bool existsTrack(std::string source) = 0;
 
     // UPDATERS
     /**

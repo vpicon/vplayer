@@ -50,13 +50,6 @@ public:
     std::vector<Track> getAlbumTracks(const Album &album) override;
     std::vector<Artist> getAllArtists() override;
     std::vector<Album> getArtistAlbums(const Artist &artist) override;
-
-    /**
-     * Given a source file, says if there is a track in the database
-     * with the given source.
-     *
-     * Useful for when adding a new track to the database.
-     */
     bool existsTrack(std::string source);
 
     // UPDATERS

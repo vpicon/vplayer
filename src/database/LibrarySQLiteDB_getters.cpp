@@ -201,6 +201,22 @@ std::vector<Album> LibrarySQLiteDB::getArtistAlbums(const Artist &artist) {
 
 
 
+bool LibrarySQLiteDB::existsTrack(std::string source) {
+    std::string statement {
+        "SELECT id FROM Tracks "
+        "WHERE source = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, source);
+    
+    if (!query.exec()) 
+        /* TODO: some debug */;
+        
+    return query.availableRecord();
+}
+
+
+
 Track LibrarySQLiteDB::hydrateTrack(SQLiteQuery &query) {
     Track track; 
 
