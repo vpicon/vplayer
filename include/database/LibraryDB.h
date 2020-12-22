@@ -107,7 +107,8 @@ public:
      */
     virtual std::vector<Artist> getAllArtists() = 0;
     /**
-     * Gives all the tracks of a given author.
+     * Given an artist previously stored in the database, gives all the 
+     * albums of such given artist.
      */
     virtual std::vector<Album> getArtistAlbums(const Artist &artist) = 0;
 

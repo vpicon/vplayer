@@ -135,9 +135,30 @@ Track LibrarySQLiteDB::getTrack(const int id) {
 
 
 
-// TODO: is a stub
 std::vector<Album> LibrarySQLiteDB::getArtistAlbums(const Artist &artist) {
-    return {};
+    // Make query to retrieve all albums from given artist
+    std::string statement {
+        "SELECT " + _albumFields + "FROM Albums AS al "
+        "WHERE al.artistId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, artist.getId());
+
+    // Execute query
+    if (!query.exec())
+        /* TODO: error handling */;
+
+    // Vector of all tracks
+    std::vector<Album> albums {};
+
+    // Hydrate tracks while available records
+    while (query.availableRecord()) {
+        Album album = hydrateAlbum(query);
+        albums.push_back(album);
+        query.next();
+    }
+
+    return albums;
 }
 
 
