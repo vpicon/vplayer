@@ -54,11 +54,39 @@ bool LibrarySQLiteDB::removeAlbumFromTrack(const Track &track) {
 
 
 
-// TODO: is a stub
 bool LibrarySQLiteDB::removeArtistFromTrack(const Track &track, 
                                             const Artist &artist) 
 {
-    return false;
+    // Prepare statement to delete links between artists and track
+    std::string statement {
+        "DELETE FROM TracksArtists "
+        "WHERE trackId  = ? AND "
+              "artistId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, track.getId());
+    query.bindValue(1, artist.getId());
+
+    if (!query.exec())
+        return false;
+
+    // Check if artist still used by other tracks, otherwise delete it
+    std::string statement {
+        "SELECT 1 FROM TrackArtists "
+        "WHERE artistId = ?;"
+    };
+    SQLiteQuery query {_sqlHandle, statement};
+    query.bindValue(0, artist.getId());
+    if (!query.exec())
+        return false;
+
+    // Delete artist if not used
+    if (!query.availableRecord()) {
+        // Delete orphan artist
+        deleteArtist(artist);
+    }
+
+    return true;
 }
 
 
