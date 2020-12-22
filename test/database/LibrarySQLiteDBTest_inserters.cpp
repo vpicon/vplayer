@@ -182,7 +182,7 @@ TEST_F(LibrarySQLiteDBInsertersTest, InsertNewTrackStoredArtist) {
     ASSERT_EQ(db.getAllArtists().size(), 1u);
 
     // Check track3 and track4 have the same artists (id may be changed)
-    EXPECT_EQ(track3, track4);
+    EXPECT_EQ(track3.getArtists(), track4.getArtists());
 
 }
 
