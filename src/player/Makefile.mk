@@ -1,7 +1,7 @@
 module := player
 
 # Directories
-include_dirs := ../../$(INCLUDE_DIR)/$(module)
+include_dirs := ../../$(INCLUDE_DIR)  ../../$(INCLUDE_DIR)/$(module)
 build_dir := ../../$(BIN_DIR)/$(module)
 
 # Compilation flags and options

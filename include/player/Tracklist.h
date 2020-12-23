@@ -10,7 +10,13 @@
 #ifndef _VPLAYER_TRACKLIST_H
 #define _VPLAYER_TRACKLIST_H
 
+
+#include "database/Track.h" 
+
 #include <ostream>
+
+
+using database::Track;
 
 
 namespace player {
@@ -27,21 +33,32 @@ public:
     enum class Sorting { native, title, artist, album, shuffle };
 
     // CONSTRUCTORS 
-    Tracklist(/* std::vector<Track> tracks, */ Sorting sort): _sort{sort} {}
-
-    ~Tracklist() {}
-
+    Tracklist(const std::vector<Track> &tracks, 
+              std::vector<Track>::iterator startPosition,  // starting position
+              Sorting sort = Sorting::native);
 
     /**
      * Gives a pointer to the next Track in the tracklist, or null if there 
      * is no next track to play.
      */
-    const void *getNextTrack() { return nullptr; }
+    Track getNextTrack();
 
 private:
-    // std::vector<Track> _tracks;
-    
+    std::vector<Track> _tracks;
+    const std::vector<Track>::iterator _startingPos;
+
     Sorting _sort;
+    std::vector<Track> _orderedTracks;
+    std::vector<Track>::iterator _currentPos;
+
+    std::vector<Track> _playQueue;
+
+
+    // HELPTER METHODS
+    std::vector<Track> orderTracks(const std::vector<Track> &tracks, 
+                                   const std::vector<Track>::iterator startingPos,
+                                   Tracklist::Sorting sort);
+                                   
 };
 
 
