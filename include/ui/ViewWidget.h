@@ -27,6 +27,12 @@ public:
     ViewWidget();
     ~ViewWidget();
 private:
+    // TODO:
+    // Add a top bar (transparent and minimal), with a stack controller
+    // (previous and next window in stack), and a search bar.
+    //
+    // And a main stack widget. This will contain each of the views (or pages)
+    // AlbumView, PlaylistView ...
 };
 
 
