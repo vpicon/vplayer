@@ -15,8 +15,8 @@ LIBCXXFLAGS := $(shell pkg-config gtkmm-3.0 --cflags) # gtk cflags
 
 # Module Librares flags
 LDFLAGS  += -L$(build_dir)/player   -lplayer
-LDFLAGS  += -L$(build_dir)/database -ldatabase
 LDFLAGS  += -L$(build_dir)/ui       -lui
+LDFLAGS  += -L$(build_dir)/database -ldatabase
 
 # Std flags
 LDFLAGS  += -lpthread
