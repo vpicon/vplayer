@@ -40,9 +40,8 @@ int main() {
     
     db.deleteTrack(minimalTrack);
 
-    int count = 1;
-    for (auto &artist : db.getAllArtists())
-        std::cout << "Artist " << count++ << ": " << artist << std::endl;
+    for (auto track : db.getAllTracks())
+        std::cout << track << std::endl << std::endl;
 
     return 0;
 }
@@ -54,12 +53,27 @@ int main() {
 #include "ui/MainWindow.h"
 #include <gtkmm/application.h>
 
-int main(int argc, char *argv[]) {
+
+
+int run_gui(int argc, char *argv[]) {
     auto app = Gtk::Application::create(argc, argv);
     ui::MainWindow mainWindow {};
 
     return app->run(mainWindow);
 }
+
+
+
+int main(int argc, char *argv[]) {
+    // Getopts (TODO)
+
+    // Run gui, depending on command line options
+    int rc = run_gui(argc, argv);  // TODO: run_gui( options )
+
+    // return exit status
+    return rc;
+}
+
 
 
 #endif // DEBUG
