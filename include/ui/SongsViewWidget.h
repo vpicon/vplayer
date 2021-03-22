@@ -10,6 +10,8 @@
 #ifndef _VPLAYER_SONGS_VIEW_WIDGET_H
 #define _VPLAYER_SONGS_VIEW_WIDGET_H
 
+#include "database/LibraryDB.h"
+#include "database/LibrarySQLiteDB.h"
 #include "database/Track.h"
 #include "SongEntryWidget.h"
 
@@ -19,6 +21,7 @@
 #include <gtkmm/listbox.h>
 
 #include <gtkmm/label.h>  // temporal
+#include <memory>  // temporal
 
 
 namespace ui {
@@ -42,6 +45,12 @@ private:
     SongEntryWidget _song{_track};
     Gtk::Label _l2; 
 
+    // TODO: Add some structure, control, use and communication on global database
+    // and player variables
+    std::unique_ptr<database::LibraryDB> _db{ new database::LibrarySQLiteDB{"hola.db"} }; // temporal
+    std::vector<SongEntryWidget> _entries;
+
+
     // TODO:
     // Add a two element horizontal box. 
     //
@@ -49,6 +58,11 @@ private:
     // (i.e. play button, filter...).
     //
     // The other element is the GtkListBox
+    
+
+
+    // Helper Methods
+    void fillSongList();
 };
 
 

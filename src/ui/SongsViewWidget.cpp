@@ -9,6 +9,8 @@
 
 #include "SongsViewWidget.h"
 
+#include <iostream>
+
 
 namespace ui {
 
@@ -28,8 +30,10 @@ SongsViewWidget::SongsViewWidget()
     _songsViewBox.pack_end(_songList, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     // Create list of songs
-    _songList.append(_song);
+    _songList.append(_son_g);
     _songList.append(_l2);
+
+    fillSongList();
     
     // Show widgets
     show_all_children();
@@ -41,6 +45,14 @@ SongsViewWidget::~SongsViewWidget()
 {
 }
 
+
+
+void SongsViewWidget::fillSongList() {
+    for (auto track : _db->getAllTracks()) {
+        _entries.push_back( SongEntryWidget{track} );
+        _songList.append(_entries.back());
+    }
+}
 
 
 }  // namespace ui 
