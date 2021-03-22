@@ -27,7 +27,6 @@ namespace ui {
 class SongEntryWidget : public Gtk::Box {
 public:
     SongEntryWidget(database::Track &tr);
-    ~SongEntryWidget();
 private:
     database::Track _track;
     Gtk::Label _titleLabel;  // temporal

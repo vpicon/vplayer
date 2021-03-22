@@ -28,11 +28,4 @@ SongEntryWidget::SongEntryWidget(database::Track &tr)
 
 
 
-
-SongEntryWidget::~SongEntryWidget()
-{
-}
-
-
-
 }  // namespace ui 
