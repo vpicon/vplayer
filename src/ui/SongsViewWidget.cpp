@@ -18,8 +18,7 @@ namespace ui {
 SongsViewWidget::SongsViewWidget()
     : _viewport{Gtk::ScrolledWindow::get_hadjustment(), Gtk::ScrolledWindow::get_vadjustment()},
       _songsViewBox{Gtk::Orientation::ORIENTATION_VERTICAL},
-      _l1{"Saved Songs", Gtk::Align::ALIGN_START},
-      _l2{"Some Label", Gtk::Align::ALIGN_START}
+      _l1{"Saved Songs", Gtk::Align::ALIGN_START}
 {
     // Add widgets to the view
     Gtk::ScrolledWindow::add(_viewport);
@@ -30,9 +29,6 @@ SongsViewWidget::SongsViewWidget()
     _songsViewBox.pack_end(_songList, Gtk::PackOptions::PACK_EXPAND_WIDGET);
 
     // Create list of songs
-    _songList.append(_son_g);
-    _songList.append(_l2);
-
     fillSongList();
     
     // Show widgets

@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
     // Getopts (TODO)
 
     // Run gui, depending on command line options
-    int rc = run_gui(argc, argv);  // TODO: run_gui( options )
+    int rc = run_gui(argc, argv);  // TODO: if (gui) run_gui( options )
 
     // return exit status
     return rc;

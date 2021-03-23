@@ -41,9 +41,6 @@ private:
 
     // temporal
     Gtk::Label _l1; 
-    database::Track _track{"Test Track"};
-    SongEntryWidget _song{_track};
-    Gtk::Label _l2; 
 
     // TODO: Add some structure, control, use and communication on global database
     // and player variables
