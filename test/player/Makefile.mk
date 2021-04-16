@@ -2,6 +2,7 @@ module := player
 
 # Compilation options and flags
 include_dirs := ../../$(INCLUDE_DIR)/$(module)
+include_dirs += ../../$(INCLUDE_DIR)
 include_dirs += ../../$(LIB_DIR)/gtest/googletest/include
 
 
