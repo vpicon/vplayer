@@ -18,34 +18,37 @@ namespace player {
 
 Tracklist::Tracklist(const std::vector<Track> &tracks, 
                      std::vector<Track>::iterator startPosition,
-                     Tracklist::Sorting sort)
+                     bool shuffle)
     : _tracks{tracks},
       _startingPos{startPosition},
-      _sort{sort},
-      _playQueue{}
+      _shuffle{shuffle},
+      _currentPos{startPosition}
 {
-    _orderedTracks = orderTracks(_tracks, _startingPos, _sort);
 }
 
 
-
-Track Tracklist::getNextTrack() {
-    return {};
+// TODO: is a stub
+bool Tracklist::existsNextTrack() const {
+    return false;
 }
 
 
-
-std::vector<Track> Tracklist::orderTracks(const std::vector<Track> &tracks, 
-                                          const std::vector<Track>::iterator startingPos,
-                                          Tracklist::Sorting sort) 
-{
-    return {};
+// TODO: is a stub
+bool Tracklist::existsPrevTrack() const {
+    return false;
 }
 
 
+// TODO: is a stub
+const Track& Tracklist::nextTrack() {
+    return *_startingPos;
+}
 
 
-
+// TODO: is a stub
+const Track& Tracklist::prevTrack() {
+    return *_startingPos;
+}
 
 
 

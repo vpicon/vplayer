@@ -12,7 +12,6 @@
 
 
 #include "database/Track.h" 
-
 #include <ostream>
 
 
@@ -24,41 +23,55 @@ namespace player {
 
 /**
  * A class to represent the sequence of tracks to be played by the player,
- * by the playlist (album) given, and the playing queue. (Yes, the name
- * may not the most accurate, but it works.)
+ * on the playlist (album) given, without the playing queue. 
  */
 class Tracklist {
+    /**
+     * Invariant:
+     *    _tracks is non-empty
+     *    _tracks.begin() <= _startingPos, _currentPos < _tracks.end()
+     */
 public:
     // CLASS DEFINITIONS AND CONSTANTS
-    enum class Sorting { native, title, artist, album, shuffle };
+    enum class Sorting { none, random };
 
     // CONSTRUCTORS 
     Tracklist(const std::vector<Track> &tracks, 
               std::vector<Track>::iterator startPosition,  // starting position
-              Sorting sort = Sorting::native);
+              bool shuffle = false);
 
     /**
-     * Gives a pointer to the next Track in the tracklist, or null if there 
-     * is no next track to play.
+     * Returns wether there is another track in the Tracklist.
      */
-    Track getNextTrack();
+    bool existsNextTrack() const;
+    /**
+     * Returns wether there is track a previously in the Tracklist.
+     */
+    bool existsPrevTrack() const;
+
+    /**
+     * Provided there is another track in the tracklist (can be checked 
+     * with existsNextTrack(), gives a const reference to such next Track 
+     * object.
+     *
+     * If no such track exists, undefined behavior occurs.
+     */
+    const Track& nextTrack();
+    /**
+     * Provided there is a previous track in the tracklist (can be checked 
+     * with existsPrevTrack(), gives a const reference to such Track 
+     * object.
+     *
+     * If no such track exists, undefined behavior occurs.
+     */
+    const Track& prevTrack();
 
 private:
     std::vector<Track> _tracks;
     const std::vector<Track>::iterator _startingPos;
-
-    Sorting _sort;
-    std::vector<Track> _orderedTracks;
+    bool _shuffle;
+     
     std::vector<Track>::iterator _currentPos;
-
-    std::vector<Track> _playQueue;
-
-
-    // HELPTER METHODS
-    std::vector<Track> orderTracks(const std::vector<Track> &tracks, 
-                                   const std::vector<Track>::iterator startingPos,
-                                   Tracklist::Sorting sort);
-                                   
 };
 
 
