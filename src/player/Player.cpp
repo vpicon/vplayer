@@ -37,12 +37,10 @@ Player::Player():
 }
 
 
-
 // TODO: is a stub
 void Player::unpause() {
     return;
 }
-
 
 
 // TODO: is a stub
@@ -51,12 +49,10 @@ void Player::pause() {
 }
 
 
-
 // TODO: is a stub
 void Player::stop() {
     return;
 }
-
 
 
 // TODO: is a stub
@@ -64,6 +60,11 @@ void Player::playTracklist(Tracklist tl) {
     return;
 }
 
+
+void bind(PlayerMediator& mediator, Producer& producer) {
+    mediator._producer = &producer;
+    // producer._mediator = &mediator;
+}
 
 
 }  // namespace player
